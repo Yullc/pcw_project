@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+}
+
+#horizontal-scroll {
+    display: flex;
+    width: 300vw;
+    height: 100vh;
+    transition: transform 0.5s ease;
+}
+
+.page {
+    width: 100vw;
+    height: 100vh;
+    flex-shrink: 0;
+    background-image: url("/img/background.png");
+    background-repeat: no-repeat;
+    background-size: 300vw 100vh;
+}
+
+.page1 { background-position: left center; }
+.page2 { background-position: center center; }
+.page3 { background-position: right center; }
