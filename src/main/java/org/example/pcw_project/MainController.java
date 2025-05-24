@@ -15,6 +15,7 @@ public class MainController {
     @RequestMapping("/usr/home/login")
     public String showlogin() {
         System.out.println("로그인");
+        System.out.println("login");
 
         return "/usr/home/login";
     }
