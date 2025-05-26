@@ -1,20 +1,27 @@
 package org.example.pcw_project;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class PublicResource {
 
     @JsonProperty("rsrcNo")
     private String rsrcNo;
 
-    @JsonProperty("rsrcName")
-    private String rsrcName;
+    @JsonProperty("rsrcNm") // 🔥 JSON에서는 이게 key지만
+    private String rsrcName; // 👉 자바에서는 의미 있는 이름 사용 가능
 
     @JsonProperty("insttNm")
     private String insttNm;
-
-    @JsonProperty("rsrcClNm")
-    private String rsrcClNm;
 
     @JsonProperty("ctpvNm")
     private String ctpvNm;
@@ -22,8 +29,8 @@ public class PublicResource {
     @JsonProperty("signguNm")
     private String signguNm;
 
-    @JsonProperty("mangeInsttNm")
-    private String mangeInsttNm;
+    @JsonProperty("rsrcClNm")
+    private String rsrcClNm;
 
     @JsonProperty("rsrcUseChargeYn")
     private String rsrcUseChargeYn;
@@ -37,37 +44,8 @@ public class PublicResource {
     @JsonProperty("rsrcUsePsbltyEndHm")
     private String rsrcUsePsbltyEndHm;
 
-    // getter/setter
-    public String getRsrcNo() { return rsrcNo; }
-    public void setRsrcNo(String rsrcNo) { this.rsrcNo = rsrcNo; }
+    @JsonProperty("mangeInsttNm")
+    private String mangeInsttNm;
 
-    public String getRsrcName() { return rsrcName; }
-    public void setRsrcName(String rsrcName) { this.rsrcName = rsrcName; }
-
-    public String getInsttNm() { return insttNm; }
-    public void setInsttNm(String insttNm) { this.insttNm = insttNm; }
-
-    public String getRsrcClNm() { return rsrcClNm; }
-    public void setRsrcClNm(String rsrcClNm) { this.rsrcClNm = rsrcClNm; }
-
-    public String getCtpvNm() { return ctpvNm; }
-    public void setCtpvNm(String ctpvNm) { this.ctpvNm = ctpvNm; }
-
-    public String getSignguNm() { return signguNm; }
-    public void setSignguNm(String signguNm) { this.signguNm = signguNm; }
-
-    public String getMangeInsttNm() { return mangeInsttNm; }
-    public void setMangeInsttNm(String mangeInsttNm) { this.mangeInsttNm = mangeInsttNm; }
-
-    public String getRsrcUseChargeYn() { return rsrcUseChargeYn; }
-    public void setRsrcUseChargeYn(String rsrcUseChargeYn) { this.rsrcUseChargeYn = rsrcUseChargeYn; }
-
-    public String getRsrcUseCharge() { return rsrcUseCharge; }
-    public void setRsrcUseCharge(String rsrcUseCharge) { this.rsrcUseCharge = rsrcUseCharge; }
-
-    public String getRsrcUsePsbltyBeginHm() { return rsrcUsePsbltyBeginHm; }
-    public void setRsrcUsePsbltyBeginHm(String rsrcUsePsbltyBeginHm) { this.rsrcUsePsbltyBeginHm = rsrcUsePsbltyBeginHm; }
-
-    public String getRsrcUsePsbltyEndHm() { return rsrcUsePsbltyEndHm; }
-    public void setRsrcUsePsbltyEndHm(String rsrcUsePsbltyEndHm) { this.rsrcUsePsbltyEndHm = rsrcUsePsbltyEndHm; }
+    // Getters and Setters 생략 가능 (필요하면 만들어줄게)
 }
