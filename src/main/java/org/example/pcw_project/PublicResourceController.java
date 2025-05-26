@@ -20,6 +20,7 @@ public class PublicResourceController {
         String rsrcClsCd = "010500";
         String urlStr = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/" + rsrcClsCd + "/" + apiKey;
 
+        PublicDataResponse response = null;
         try {
             URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -28,13 +29,13 @@ public class PublicResourceController {
             conn.setDoOutput(true);
 
             String jsonBody = """
-                {
-                    "pageNo": 1,
-                    "numOfRows": 5,
-                    "updBgngYmd": "20220101",
-                    "updEndYmd": "20241231"
-                }
-            """;
+                        {
+                            "pageNo": 1,
+                            "numOfRows": 100,
+                            "updBgngYmd": "20220101",
+                            "updEndYmd": "20241231"
+                        }
+                    """;
 
             OutputStream os = conn.getOutputStream();
             os.write(jsonBody.getBytes("UTF-8"));
@@ -43,12 +44,14 @@ public class PublicResourceController {
 
             InputStream inputStream = conn.getInputStream();
             ObjectMapper mapper = new ObjectMapper();
-            PublicDataResponse response = mapper.readValue(inputStream, PublicDataResponse.class);
+            response = mapper.readValue(inputStream, PublicDataResponse.class);
 
             model.addAttribute("resources", response.getData());
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+
 
         return "usr/home/api";
 
