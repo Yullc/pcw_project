@@ -2,13 +2,16 @@ package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model; // ✅ 이걸로 변경
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class PublicResourceController {
@@ -19,7 +22,6 @@ public class PublicResourceController {
         String rsrcClsCd = "010500";
         String urlStr = "https://www.eshare.go.kr/eshare-openapi/rsrc/list/" + rsrcClsCd + "/" + apiKey;
 
-        PublicDataResponse response = null;
         try {
             URL url = new URL(urlStr);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -28,31 +30,35 @@ public class PublicResourceController {
             conn.setDoOutput(true);
 
             String jsonBody = """
-                        {
-                            "pageNo": 1,
-                            "numOfRows": 100,
-                            "updBgngYmd": "20220101",
-                            "updEndYmd": "20241231"
-                        }
-                    """;
+                {
+                    "pageNo": 1,
+                    "numOfRows": 100,
+                    "updBgngYmd": "20220101",
+                    "updEndYmd": "20241231"
+                }
+            """;
 
-            OutputStream os = conn.getOutputStream();
-            os.write(jsonBody.getBytes("UTF-8"));
-            os.flush();
-            os.close();
+            try (OutputStream os = conn.getOutputStream()) {
+                os.write(jsonBody.getBytes(StandardCharsets.UTF_8));
+            }
 
             InputStream inputStream = conn.getInputStream();
             ObjectMapper mapper = new ObjectMapper();
-            response = mapper.readValue(inputStream, PublicDataResponse.class);
+            PublicDataResponse response = mapper.readValue(inputStream, PublicDataResponse.class);
 
-            model.addAttribute("resources", response.getData());
+            // 🔍 자원명 필터링: "축구", "풋살", "경기장" 포함된 자원만
+            List<PublicResource> filtered = response.getData().stream()
+                    .filter(r -> {
+                        String name = r.getRsrcNm();
+                        return name != null && (name.contains("축구") || name.contains("풋살") || name.contains("경기장"));
+                    })
+                    .collect(Collectors.toList());
+
+            model.addAttribute("resources", filtered);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-
-
         return "usr/home/api";
-
     }
 }

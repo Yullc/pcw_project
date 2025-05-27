@@ -72,7 +72,7 @@ CREATE TABLE `manner` (
 
 CREATE TABLE `message` (
                            `id`	INT	NOT NULL,
-                           `regDate`	DATETIME	NOT NULL,
+                           `regDate`	DATETIME	NOT NULL,x
                            `title`	CHAR(100)	NOT NULL,
                            `body`	CHAR(200)	NOT NULL,
                            `userId`	CHAR(20)	NOT NULL
