@@ -1,4 +1,4 @@
-package org.example.pcw_project;
+package org.example;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;

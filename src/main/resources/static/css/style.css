@@ -1,3 +1,29 @@
+@font-face {
+    font-family: 'CookieRunRegular';
+    src: url('/font/CookieRun Regular.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'CookieRunBold';
+    src: url('/font/CookieRun Bold.otf') format('opentype');
+}
+
+@font-face {
+    font-family: 'CookieRunBlack';
+    src: url('/font/CookieRun Black.otf') format('opentype');
+}
+.font-cookie-bold {
+    font-family: 'CookieRunBold';
+}
+
+.font-cookie-black {
+    font-family: 'CookieRunBlack';
+}
+
+.font-cookie-regular {
+    font-family: 'CookieRunRegular';
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -21,11 +47,20 @@ html, body {
     width: 100vw;
     height: 100vh;
     flex-shrink: 0;
-    background-image: url("/img/background.png");
     background-repeat: no-repeat;
-    background-size: 300vw 100vh;
+    background-size: cover; /* 또는 contain, 원하면 값 조절 가능 */
+    background-position: center center;
 }
 
-.page1 { background-position: left center; }
-.page2 { background-position: center center; }
-.page3 { background-position: right center; }
+/* 각 페이지에 다른 이미지 설정 */
+.page1 {
+    background-image: url("/img/page1.png");
+}
+
+.page2 {
+    background-image: url("/img/page2.png");
+}
+
+.page3 {
+    background-image: url("/img/page3.png");
+}

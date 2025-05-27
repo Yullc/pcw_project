@@ -1,9 +1,8 @@
-package org.example.pcw_project;
+package org.example;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model; // ✅ 이걸로 변경
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.io.InputStream;

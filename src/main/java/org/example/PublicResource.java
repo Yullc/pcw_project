@@ -1,4 +1,4 @@
-package org.example.pcw_project;
+package org.example;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

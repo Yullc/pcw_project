@@ -9,7 +9,7 @@
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.4.18/dist/full.css" rel="stylesheet" type="text/css" />
 </head>
 <body class="bg-white flex flex-col items-center justify-center min-h-screen">
-<h1 class="text-4xl font-bold text-green-700 mb-8">로그</h1>
+<h1 class="text-4xl font-bold text-green-700 mb-8">로그인</h1>
 
 <div class="flex flex-col items-center">
     <h2 class="text-2xl font-bold text-red-400 mb-6">로그인</h2>
