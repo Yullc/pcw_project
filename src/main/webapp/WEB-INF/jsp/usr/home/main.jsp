@@ -27,10 +27,10 @@
 		<!-- 로그인 폼 -->
 		<form action="../home/doLogin" method="POST">
 			<div class="mb-4">
-				<input type="text" placeholder="아이디" class="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none" />
+				<input type="text" name="loginId" placeholder="아이디" class="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none" />
 			</div>
 			<div class="mb-6">
-				<input type="password" placeholder="비밀번호" class="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none" />
+				<input type="password" name="loginPw" placeholder="비밀번호" class="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none" />
 			</div>
 
 			<div class="flex justify-between mb-4">
