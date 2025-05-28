@@ -2,6 +2,7 @@ package org.example;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
+import org.example.vo.PublicResource;
 
 import java.util.List;
 
