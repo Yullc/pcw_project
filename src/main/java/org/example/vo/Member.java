@@ -17,6 +17,8 @@ public class Member {
     private LocalDateTime updateDate;
     private String loginId;
     private String loginPw;
+    private String loginPwCheck;
+    private String email;
     private int poneNm;
     private LocalDateTime bornDate;
     private String area;

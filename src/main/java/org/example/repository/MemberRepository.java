@@ -4,10 +4,12 @@ import org.apache.ibatis.annotations.Mapper;
 
 import org.example.vo.Member;
 
+import java.time.LocalDateTime;
+
 @Mapper
 public interface MemberRepository {
 
-    public int doJoin(String loginId, String loginPw, String name, String nickName, String poneNm, String email);
+    public int doJoin(String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, LocalDateTime bornDate, String area, String gender);
 
     public Member getMemberById(int id);
 

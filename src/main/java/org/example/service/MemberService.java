@@ -8,6 +8,8 @@ import org.example.util.Ut;
 import org.example.vo.Member;
 import org.example.vo.ResultData;
 
+import java.time.LocalDateTime;
+
 @Service
 public class MemberService {
 
@@ -18,8 +20,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public ResultData<Integer> join(String loginId, String loginPw, String name, String nickname, String cellphoneNum,
-                                    String email) {
+    public ResultData<Integer> join(String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, LocalDateTime bornDate, String area, String gender) {
 
         Member existsMember = getMemberByLoginId(loginId);
 
@@ -27,13 +28,13 @@ public class MemberService {
             return ResultData.from("F-7", Ut.f("이미 사용중인 아이디(%s)입니다", loginId));
         }
 
-        existsMember = getMemberByNameAndEmail(name, email);
+        existsMember = getMemberByNameAndEmail(name,email);
 
         if (existsMember != null) {
             return ResultData.from("F-8", Ut.f("이미 사용중인 이름(%s)과 이메일(%s)입니다", name, email));
         }
 
-        memberRepository.doJoin(loginId, loginPw, name, nickname, cellphoneNum, email);
+        memberRepository.doJoin(loginId, loginPw, loginPwCheck, email, name, nickName, poneNm, bornDate, area, gender);
 
         int id = memberRepository.getLastInsertId();
 

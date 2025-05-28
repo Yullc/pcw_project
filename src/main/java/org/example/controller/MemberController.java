@@ -13,6 +13,8 @@ import org.example.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
 
+import java.time.LocalDateTime;
+
 @Controller
 public class MemberController {
 
@@ -77,13 +79,23 @@ public class MemberController {
 
     @RequestMapping("/usr/home/doJoin")
     @ResponseBody
-    public String doJoin(HttpServletRequest req, String loginId, String loginPw, String name, String nickname,
-                         String cellphoneNum, String email) {
+    public String doJoin(HttpServletRequest req, String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, LocalDateTime bornDate, String area, String gender) {
 
         if (Ut.isEmptyOrNull(loginId)) {
+            System.out.println(loginId);
             return Ut.jsHistoryBack("F-1", "아이디를 입력해");
-        }
+        } else System.out.println("aa");
+
         if (Ut.isEmptyOrNull(loginPw)) {
+            System.out.println(loginId);
+            return Ut.jsHistoryBack("F-2", "비밀번호를 입력해");
+        }
+
+        if (Ut.isEmptyOrNull(loginPwCheck)) {
+            return Ut.jsHistoryBack("F-2", "비밀번호허ㅣㄱㅇ;ㄴ를 입력해");
+
+        }
+        if (Ut.isEmptyOrNull(email)) {
             return Ut.jsHistoryBack("F-2", "비밀번호를 입력해");
 
         }
@@ -91,20 +103,25 @@ public class MemberController {
             return Ut.jsHistoryBack("F-3", "이름을 입력해");
 
         }
-        if (Ut.isEmptyOrNull(nickname)) {
+        if (Ut.isEmptyOrNull(nickName)) {
             return Ut.jsHistoryBack("F-4", "닉네임을 입력해");
 
         }
-        if (Ut.isEmptyOrNull(cellphoneNum)) {
+        if (Ut.isEmptyOrNull(poneNm)) {
             return Ut.jsHistoryBack("F-5", "전화번호를 입력해");
 
         }
-        if (Ut.isEmptyOrNull(email)) {
-            return Ut.jsHistoryBack("F-6", "이메일을 입력해");
+        if (Ut.isEmptyOrNull(String.valueOf(bornDate))) {
+            return Ut.jsHistoryBack("F-5", "생년월일 입력해");
+
+        }
+        if (Ut.isEmptyOrNull(area)) {
+            return Ut.jsHistoryBack("F-5", "지역을 입력해");
 
         }
 
-        ResultData joinRd = memberService.join(loginId, loginPw, name, nickname, cellphoneNum, email);
+
+        ResultData joinRd = memberService.join(loginId, loginPw, loginPwCheck, email, name, nickName, poneNm, bornDate, area, gender);
 
         if (joinRd.isFail()) {
             return Ut.jsHistoryBack(joinRd.getResultCode(), joinRd.getMsg());

@@ -11,9 +11,13 @@
 		updateDate = NOW(),
 		loginId = #{loginId},
             loginPw = #{loginPw},
+            loginPwCheck = #{loginPwCheck},
             `name` = #{name},
-            nickname = #{nickname},
-            cellphoneNum = #{cellphoneNum},
+            bornDate =#{bornDate},
+            nickName = #{nickName},
+            poneNM = #{poneNM},
+            `area` = #{area},
+            `gender` = #{gender},
             email = #{email}
     </insert>
 
