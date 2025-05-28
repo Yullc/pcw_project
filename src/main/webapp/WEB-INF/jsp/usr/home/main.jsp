@@ -1,4 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<c:set var="pageTitle" value="MEMBER LOGIN"></c:set>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -23,7 +25,7 @@
 		<h2 class="font-cookie-bold text-2xl font-bold text-white mb-6">로그인</h2>
 
 		<!-- 로그인 폼 -->
-		<form class="w-full max-w-xs">
+		<form action="../home/doLogin" method="POST">
 			<div class="mb-4">
 				<input type="text" placeholder="아이디" class="w-full px-4 py-2 bg-gray-200 rounded-md focus:outline-none" />
 			</div>
