@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="flex justify-center">
-				<button type="button" class="font-cookie-bold w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-full font-semibold">
+				<button onclick="location.href='join'" type="button" class="font-cookie-bold w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-full font-semibold">
 					회원가입
 				</button>
 			</div>
@@ -54,14 +54,14 @@
 		<div class="flex flex-col items-center space-y-8">
 			<div class="flex space-x-12">
 				<!-- 축구 버튼 -->
-				<button onclick="location.href='/foot_menu.jsp'" class="flex flex-col items-center">
+				<button onclick="location.href='foot_menu'" class="flex flex-col items-center">
 					<img src="/img/main_soccer.png" alt="축구" class="w-48 h-48 object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
 					<span class="mt-4 text-white text-2xl font-semibold">축구</span>
 				</button>
 
+
 				<!-- 풋살 버튼 -->
-				<!-- 풋살 버튼 -->
-				<button onclick="location.href='/jsp/usr/foot_menu.jsp'" class="flex flex-col items-center">
+				<button onclick="location.href='foot_menu'" class="flex flex-col items-center">
 					<img src="/img/main_football.png" alt="풋살" class="w-48 h-48 object-cover rounded-lg shadow-lg hover:scale-105 transition-transform duration-300" />
 					<span class="mt-4 text-white text-2xl font-semibold">풋살</span>
 				</button>

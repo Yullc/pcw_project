@@ -12,13 +12,6 @@ public class MainController {
         return "/usr/home/main";
     }
 
-    @RequestMapping("/usr/home/login")
-    public String showlogin() {
-        System.out.println("로그인");
-        System.out.println("login");
-
-        return "/usr/home/login";
-    }
 
     @RequestMapping("/usr/home/foot_menu")
     public String showfoot_menu() {
