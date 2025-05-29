@@ -15,7 +15,7 @@
             `name` = #{name},
             bornDate =#{bornDate},
             nickName = #{nickName},
-            poneNM = #{poneNM},
+            poneNm = #{poneNm},
             `area` = #{area},
             `gender` = #{gender},
             email = #{email}

@@ -13,14 +13,14 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Member {
     private int id;
-    private LocalDateTime regDate;
-    private LocalDateTime updateDate;
+    private String regDate;
+    private String updateDate;
     private String loginId;
     private String loginPw;
     private String loginPwCheck;
     private String email;
     private int poneNm;
-    private LocalDateTime bornDate;
+    private String bornDate;
     private String area;
     private String gender;
     private String name;
@@ -28,7 +28,7 @@ public class Member {
     private String authLevel;
     private String rank;
     private int delStatus;
-    private LocalDateTime delDate;
+    private String delDate;
     private Float manner;
     private String teamNm;
 }

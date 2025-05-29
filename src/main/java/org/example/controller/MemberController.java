@@ -79,15 +79,26 @@ public class MemberController {
 
     @RequestMapping("/usr/home/doJoin")
     @ResponseBody
-    public String doJoin(HttpServletRequest req, String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, LocalDateTime bornDate, String area, String gender) {
-
+    public String doJoin(HttpServletRequest req, String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, String bornDate, String area, String gender) {
+        System.out.println(loginId);
+        System.out.println(loginPw);
+        System.out.println(loginPwCheck);
+        System.out.println(email);
+        System.out.println(name);
+        System.out.println(nickName);
+        System.out.println(poneNm);
+        System.out.println(bornDate);
+        System.out.println(area);
+        System.out.println(gender);
+        System.out.println(1);
         if (Ut.isEmptyOrNull(loginId)) {
-            System.out.println(loginId);
+            System.out.println(2);
             return Ut.jsHistoryBack("F-1", "아이디를 입력해");
         } else System.out.println("aa");
-
+        System.out.println(3);
         if (Ut.isEmptyOrNull(loginPw)) {
             System.out.println(loginId);
+            System.out.println(4);
             return Ut.jsHistoryBack("F-2", "비밀번호를 입력해");
         }
 

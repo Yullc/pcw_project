@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Mapper
 public interface MemberRepository {
 
-    public int doJoin(String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, LocalDateTime bornDate, String area, String gender);
+    public int doJoin(String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, String bornDate, String area, String gender);
 
     public Member getMemberById(int id);
 
