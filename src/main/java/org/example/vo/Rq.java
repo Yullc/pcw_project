@@ -27,6 +27,7 @@ public class Rq {
 
     private boolean isLogined = false;
     private int loginedMemberId = 0;
+    private Member loginedMember;
 
     public Rq(HttpServletRequest req, HttpServletResponse resp) {
         this.req = req;
@@ -39,6 +40,12 @@ public class Rq {
         }
 
         this.req.setAttribute("rq", this);
+    }
+
+    public void setLoginedMember(Member member) {
+        this.loginedMember = member;
+        this.loginedMemberId = member.getId();
+        this.isLogined = true;
     }
 
     public void printHistoryBack(String msg) throws IOException {
@@ -93,4 +100,6 @@ public class Rq {
 
         return currentUri;
     }
+
+
 }
