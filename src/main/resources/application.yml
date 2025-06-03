@@ -9,7 +9,11 @@ spring:
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
+<<<<<<< HEAD
     url: jdbc:mysql://127.0.0.1:3306/pcw_project?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
+=======
+    url: jdbc:mysql://127.0.0.1:3307/pcw_project_DB?useUnicode=true&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Seoul
+>>>>>>> f9601ef (db 수정 회원가입 수정)
     username: root
     password:
 
@@ -17,6 +21,3 @@ mybatis:
   type-aliases-package: com.example.demo.vo
   mapper-locations: classpath:/mappers/**/*.xml
 
-openapi:
-  eshare:
-    api-key: 6cb3e79c3e7a3284b2bf0cd85bf1cd6a
