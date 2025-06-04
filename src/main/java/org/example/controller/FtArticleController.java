@@ -80,30 +80,30 @@ public class FtArticleController {
     @RequestMapping("/usr/home/foot_menu")
     public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,
-                           @RequestParam(defaultValue = "") String searchKeyword) {
+                           @RequestParam(defaultValue = "") String searchKeyword,
+                           @RequestParam(defaultValue = "") String area) {
 
         Rq rq = (Rq) req.getAttribute("rq");
-        System.out.println("foot_menu 컨트롤러 실행");
-        System.out.println("foot_menu 컨트롤러 실행");
         int itemsInAPage = 16;
         int boardId = 1;
 
-        // stadiumName으로만 검색하도록 고정
         String searchKeywordTypeCode = "stadiumName";
-        System.out.println(searchKeywordTypeCode);
-        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
+
+        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area);
         int pagesCount = (int) Math.ceil(totalCount / (double) itemsInAPage);
 
         List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword);
+                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
 
         model.addAttribute("ftArticles", ftArticles);
         model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("area", area);
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
 
         return "usr/home/foot_menu";
     }
+
 
 }

@@ -27,9 +27,14 @@
     <div>
       <h2 class="font-bold mb-2">지역</h2>
       <div class="flex flex-wrap gap-2">
+        <!-- 지역 버튼 리스트 -->
         <c:forEach var="region" items="${['서울','경기','강원','인천','대전','세종','충북','충남','대구','경북','경남','부산','광주','전북','울산','전남','제주']}">
-          <button class="border border-gray-300 px-3 py-1 rounded-full">${region}</button>
+          <a href="/usr/home/foot_menu?area=${region}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200">
+              ${region}
+          </a>
         </c:forEach>
+
       </div>
     </div>
     <div>
@@ -44,13 +49,13 @@
 
   <main class="flex-1 overflow-x-auto p-5">
     <div class="flex gap-5 w-max">
-      <c:forEach var="ftArticle" items="${ftArticles}">
+      <c:forEach var="ftArticle" items="${ftArticles }">
         <div class="w-48 flex-shrink-0 border border-gray-300 rounded-lg overflow-hidden flex flex-col">
-          <img src="${ftArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
+          <img src="${ftArticle.img }" alt="경기장" class="w-full h-32 object-cover" />
           <div class="p-2 text-sm">
-            <div class="font-semibold">${ftArticle.stadiumName}</div>
+            <div class="font-semibold">${ftArticle.stadiumName }</div>
             <div>${ftArticle.area}</div>
-            <div class="text-xs text-gray-500">${ftArticle.address}</div>
+            <div class="text-xs text-gray-500">${ftArticle.address }</div>
           </div>
         </div>
       </c:forEach>
