@@ -15,6 +15,7 @@
       scroll-snap-align: start;
     }
   </style>
+
 </head>
 
 <body class="h-screen flex flex-col">
@@ -32,7 +33,9 @@
 </header>
 
 <div class="flex flex-1 overflow-hidden">
+
   <aside class="w-56 p-5 border-r border-gray-300 space-y-6 overflow-y-auto">
+    <!-- 지역 선택 -->
     <div>
       <h2 class="font-bold mb-2">지역</h2>
       <div class="flex flex-wrap gap-2">
@@ -44,6 +47,8 @@
         </c:forEach>
       </div>
     </div>
+
+    <!-- 레벨 선택 -->
     <div>
       <h2 class="font-bold mb-2">레벨</h2>
       <div class="flex flex-wrap gap-2">
@@ -52,7 +57,43 @@
         </c:forEach>
       </div>
     </div>
+
+    <!-- 달력용 CSS 링크 -->
+    <link rel="stylesheet" href="/css/calender.css">
+
+    <!-- ========== 달력 컴포넌트 삽입 ========== -->
+    <div class="calendar-container">
+      <!-- 1) 달력 헤더 -->
+      <div class="calendar-header">
+        <button type="button" id="prevMonthBtn">&lt;</button>
+        <div class="month-year" id="monthYearLabel">2025년 12월</div>
+        <button type="button" id="nextMonthBtn">&gt;</button>
+      </div>
+
+      <!-- 2) 요일 이름 행 -->
+      <div class="calendar-weekdays">
+        <div class="sun">일</div>
+        <div>월</div>
+        <div>화</div>
+        <div>수</div>
+        <div>목</div>
+        <div>금</div>
+        <div class="sat">토</div>
+      </div>
+
+      <!-- 3) 날짜(일) 그리드 -->
+      <div class="calendar-dates" id="datesGrid">
+        <!-- JavaScript로 동적으로 채워집니다 -->
+      </div>
+
+      <!-- 4) 선택된 날짜 표시 -->
+      <div class="selected-info" id="selectedInfo">
+        선택된 날짜: <span id="selectedDateDisplay">없음</span>
+      </div>
+    </div>
+
   </aside>
+  <script src="/js/calender.js"></script>
 
   <main class="scrollWrapper flex-1 overflow-x-auto p-5">
     <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
