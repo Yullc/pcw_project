@@ -84,7 +84,7 @@ public class FtArticleController {
 
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("foot_menu 컨트롤러 실행");
-
+        System.out.println("foot_menu 컨트롤러 실행");
         int itemsInAPage = 16;
         int boardId = 1;
 
