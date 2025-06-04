@@ -96,11 +96,17 @@ public class FtArticleController {
                 boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
 
         model.addAttribute("ftArticles", ftArticles);
+        System.out.println("ftArticles"+ftArticles);
         model.addAttribute("searchKeyword", searchKeyword);
+        System.out.println("searchKeyword"+searchKeyword);
         model.addAttribute("area", area);
+        System.out.println("area"+area);
         model.addAttribute("pagesCount", pagesCount);
+        System.out.println("pagesCount"+pagesCount);
         model.addAttribute("totalCount", totalCount);
+        System.out.println("totalCount"+totalCount);
         model.addAttribute("page", page);
+        System.out.println("page"+page);
 
         return "usr/home/foot_menu";
     }
