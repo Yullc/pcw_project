@@ -6,6 +6,15 @@
   <meta charset="UTF-8">
   <title>풋살 매칭 UI (Tailwind)</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 가로 스크롤을 마우스 휠로 전환 */
+    #scrollWrapper {
+      scroll-snap-type: x mandatory;
+    }
+    .snap {
+      scroll-snap-align: start;
+    }
+  </style>
 </head>
 
 <body class="h-screen flex flex-col">
@@ -45,10 +54,10 @@
     </div>
   </aside>
 
-  <main class="flex-1 overflow-x-auto p-5">
-    <div class="flex gap-5 w-max">
+  <main class="scrollWrapper flex-1 overflow-x-auto p-5">
+    <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
       <c:forEach var="ftArticle" items="${ftArticles}">
-        <div class="w-48 flex-shrink-0 border border-gray-300 rounded-lg overflow-hidden flex flex-col">
+        <div class="border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48">
           <img src="${ftArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
           <div class="p-2 text-sm">
             <div class="font-semibold">${ftArticle.stadiumName}</div>
@@ -58,22 +67,33 @@
         </div>
       </c:forEach>
       <c:if test="${empty ftArticles}">
-        <div class="text-gray-500 text-center">경기장 정보가 없습니다.</div>
+        <div class="text-gray-500 text-center col-span-4 row-span-4">경기장 정보가 없습니다.</div>
       </c:if>
     </div>
-
-    <!-- ✅ 페이지네이션 -->
-    <div class="mt-6 flex justify-center space-x-2">
-      <c:forEach begin="1" end="${pagesCount}" var="i">
-        <a href="/usr/home/foot_menu?page=${i}&area=${area}"
-           class="px-3 py-1 border rounded-full
-                  <c:if test='${i == page}'>bg-green-600 text-white</c:if>
-                  <c:if test='${i != page}'>bg-white text-gray-800 hover:bg-gray-200</c:if>">
-            ${i}
-        </a>
-      </c:forEach>
-    </div>
   </main>
+
 </div>
+
+<script>
+  function scrollHorizontally(e) {
+    const wrapper = document.getElementById('scrollWrapper');
+    if (e.deltaY !== 0) {
+      e.preventDefault();
+      wrapper.scrollLeft += e.deltaY;
+    }
+  }
+
+</script>
 </body>
 </html>
+<!-- ✅ 페이지네이션 -->
+<div class="mt-6 flex justify-center space-x-2">
+  <c:forEach begin="1" end="${pagesCount}" var="i">
+    <a href="/usr/home/foot_menu?page=${i}&area=${area}"
+       class="px-3 py-1 border rounded-full
+                  <c:if test='${i == page}'>bg-green-600 text-white</c:if>
+                  <c:if test='${i != page}'>bg-white text-gray-800 hover:bg-gray-200</c:if>">
+        ${i}
+    </a>
+  </c:forEach>
+</div>
