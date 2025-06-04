@@ -90,7 +90,7 @@ public class FtArticleController {
 
         // stadiumName으로만 검색하도록 고정
         String searchKeywordTypeCode = "stadiumName";
-
+        System.out.println(searchKeywordTypeCode);
         int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
         int pagesCount = (int) Math.ceil(totalCount / (double) itemsInAPage);
 
