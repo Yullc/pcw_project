@@ -68,7 +68,7 @@ public class MemberController {
         }
 
         rq.login(member);
-
+        rq.setLoginedMember(member);
         return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickName()), "/");
     }
 
@@ -140,7 +140,7 @@ public class MemberController {
 
         Member member = memberService.getMemberById((int) joinRd.getData1());
 
-        return Ut.jsReplace(joinRd.getResultCode(), joinRd.getMsg(), "../home/join");
+        return Ut.jsReplace(joinRd.getResultCode(), joinRd.getMsg(), "../home/main");
     }
 
 }

@@ -1,4 +1,4 @@
 package org.example.controller;
 
-public class scArticleController {
+public class ScArticleController {
 }

@@ -25,6 +25,7 @@ public class Rq {
     private final HttpServletResponse resp;
     private final HttpSession session;
 
+    private Member loginedMember;
     private boolean isLogined = false;
     private int loginedMemberId = 0;
 
@@ -39,6 +40,12 @@ public class Rq {
         }
 
         this.req.setAttribute("rq", this);
+    }
+
+    public void setLoginedMember(Member member) {
+        this.loginedMember = member;
+        this.loginedMemberId = member.getId();
+        this.isLogined = true;
     }
 
     public void printHistoryBack(String msg) throws IOException {

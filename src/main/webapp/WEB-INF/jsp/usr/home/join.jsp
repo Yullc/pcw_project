@@ -77,11 +77,13 @@
             </div>
         </div>
 
-        <div class="mt-6 text-center">
-            <button type="submit" class="bg-green-500 text-white px-10 py-2 rounded-full hover:bg-green-600 transition">
+        <div class="flex justify-end mt-6">
+            <button type="submit"
+                    class="bg-green-500 text-white px-10 py-2 rounded-full hover:bg-green-600 transition">
                 완료
             </button>
         </div>
+
     </div>
 </form>
 
@@ -125,7 +127,7 @@
         console.log(result);
         bornDateInput.value = result;
         console.log("✅ 생년월일 조합:", result);
-        return true; // ✅ 폼 제출 허용
+        return true;
     }
 
 
