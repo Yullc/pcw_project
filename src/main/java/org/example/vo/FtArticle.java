@@ -14,6 +14,7 @@ public class FtArticle {
     private String area;
     private String stadiumName;
     private String address;
+    private String avgLevel;
     private String img;
 
 }

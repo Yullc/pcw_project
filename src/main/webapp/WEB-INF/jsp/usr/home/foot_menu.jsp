@@ -19,18 +19,29 @@
 </head>
 
 <body class="h-screen flex flex-col">
-<header class="flex items-center justify-between p-5 border-b border-gray-300">
-  <div class="text-2xl font-bold text-green-700">로고</div>
-  <div class="flex-1 mx-5 relative">
-    <input type="text" placeholder="검색..." class="w-full pl-4 pr-10 py-2 rounded-full border border-gray-300">
-    <span class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500">🔍</span>
-  </div>
-  <div class="flex items-center gap-4">
-    <span>용병 구하기</span>
-    <span>팀 구하기</span>
-    <img src="/img/pcw.jpeg" alt="profile" class="w-10 h-10 rounded-full">
-  </div>
-</header>
+<div class="px-[150px]">
+  <header class="flex items-center justify-between p-5 border-b border-gray-300">
+    <!-- 왼쪽 로고 -->
+    <div class="text-2xl font-bold text-green-700">로고</div>
+
+    <!-- 중앙 검색창 -->
+    <div class="flex-1 flex justify-center">
+      <div class="relative w-64">
+        <input type="text" placeholder="검색..."
+               class="w-full pl-4 pr-10 py-2 rounded-full border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-300" />
+        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+        🔍
+      </span>
+      </div>
+    </div>
+
+    <!-- 오른쪽 메뉴 -->
+    <div class="flex items-center gap-4">
+      <span>용병 구하기</span>
+      <span>팀 구하기</span>
+      <img src="/img/pcw.jpeg" alt="profile" class="w-10 h-10 rounded-full">
+    </div>
+  </header>
 
 <div class="flex flex-1 overflow-hidden">
 
@@ -52,11 +63,15 @@
     <div>
       <h2 class="font-bold mb-2">레벨</h2>
       <div class="flex flex-wrap gap-2">
-        <c:forEach var="level" items="${['루키','아마추어','세미프로','프로']}">
-          <button class="border border-gray-300 px-3 py-1 rounded-full">${level}</button>
+        <c:forEach var="levelOption" items="${['루키','아마추어','세미프로','프로']}">
+          <a href="/usr/home/foot_menu?area=${area}&avgLevel=${levelOption}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${levelOption == avgLevel ? 'bg-green-500 text-white' : ''}">
+              ${levelOption}
+          </a>
         </c:forEach>
       </div>
     </div>
+
 
     <!-- 달력용 CSS 링크 -->
     <link rel="stylesheet" href="/css/calender.css">
@@ -96,6 +111,7 @@
   <script src="/js/calender.js"></script>
 
   <main class="scrollWrapper flex-1 overflow-x-auto p-5">
+    <div class="px-[100px]">
     <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
       <c:forEach var="ftArticle" items="${ftArticles}">
         <div class="border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48">

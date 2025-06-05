@@ -19,6 +19,9 @@
         <if test="area != ''">
             AND f.area = #{area}
         </if>
+        <if test="avgLevel != null and avgLevel != ''">
+            AND A.avgLevel = #{avgLevel}
+        </if>
     </select>
 
     <select id="getForPrintFtArticles" resultType="org.example.vo.FtArticle">
@@ -34,6 +37,9 @@
         </if>
         <if test="area != ''">
             AND f.area = #{area}
+        </if>
+        <if test="avgLevel != null and avgLevel != ''">
+            AND A.avgLevel = #{avgLevel}
         </if>
         ORDER BY A.id DESC
         <if test="limitFrom >= 0">
