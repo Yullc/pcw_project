@@ -22,21 +22,28 @@
 <div class="px-[150px]">
   <header class="flex items-center justify-between p-5 border-b border-gray-300">
     <!-- 왼쪽 로고 -->
-    <div class="text-2xl font-bold text-green-700">로고</div>
+    <div class="text-2xl font-bold text-green-700 whitespace-nowrap">로고</div>
 
-    <!-- 중앙 검색창 -->
-    <div class="flex-1 flex justify-center">
+    <form action="/usr/home/foot_menu" method="post" class="flex justify-center w-full">
       <div class="relative w-64">
-        <input type="text" placeholder="검색..."
+        <input type="text" name="searchKeyword" value="${param.searchKeyword}" placeholder="검색..."
                class="w-full pl-4 pr-10 py-2 rounded-full border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-300" />
-        <span class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
-        🔍
-      </span>
+
+        <!-- 제출 버튼 -->
+        <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
+          🔍
+        </button>
       </div>
-    </div>
+
+      <!-- 선택 필터들도 같이 넘기기 -->
+      <input type="hidden" name="area" value="${area}" />
+      <input type="hidden" name="avgLevel" value="${avgLevel}" />
+      <input type="hidden" name="playDate" value="${playDate}" />
+    </form>
+
 
     <!-- 오른쪽 메뉴 -->
-    <div class="flex items-center gap-4">
+    <div class="flex items-center gap-4 whitespace-nowrap">
       <span>용병 구하기</span>
       <span>팀 구하기</span>
       <img src="/img/pcw.jpeg" alt="profile" class="w-10 h-10 rounded-full">
