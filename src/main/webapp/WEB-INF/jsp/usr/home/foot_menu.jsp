@@ -1,3 +1,4 @@
+
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -151,16 +152,52 @@
     }
 
   </script>
+  <!-- ✅ 페이지네이션 -->
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+  <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
+  <!-- 페이지네이션 그룹 계산 -->
+  <c:set var="groupSize" value="5" />
+  <!-- 현재 그룹 계산 -->
+  <fmt:parseNumber value="${(page - 1) div groupSize}" integerOnly="true" var="currentGroup" />
+  <fmt:parseNumber value="${currentGroup * groupSize + 1}" integerOnly="true" var="groupStart" />
+  <fmt:parseNumber value="${groupStart + groupSize - 1}" integerOnly="true" var="groupEnd" />
+
+  <!-- 페이지 수 초과 방지 -->
+  <c:if test="${groupEnd > pagesCount}">
+    <c:set var="groupEnd" value="${pagesCount}" />
+  </c:if>
+
+  <!-- ✅ 페이지네이션 출력 -->
+  <div class="mt-6 flex justify-center space-x-2">
+
+    <!-- 이전 그룹 버튼 -->
+    <c:if test="${groupStart > 1}">
+      <a href="/usr/home/foot_menu?page=${groupStart - 1}&area=${area}"
+         class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">
+        &lt;
+      </a>
+    </c:if>
+
+    <!-- 현재 그룹의 페이지 번호 출력 -->
+    <c:forEach begin="${groupStart}" end="${groupEnd}" var="i">
+      <a href="/usr/home/foot_menu?page=${i}&area=${area}"
+         class="px-3 py-1 border rounded-full
+              ${i == page ? 'bg-green-600 text-white' : 'bg-white text-gray-800 hover:bg-gray-200'}">
+          ${i}
+      </a>
+    </c:forEach>
+
+    <!-- 다음 그룹 버튼 -->
+    <c:if test="${groupEnd < pagesCount}">
+      <a href="/usr/home/foot_menu?page=${groupEnd + 1}&area=${area}"
+         class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">
+        &gt;
+      </a>
+    </c:if>
+
+  </div>
+
+
 </body>
 </html>
-<!-- ✅ 페이지네이션 -->
-<div class="mt-6 flex justify-center space-x-2">
-  <c:forEach begin="1" end="${pagesCount}" var="i">
-    <a href="/usr/home/foot_menu?page=${i}&area=${area}"
-       class="px-3 py-1 border rounded-full
-                  <c:if test='${i == page}'>bg-green-600 text-white</c:if>
-                  <c:if test='${i != page}'>bg-white text-gray-800 hover:bg-gray-200</c:if>">
-        ${i}
-    </a>
-  </c:forEach>
-</div>
