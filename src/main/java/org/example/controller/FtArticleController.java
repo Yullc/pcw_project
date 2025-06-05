@@ -106,6 +106,8 @@ public class FtArticleController {
         System.out.println("area"+area);
         model.addAttribute("avgLevel", avgLevel);
         System.out.println("avgLevel"+avgLevel);
+        model.addAttribute("playDate", playDate);
+        System.out.println("playDate"+playDate);
         model.addAttribute("pagesCount", pagesCount);
         System.out.println("pagesCount"+pagesCount);
         model.addAttribute("totalCount", totalCount);
