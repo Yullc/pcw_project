@@ -23,7 +23,10 @@
 <div class="px-[150px]">
   <header class="flex items-center justify-between p-5 border-b border-gray-300">
     <!-- 왼쪽 로고 -->
-    <div class="text-2xl font-bold text-green-700 whitespace-nowrap">로고</div>
+    <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">
+      로고
+    </a>
+
 
     <form action="/usr/home/foot_menu" method="post" class="flex justify-center w-full">
       <div class="relative w-64">
@@ -44,11 +47,17 @@
 
 
     <!-- 오른쪽 메뉴 -->
-    <div class="flex items-center gap-4 whitespace-nowrap">
-      <span>용병 구하기</span>
-      <span>팀 구하기</span>
-      <img src="/img/pcw.jpeg" alt="profile" class="w-10 h-10 rounded-full">
+    <div class="flex items-center gap-6 whitespace-nowrap">
+      <a href="/usr/home/findMercenary" class="text-sm text-black hover:text-green-600">용병 구하기</a>
+      <a href="/usr/home/findTeam" class="text-sm text-black hover:text-green-600">팀 구하기</a>
+
+      <a href="/usr/home/myPage" class="block w-10 h-10">
+        <img src="${profileImg}" alt="profile"
+             class="w-full h-full rounded-full object-cover" />
+      </a>
     </div>
+
+
   </header>
 
   <div class="flex flex-1 overflow-hidden">

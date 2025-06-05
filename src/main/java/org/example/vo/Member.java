@@ -31,4 +31,5 @@ public class Member {
     private String delDate;
     private Float manner;
     private String teamNm;
+    private String profileImg;
 }

@@ -44,4 +44,10 @@
         WHERE id = #{id}
     </select>
 
+    <select id="findTeamNameByMemberId" parameterType="int" resultType="string">
+        SELECT teamNm
+        FROM `member`
+        WHERE id = #{id}
+            LIMIT 1
+    </select>
 </mapper>
