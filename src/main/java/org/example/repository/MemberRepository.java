@@ -20,4 +20,6 @@ public interface MemberRepository {
     public Member getMemberByNameAndEmail(String name, String email);
 
     String findTeamNameByMemberId(int memberId);
+
+    public Member modifyMember(int id, String loginPw,  String emaill,  String area,String poneNm, String nickName, String teamNm, String intro);
 }

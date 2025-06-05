@@ -50,4 +50,18 @@
         WHERE id = #{id}
             LIMIT 1
     </select>
+    <update id="updateMember">
+        UPDATE member
+        SET
+            loginPw = #{loginPw},
+            email = #{email},
+            area = #{area},
+            phoneNm = #{phoneNm},
+            nickName = #{nickName},
+            teamNm = #{teamNm},
+            intro = #{intro},
+            updateDate = NOW()
+        WHERE id = #{id}
+    </update>
+
 </mapper>

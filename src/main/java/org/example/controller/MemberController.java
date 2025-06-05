@@ -1,8 +1,12 @@
 package org.example.controller;
 
+import org.example.repository.MemberRepository;
+import org.example.vo.FtArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.example.service.MemberService;
@@ -14,6 +18,7 @@ import org.example.vo.Rq;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class MemberController {
@@ -23,6 +28,8 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @RequestMapping("/usr/member/doLogout")
     @ResponseBody
@@ -142,5 +149,50 @@ public class MemberController {
 
         return Ut.jsReplace(joinRd.getResultCode(), joinRd.getMsg(), "../home/main");
     }
+
+    @RequestMapping("/usr/member/modify")
+    public String showModify(HttpServletRequest req, Model model, int id) {
+        System.out.println("showModify");
+        Rq rq = (Rq) req.getAttribute("rq");
+
+        Member member = memberService.getMemberById(id);
+
+        if (member == null) {
+            return Ut.jsHistoryBack("F-1", Ut.f("%d번 회원은 존재하지 않습니다.", id));
+        }
+
+        // 로그인한 사용자 본인인지 권한 체크
+        if (rq.getLoginedMemberId() != id) {
+            return Ut.jsHistoryBack("F-2", "회원정보를 수정할 권한이 없습니다.");
+        }
+
+        model.addAttribute("member", member);
+        System.out.println(member.getId());
+        return "/usr/member/modify"; // 회원정보 수정 페이지로 이동
+    }
+
+    @RequestMapping("/usr/member/doModify")
+    @ResponseBody
+    public String doModify(HttpServletRequest req, int id, String loginPw,  String emaill,  String area,String poneNm,
+                           String nickName, String teamNm,String intro) {
+        System.out.println("doModify");
+        Rq rq = (Rq) req.getAttribute("rq");
+
+        Member member = memberService.getMemberById(id);
+
+        if (member == null) {
+            return Ut.jsReplace("F-1", Ut.f("%d번 회원은 존재하지 않습니다.", id), "/");
+        }
+
+        if (rq.getLoginedMemberId() != id) {
+            return Ut.jsHistoryBack("F-2", "회원정보를 수정할 권한이 없습니다.");
+        }
+
+        // 수정 처리
+        ResultData rd = memberService.modifyMember(id, loginPw, emaill, area, poneNm, nickName, teamNm,intro);
+
+        return Ut.jsReplace(rd.getResultCode(), rd.getMsg(), "/usr/home/myPage");
+    }
+
 
 }

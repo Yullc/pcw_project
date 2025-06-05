@@ -32,4 +32,5 @@ public class Member {
     private Float manner;
     private String teamNm;
     private String profileImg;
+    private String intro;
 }

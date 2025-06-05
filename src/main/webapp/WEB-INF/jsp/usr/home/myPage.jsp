@@ -38,9 +38,10 @@
       <div class="text-lg font-bold mb-2">최근게임</div>
       <div class="flex gap-4">
         <c:forEach var="game" items="ㅋㅋ" end="2">
-          <div class="w-28">
-            <img src="${profileImg}" class="rounded w-full h-20 object-cover" />
-
+          <div class="flex w-28">
+            <img src="/img/sta.jpg" class="rounded w-full h-20 object-cover" />
+            <img src="/img/sta.jpg" class="rounded w-full h-20 object-cover" />
+            <img src="/img/sta.jpg" class="rounded w-full h-20 object-cover" />
             <div class="text-xs text-gray-500">레벨: ${rank}</div>
 
           </div>
@@ -62,9 +63,10 @@
 
     <!-- 수정 버튼 -->
     <div class="text-right">
-      <a href="/usr/member/modify" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full">
+      <a href="/usr/member/domodify?id=${member.Id}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full">
         회원정보 수정
       </a>
+
     </div>
 
   </div>
