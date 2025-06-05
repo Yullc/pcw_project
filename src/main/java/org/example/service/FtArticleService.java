@@ -43,7 +43,7 @@ public class FtArticleService {
 //        return ftArticleRepository.getFtArticles();
 //    }
 
-    public List<FtArticle> getForPrintFtArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel) {
+    public List<FtArticle> getForPrintFtArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel,String playDate) {
         // SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 0, 10;
         // --> 1page
         // SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 10, 10;
@@ -52,11 +52,11 @@ public class FtArticleService {
         int limitFrom = (page - 1) * itemsInAPage;
         int limitTake = itemsInAPage;
 
-        return ftArticleRepository.getForPrintFtArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword, area, avgLevel);
+        return ftArticleRepository.getForPrintFtArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
     }
 
-    public int getFtArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel) {
-        return ftArticleRepository.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel);
+    public int getFtArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate) {
+        return ftArticleRepository.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
     }
 
 //    public ResultData increaseHitCount(int id) {

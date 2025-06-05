@@ -82,7 +82,9 @@ public class FtArticleController {
                            @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "") String searchKeyword,
                            @RequestParam(defaultValue = "") String area,
-                           @RequestParam(defaultValue = "") String avgLevel){
+                           @RequestParam(defaultValue = "") String avgLevel,
+                           @RequestParam(defaultValue = "") String playDate
+    ){
 
         Rq rq = (Rq) req.getAttribute("rq");
         int itemsInAPage = 16;
@@ -90,11 +92,11 @@ public class FtArticleController {
 
         String searchKeywordTypeCode = "stadiumName";
 
-        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel);
+        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
         int pagesCount = (int) Math.ceil(totalCount / (double) itemsInAPage);
 
         List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, avgLevel);
+                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
 
         model.addAttribute("ftArticles", ftArticles);
         System.out.println("ftArticles"+ftArticles);

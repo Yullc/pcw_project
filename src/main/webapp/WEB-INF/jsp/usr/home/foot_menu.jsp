@@ -46,12 +46,12 @@
 <div class="flex flex-1 overflow-hidden">
 
   <aside class="w-56 p-5 border-r border-gray-300 space-y-6 overflow-y-auto">
-    <!-- 지역 선택 -->
+    <!-- 지역 필터 -->
     <div>
       <h2 class="font-bold mb-2">지역</h2>
       <div class="flex flex-wrap gap-2">
         <c:forEach var="region" items="${['서울','경기','강원','인천','대전','세종','충북','충남','대구','경북','경남','부산','광주','전북','울산','전남','제주']}">
-          <a href="/usr/home/foot_menu?area=${region}"
+          <a href="/usr/home/foot_menu?area=${region}&avgLevel=${avgLevel}&playDate=${playDate}"
              class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${region == area ? 'bg-green-500 text-white' : ''}">
               ${region}
           </a>
@@ -59,18 +59,19 @@
       </div>
     </div>
 
-    <!-- 레벨 선택 -->
+    <!-- 레벨 필터 -->
     <div>
       <h2 class="font-bold mb-2">레벨</h2>
       <div class="flex flex-wrap gap-2">
         <c:forEach var="levelOption" items="${['루키','아마추어','세미프로','프로']}">
-          <a href="/usr/home/foot_menu?area=${area}&avgLevel=${levelOption}"
+          <a href="/usr/home/foot_menu?area=${area}&avgLevel=${levelOption}&playDate=${playDate}"
              class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${levelOption == avgLevel ? 'bg-green-500 text-white' : ''}">
               ${levelOption}
           </a>
         </c:forEach>
       </div>
     </div>
+
 
 
     <!-- 달력용 CSS 링크 -->

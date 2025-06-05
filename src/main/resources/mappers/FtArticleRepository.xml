@@ -22,6 +22,10 @@
         <if test="avgLevel != null and avgLevel != ''">
             AND A.avgLevel = #{avgLevel}
         </if>
+        <if test="playDate != null and playDate != ''">
+            AND DATE(A.playDate) = #{playDate}
+        </if>
+
     </select>
 
     <select id="getForPrintFtArticles" resultType="org.example.vo.FtArticle">
@@ -41,6 +45,10 @@
         <if test="avgLevel != null and avgLevel != ''">
             AND A.avgLevel = #{avgLevel}
         </if>
+        <if test="playDate != null and playDate != ''">
+            AND DATE(A.playDate) = #{playDate}
+        </if>
+
         ORDER BY A.id DESC
         <if test="limitFrom >= 0">
             LIMIT #{limitFrom}, #{limitTake}
