@@ -20,7 +20,7 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
-    public ResultData<Integer> join(String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, String bornDate, String area, String gender) {
+    public ResultData<Integer> join(String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String phoneNumber, String bornDate, String area, String gender) {
 
         Member existsMember = getMemberByLoginId(loginId);
 
@@ -34,7 +34,7 @@ public class MemberService {
             return ResultData.from("F-8", Ut.f("이미 사용중인 이름(%s)과 이메일(%s)입니다", name, email));
         }
 
-        memberRepository.doJoin(loginId, loginPw, loginPwCheck, email, name, nickName, poneNm, bornDate, area, gender);
+        memberRepository.doJoin(loginId, loginPw, loginPwCheck, email, name, nickName, phoneNumber, bornDate, area, gender);
 
         int id = memberRepository.getLastInsertId();
 
@@ -53,8 +53,17 @@ public class MemberService {
     public Member getMemberById(int id) {
         return memberRepository.getMemberById(id);
     }
-    public ResultData  modifyMember(int id, String loginPw,  String emaill,  String area,String poneNm, String nickName, String teamNm, String intro) {
-        memberRepository.modifyMember(id, loginPw, emaill, area, poneNm, nickName, teamNm, intro);
+    public ResultData  modifyMember(int id, String loginPw,  String emaill,  String area,String phoneNumber, String nickName, String teamNm, String intro) {
+        memberRepository.modifyMember(id, loginPw, emaill, area, phoneNumber, nickName, teamNm, intro);
         return ResultData.from("S-1", "회원정보가 수정되었습니다.");
     }
+
+    public ResultData modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro) {
+        memberRepository.modifyMemberWithoutPw(loginedMemberId, email, area, phoneNumber, nickName, teamNm, intro);
+
+        return ResultData.from("S-1", "회원정보 수정 완료");
+    }
+
+
+
 }

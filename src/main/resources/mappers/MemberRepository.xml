@@ -15,7 +15,7 @@
             `name` = #{name},
             bornDate =#{bornDate},
             nickName = #{nickName},
-            poneNm = #{poneNm},
+            phoneNumber = #{phoneNumber},
             `area` = #{area},
             `gender` = #{gender},
             email = #{email}
@@ -50,18 +50,31 @@
         WHERE id = #{id}
             LIMIT 1
     </select>
-    <update id="updateMember">
+    <update id="modifyMember">
         UPDATE member
         SET
             loginPw = #{loginPw},
             email = #{email},
             area = #{area},
-            phoneNm = #{phoneNm},
+            phoneNumber = #{phoneNumber},
             nickName = #{nickName},
             teamNm = #{teamNm},
             intro = #{intro},
             updateDate = NOW()
-        WHERE id = #{id}
+        WHERE id = #{loginedMemberId}
+    </update>
+
+    <update id="modifyMemberWithoutPw">
+        UPDATE member
+        SET
+            updateDate = NOW(),
+            email = #{email},
+            area = #{area},
+            phoneNumber = #{phoneNumber},
+            nickName = #{nickName},
+            teamNm = #{teamNm},
+            intro = #{intro}
+        WHERE id = #{loginedMemberId}
     </update>
 
 </mapper>

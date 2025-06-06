@@ -19,7 +19,7 @@ public class Member {
     private String loginPw;
     private String loginPwCheck;
     private String email;
-    private int poneNm;
+    private int phoneNumber;
     private String bornDate;
     private String area;
     private String gender;

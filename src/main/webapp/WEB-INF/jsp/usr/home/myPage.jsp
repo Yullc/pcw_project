@@ -51,19 +51,19 @@
 
     <!-- 팀/레벨 -->
     <div class="flex gap-4">
-      <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">팀: 없음</div>
+      <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">팀: ${teamNm}</div>
       <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">레벨: ${rank}</div>
     </div>
 
     <!-- 자기소개 -->
     <div>
       <div class="font-bold mb-1">자기소개</div>
-      <textarea class="w-full h-24 border rounded p-2">ㅌㅌㅌㅌ</textarea>
+      <textarea class="w-full h-24 border rounded p-2">${intro}</textarea>
     </div>
 
     <!-- 수정 버튼 -->
     <div class="text-right">
-      <a href="/usr/member/domodify?id=${member.Id}" class="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full">
+      <a href="/usr/member/modify?id=${id}" class="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-full">
         회원정보 수정
       </a>
 

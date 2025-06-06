@@ -160,7 +160,9 @@ CREATE TABLE reactionPoint (
 
 SELECT DISTINCT boardId FROM FtArticle;
 
-UPDATE ftArticle SET playDate = NULL;
+UPDATE MEMBER SET profileImg = '/img/pcw.jpeg' WHERE id = 1;
+
+
 
 UPDATE ftArticle
 SET playDate = (
@@ -173,11 +175,13 @@ SET playDate = (
         -- 무작위 시간 (10시 ~ 22시)
         INTERVAL (FLOOR(RAND() * 13) + 10) HOUR
     );
+ALTER TABLE MEMBER CHANGE poneNm phoneNumber VARCHAR(20);
+
 DROP TABLE soccer_stadium;
 DROP TABLE ftArticle;
 SELECT * FROM board;
 SELECT * FROM ftArticle;
-ALTER TABLE scArticle ADD COLUMN ssId INT UNSIGNED NOT NULL AFTER boardId;
+ALTER TABLE `member` ADD COLUMN intro VARCHAR(1000) AFTER profileImg;
 SELECT * FROM football_stadium;
 SELECT * FROM `member`;
 SELECT * FROM football_stadium ORDER BY id DESC;

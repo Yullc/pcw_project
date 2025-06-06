@@ -48,12 +48,13 @@ public class MyPageController {
 
         // 5. model에 담기
         System.out.println(member.getProfileImg());
+        model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("nickName", member.getNickName());
 //        model.addAttribute("recentGames", recentGames);
         model.addAttribute("teamNm", member.getTeamNm());
         model.addAttribute("rank", member.getRank());
-//        model.addAttribute("intro", member.getIntro());
+        model.addAttribute("intro", member.getIntro());
 //        model.addAttribute("mannerTemp", mannerTemp);
 
         return "usr/home/myPage";
