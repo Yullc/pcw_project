@@ -19,12 +19,10 @@ public interface MemberRepository {
 
     public String findTeamNameByMemberId(int memberId);
 
-    public void modifyMember(int id, String loginPw, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
+    void modifyMember(int id, String loginPw, String loginPwCheck, String email, String area,
+                      String phoneNumber, String nickName, String teamNm, String intro);
 
-    public  void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
-<<<<<<< HEAD
 
-    void updateLoginPw(int loginedMemberId, String newLoginPw);
-=======
->>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
+    public void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
+
 }

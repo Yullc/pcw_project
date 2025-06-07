@@ -53,8 +53,9 @@ public class MemberService {
     public Member getMemberById(int id) {
         return memberRepository.getMemberById(id);
     }
-    public ResultData  modifyMember(int id, String loginPw,  String emaill,  String area,String phoneNumber, String nickName, String teamNm, String intro) {
-        memberRepository.modifyMember(id, loginPw, emaill, area, phoneNumber, nickName, teamNm, intro);
+    public ResultData  modifyMember(int id, String loginPw, String loginPwCheck, String email, String area,
+                                    String phoneNumber, String nickName, String teamNm, String intro) {
+        memberRepository.modifyMember(id, loginPw, loginPwCheck, email, area, phoneNumber, nickName, teamNm, intro);
         return ResultData.from("S-1", "회원정보가 수정되었습니다.");
     }
 
@@ -65,11 +66,5 @@ public class MemberService {
     }
 
 
-<<<<<<< HEAD
-    public void modifyLoginPw(int loginedMemberId, String newLoginPw) {
-        memberRepository.updateLoginPw(loginedMemberId, newLoginPw);
-    }
-=======
->>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
 
 }

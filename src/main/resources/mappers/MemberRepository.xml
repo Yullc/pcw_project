@@ -53,16 +53,18 @@
     <update id="modifyMember">
         UPDATE member
         SET
-            loginPw = #{loginPw},
-            email = #{email},
-            area = #{area},
-            phoneNumber = #{phoneNumber},
-            nickName = #{nickName},
-            teamNm = #{teamNm},
-            intro = #{intro},
-            updateDate = NOW()
-        WHERE id = #{loginedMemberId}
+        loginPw = #{loginPw},
+        loginPwCheck = #{loginPwCheck},  <!-- 이 줄 추가 -->
+        email = #{email},
+        area = #{area},
+        phoneNumber = #{phoneNumber},
+        nickName = #{nickName},
+        teamNm = #{teamNm},
+        intro = #{intro},
+        updateDate = NOW()
+        WHERE id = #{id}
     </update>
+
 
     <update id="modifyMemberWithoutPw">
         UPDATE member
@@ -77,14 +79,8 @@
         WHERE id = #{loginedMemberId}
     </update>
 
-<<<<<<< HEAD
-    <update id="updateLoginPw">
-        UPDATE member
-        SET loginPw = #{newLoginPw},
-            updateDate = NOW()
-        WHERE id = #{loginedMemberId}
-    </update>
 
-=======
->>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
+
+
+
 </mapper>

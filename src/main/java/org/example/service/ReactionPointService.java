@@ -10,8 +10,4 @@ import org.example.vo.ResultData;
 import java.time.LocalDateTime;
 @Service
 public class ReactionPointService {
-<<<<<<< HEAD
 }
-=======
-}
->>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009

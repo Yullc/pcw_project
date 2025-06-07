@@ -21,8 +21,8 @@ public class FtArticle {
     private String avgLevel;
     private String img;
 
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
+
+
+

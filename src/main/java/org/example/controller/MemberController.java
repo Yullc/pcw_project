@@ -33,7 +33,7 @@ public class MemberController {
 
     @RequestMapping("/usr/member/doLogout")
     @ResponseBody
-    public String doLogout(HttpServletRequest req) {
+    public String doLogin(HttpServletRequest req) {
 
         Rq rq = (Rq) req.getAttribute("rq");
 
@@ -56,7 +56,7 @@ public class MemberController {
         System.out.println("비밀번호 받아옴 비밀번호 받아옴 비밀번호 받아옴 비밀번호 받아옴 "+loginPw);
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("controller Rq = " +rq);
-        System.out.println("asd");
+
         if (Ut.isEmptyOrNull(loginId)) {
             return Ut.jsHistoryBack("F-1", "아이디를 입력해");
         }
@@ -70,7 +70,7 @@ public class MemberController {
             return Ut.jsHistoryBack("F-3", Ut.f("%s는(은) 없는 아이디야", loginId));
         }
 
-        if (!member.getLoginPw().equals(loginPw)) {
+        if (member.getLoginPw().equals(loginPw) == false) {
             return Ut.jsHistoryBack("F-4", "비밀번호가 일치하지 않습니다");
         }
 
@@ -163,6 +163,7 @@ public class MemberController {
     @ResponseBody
     public String doModify(HttpServletRequest req,
                            String loginPw,
+                           String loginPwCheck,
                            String email,
                            String area,
                            String phoneNumber,
@@ -184,12 +185,6 @@ public class MemberController {
         System.out.println(email);
         System.out.println(phoneNumber);
         // 필수값 검증
-<<<<<<< HEAD
-        if (rq.getLoginedMember() == null) {
-            return Ut.jsReplace("F-0", "로그인 후 이용해주세요.", "/usr/home/main");
-        }
-=======
->>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
 
         if (Ut.isEmptyOrNull(email)) {
             return Ut.jsHistoryBack("F-2", "이메일을 입력하세요.");
@@ -210,72 +205,29 @@ public class MemberController {
         if (Ut.isEmptyOrNull(loginPw)) {
             rd = memberService.modifyMemberWithoutPw(loginedMemberId, email, area, phoneNumber, nickName, teamNm, intro);
         } else {
-            rd = memberService.modifyMember(loginedMemberId, loginPw, email, area, phoneNumber, nickName, teamNm, intro);
+            rd = memberService.modifyMember(loginedMemberId, loginPw, loginPwCheck,email, area, phoneNumber, nickName, teamNm, intro);
         }
 
         return Ut.jsReplace(rd.getResultCode(), rd.getMsg(), "../home/myPage");
     }
 
 
-    @RequestMapping("/usr/member/checkPw")
-<<<<<<< HEAD
-    public String showCheckPw(HttpServletRequest req) {
-        return "usr/member/checkPw";
-    }
-
-    @RequestMapping("/usr/member/doModifyPw")
-    @ResponseBody
-    public String doModifyPw(HttpServletRequest req, String loginPw, String newLoginPw, String newLoginPwConfirm) {
-        System.out.println("doModifyPw");
-
-        Rq rq = (Rq) req.getAttribute("rq");
-        System.out.println("rq: " + rq);
-        System.out.println("rq.getLoginedMember(): " + (rq != null ? rq.getLoginedMember() : "null"));
-
-        // ✅ null 체크 먼저
-        if (rq == null || rq.getLoginedMember() == null) {
-            return Ut.jsReplace("F-0", "로그인 후 이용해주세요.", "/usr/member/login");
-        }
-
-        // ✅ 디버깅 로그
-        System.out.println("현재 비밀번호: " + loginPw);
-        System.out.println("새 비밀번호: " + newLoginPw);
-        System.out.println("새 비밀번호 확인: " + newLoginPwConfirm);
-
-        // ✅ 현재 비밀번호 일치 확인
-        if (!rq.getLoginedMember().getLoginPw().equals(loginPw)) {
-            return Ut.jsHistoryBack("F-1", "현재 비밀번호가 틀립니다.");
-        }
-
-        // ✅ 새 비밀번호 확인 일치
-        if (!newLoginPw.equals(newLoginPwConfirm)) {
-            return Ut.jsHistoryBack("F-2", "새 비밀번호가 서로 일치하지 않습니다.");
-        }
-
-        // ✅ 비밀번호 변경
-        memberService.modifyLoginPw(rq.getLoginedMemberId(), newLoginPw);
-
-        return Ut.jsReplace("S-1", "비밀번호가 성공적으로 변경되었습니다.", "/usr/member/myPage");
-    }
-
-
-=======
-    public String showCheckPw() {
-        return "usr/member/checkPw";
-    }
-
-    @RequestMapping("/usr/member/doCheckPw")
-    @ResponseBody
-    public String doCheckPw(String loginPw) {
-        if (Ut.isEmptyOrNull(loginPw)) {
-            return Ut.jsHistoryBack("F-1", "비번 써");
-        }
-
-        if (!rq.getLoginedMember().getLoginPw().equals(loginPw)) {
-            return Ut.jsHistoryBack("F-2", "비번 틀림");
-        }
-
-        return Ut.jsReplace("S-1", Ut.f("비밀번호 확인 성공"), "modify");
-    }
->>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
+//    @RequestMapping("/usr/member/checkPw")
+//    public String showCheckPw() {
+//        return "usr/member/checkPw";
+//    }
+//
+//    @RequestMapping("/usr/member/doCheckPw")
+//    @ResponseBody
+//    public String doCheckPw(String loginPw) {
+//        if (Ut.isEmptyOrNull(loginPw)) {
+//            return Ut.jsHistoryBack("F-1", "비번 써");
+//        }
+//
+//        if (!rq.getLoginedMember().getLoginPw().equals(loginPw)) {
+//            return Ut.jsHistoryBack("F-2", "비번 틀림");
+//        }
+//
+//        return Ut.jsReplace("S-1", Ut.f("비밀번호 확인 성공"), "modify");
+//    }
 }

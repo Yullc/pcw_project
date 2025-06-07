@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.stereotype.Component;
 
+import org.example.service.MemberService;
 import org.example.util.Ut;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,12 +26,13 @@ public class Rq {
     private final HttpServletResponse resp;
     private final HttpSession session;
 
-    private Member loginedMember;
     private boolean isLogined = false;
     private int loginedMemberId = 0;
 
+    @Getter
+    private Member loginedMember;
 
-    public Rq(HttpServletRequest req, HttpServletResponse resp) {
+    public Rq(HttpServletRequest req, HttpServletResponse resp, MemberService memberService) {
         this.req = req;
         this.resp = resp;
         this.session = req.getSession();
@@ -38,16 +40,10 @@ public class Rq {
         if (session.getAttribute("loginedMemberId") != null) {
             isLogined = true;
             loginedMemberId = (int) session.getAttribute("loginedMemberId");
-            loginedMember = (Member) session.getAttribute("loginedMember");
+            loginedMember = memberService.getMemberById(loginedMemberId);
         }
 
         this.req.setAttribute("rq", this);
-    }
-
-    public void setLoginedMember(Member member) {
-        this.loginedMember = member;
-        this.loginedMemberId = member.getId();
-        this.isLogined = true;
     }
 
     public void printHistoryBack(String msg) throws IOException {
@@ -103,6 +99,4 @@ public class Rq {
 
         return currentUri;
     }
-
-
 }

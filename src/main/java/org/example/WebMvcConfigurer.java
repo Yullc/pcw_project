@@ -45,6 +45,9 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
         ir.excludePathPatterns("/error");
 
         ir = registry.addInterceptor(needLoginInterceptor);
+        ir.addPathPatterns("/usr/member/myPage");
+        ir.addPathPatterns("/usr/member/checkPw");
+        ir.addPathPatterns("/usr/member/doCheckPw");
         ir.addPathPatterns("/usr/article/write");
         ir.addPathPatterns("/usr/article/doWrite");
         ir.addPathPatterns("/usr/article/modify");
@@ -63,6 +66,10 @@ public class WebMvcConfigurer implements org.springframework.web.servlet.config.
         ir.addPathPatterns("/usr/member/doLogin");
         ir.addPathPatterns("/usr/member/join");
         ir.addPathPatterns("/usr/member/doJoin");
+        ir.addPathPatterns("/usr/member/findLoginId");
+        ir.addPathPatterns("/usr/member/doFindLoginId");
+        ir.addPathPatterns("/usr/member/findLoginPw");
+        ir.addPathPatterns("/usr/member/doFindLoginPw");
 
     }
 }
