@@ -15,4 +15,8 @@ public class ScArticle {
     private String stadiumName;
     private String address;
     private String img;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009

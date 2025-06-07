@@ -13,4 +13,8 @@ public interface FtArticleRepository {
     public List<FtArticle> getForPrintFtArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate);
 
     public int getFtArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate);
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009

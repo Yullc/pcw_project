@@ -65,8 +65,11 @@ public class MemberService {
     }
 
 
+<<<<<<< HEAD
     public void modifyLoginPw(int loginedMemberId, String newLoginPw) {
         memberRepository.updateLoginPw(loginedMemberId, newLoginPw);
     }
+=======
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
 
 }

@@ -184,9 +184,12 @@ public class MemberController {
         System.out.println(email);
         System.out.println(phoneNumber);
         // 필수값 검증
+<<<<<<< HEAD
         if (rq.getLoginedMember() == null) {
             return Ut.jsReplace("F-0", "로그인 후 이용해주세요.", "/usr/home/main");
         }
+=======
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
 
         if (Ut.isEmptyOrNull(email)) {
             return Ut.jsHistoryBack("F-2", "이메일을 입력하세요.");
@@ -215,6 +218,7 @@ public class MemberController {
 
 
     @RequestMapping("/usr/member/checkPw")
+<<<<<<< HEAD
     public String showCheckPw(HttpServletRequest req) {
         return "usr/member/checkPw";
     }
@@ -255,4 +259,23 @@ public class MemberController {
     }
 
 
+=======
+    public String showCheckPw() {
+        return "usr/member/checkPw";
+    }
+
+    @RequestMapping("/usr/member/doCheckPw")
+    @ResponseBody
+    public String doCheckPw(String loginPw) {
+        if (Ut.isEmptyOrNull(loginPw)) {
+            return Ut.jsHistoryBack("F-1", "비번 써");
+        }
+
+        if (!rq.getLoginedMember().getLoginPw().equals(loginPw)) {
+            return Ut.jsHistoryBack("F-2", "비번 틀림");
+        }
+
+        return Ut.jsReplace("S-1", Ut.f("비밀번호 확인 성공"), "modify");
+    }
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
 }

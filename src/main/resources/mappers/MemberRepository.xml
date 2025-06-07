@@ -77,6 +77,7 @@
         WHERE id = #{loginedMemberId}
     </update>
 
+<<<<<<< HEAD
     <update id="updateLoginPw">
         UPDATE member
         SET loginPw = #{newLoginPw},
@@ -84,4 +85,6 @@
         WHERE id = #{loginedMemberId}
     </update>
 
+=======
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
 </mapper>

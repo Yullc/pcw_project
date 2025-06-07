@@ -59,4 +59,9 @@ public class MyPageController {
 
         return "usr/home/myPage";
     }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009

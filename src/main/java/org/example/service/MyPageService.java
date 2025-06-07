@@ -29,4 +29,9 @@ public class MyPageService {
 //        // TODO: 임시 값. 나중에 계산 로직으로 바꿔도 됨
 //        return 36.5;
 //    }
+<<<<<<< HEAD
 }
+=======
+}
+
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009

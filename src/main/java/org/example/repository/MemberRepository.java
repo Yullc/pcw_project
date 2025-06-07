@@ -22,6 +22,9 @@ public interface MemberRepository {
     public void modifyMember(int id, String loginPw, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
 
     public  void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
+<<<<<<< HEAD
 
     void updateLoginPw(int loginedMemberId, String newLoginPw);
+=======
+>>>>>>> 4dff9505c4d7b88fb7aaef0efd99447bbfaa3009
 }
