@@ -117,6 +117,23 @@ public class FtArticleController {
 
         return "usr/home/foot_menu";
     }
+    @RequestMapping("/usr/article/foot_detail")
+    public String showFootDetail(@RequestParam("id") int id,HttpServletRequest req, Model model) {
+        // ftArticleService를 통해 ID로 상세 정보 가져오기
+        Rq rq = (Rq) req.getAttribute("rq");
+        FtArticle ftArticle = ftarticleService.getArticleById(id);
+
+        // null 체크 (존재하지 않는 게시물일 경우 뒤로 보내기)
+        if (ftArticle == null) {
+            return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
+        }
+
+        // 모델에 경기장 정보 넣기
+        model.addAttribute("ftArticle", ftArticle);
+
+        // 해당 JSP로 이동
+        return "usr/article/foot_detail";
+    }
 
 
 }

@@ -14,6 +14,7 @@ public interface FtArticleRepository {
 
     public int getFtArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate);
 
+    FtArticle getFtArticleById(int id);
 }
 
 

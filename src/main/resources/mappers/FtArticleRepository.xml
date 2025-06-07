@@ -55,5 +55,10 @@
         </if>
     </select>
 
+    <select id="getFtArticleById" resultType="org.example.vo.FtArticle">
+        SELECT *
+        FROM ftArticle
+        WHERE id = #{id}
+    </select>
 
 </mapper>
