@@ -1,0 +1,90 @@
+/* ===== 컨테이너 스타일 (부모 너비에 100% 맞춤) ===== */
+.calendar-container {
+    width: 100%;                  /* 사이드바(w-56)의 최대 너비에 맞추기 */
+    box-sizing: border-box;       /* padding, border를 width에 포함 */
+    padding: 12px 8px;            /* 위아래 12px, 좌우 8px 여백 */
+    border: 1px solid #8BC34A;    /* 연두색 테두리 */
+    border-radius: 12px;          /* 모서리 둥글게 */
+    background-color: #ffffff;
+    font-family: "맑은 고딕", "Malgun Gothic", sans-serif;
+    /* 그림자나 추가 여백이 필요하면 여기서 조정 */
+}
+
+/* ===== 달력 헤더 ===== */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+.calendar-header button {
+    background: none;
+    border: none;
+    font-size: 14px;    /* 이전(‹)·다음(›) 버튼 크기 */
+    cursor: pointer;
+    color: #555;
+    width: 24px;         /* 버튼 클릭 영역 확보 */
+    height: 24px;
+    line-height: 24px;
+    text-align: center;
+    padding: 0;
+}
+.calendar-header .month-year {
+    font-size: 14px;     /* “YYYY년 MM월” 텍스트 크기 */
+    font-weight: bold;
+    color: #333;
+}
+
+/* ===== 요일 행 ===== */
+.calendar-weekdays {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 4px;
+}
+.calendar-weekdays div {
+    font-size: 10px;      /* 약간 작게 조정 */
+    padding: 2px 0;
+}
+.calendar-weekdays .sun { color: #E53935; }   /* 일요일: 빨강 */
+.calendar-weekdays .sat { color: #1E88E5; }   /* 토요일: 파랑 */
+
+/* ===== 날짜 그리드 ===== */
+.calendar-dates {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;            /* 날짜 셀 간 간격 */
+}
+.calendar-dates div {
+    height: 24px;         /* 셀 높이 축소 */
+    line-height: 24px;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 3px;
+    user-select: none;
+    font-size: 10px;      /* 날짜 숫자 폰트 작게 */
+    background: none;
+}
+.calendar-dates div.empty {
+    cursor: default;
+    background: none;
+}
+.calendar-dates div.sun { color: #E53935; }
+.calendar-dates div.sat { color: #1E88E5; }
+.calendar-dates div:hover {
+    background-color: #E8F5E9;    /* 연한 초록 하이라이트 */
+}
+.calendar-dates div.selected {
+    background-color: #8BC34A;    /* 선택된 날짜 배경(짙은 초록) */
+    color: #ffffff;
+}
+
+/* ===== 선택된 날짜 표시 영역 ===== */
+.selected-info {
+    margin-top: 8px;
+    text-align: center;
+    font-size: 12px;       /* 표시 텍스트 작게 조정 */
+    color: #333;
+    white-space: nowrap;   /* “YYYY-MM-DD”가 잘리지 않도록 */
+}

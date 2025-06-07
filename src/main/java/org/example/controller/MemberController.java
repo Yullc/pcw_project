@@ -1,8 +1,12 @@
 package org.example.controller;
 
+import org.example.repository.MemberRepository;
+import org.example.vo.FtArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import org.example.service.MemberService;
@@ -14,6 +18,7 @@ import org.example.vo.Rq;
 import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Controller
 public class MemberController {
@@ -23,10 +28,12 @@ public class MemberController {
 
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private MemberRepository memberRepository;
 
     @RequestMapping("/usr/member/doLogout")
     @ResponseBody
-    public String doLogin(HttpServletRequest req) {
+    public String doLogout(HttpServletRequest req) {
 
         Rq rq = (Rq) req.getAttribute("rq");
 
@@ -63,7 +70,7 @@ public class MemberController {
             return Ut.jsHistoryBack("F-3", Ut.f("%s는(은) 없는 아이디야", loginId));
         }
 
-        if (member.getLoginPw().equals(loginPw) == false) {
+        if (!member.getLoginPw().equals(loginPw)) {
             return Ut.jsHistoryBack("F-4", "비밀번호가 일치하지 않습니다");
         }
 
@@ -79,14 +86,14 @@ public class MemberController {
 
     @RequestMapping("/usr/home/doJoin")
     @ResponseBody
-    public String doJoin(HttpServletRequest req, String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String poneNm, String bornDate, String area, String gender) {
+    public String doJoin(HttpServletRequest req, String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String phoneNumber, String bornDate, String area, String gender) {
         System.out.println(loginId);
         System.out.println(loginPw);
         System.out.println(loginPwCheck);
         System.out.println(email);
         System.out.println(name);
         System.out.println(nickName);
-        System.out.println(poneNm);
+        System.out.println(phoneNumber);
         System.out.println(bornDate);
         System.out.println(area);
         System.out.println(gender);
@@ -118,7 +125,7 @@ public class MemberController {
             return Ut.jsHistoryBack("F-4", "닉네임을 입력해");
 
         }
-        if (Ut.isEmptyOrNull(poneNm)) {
+        if (Ut.isEmptyOrNull(phoneNumber)) {
             return Ut.jsHistoryBack("F-5", "전화번호를 입력해");
 
         }
@@ -132,7 +139,7 @@ public class MemberController {
         }
 
 
-        ResultData joinRd = memberService.join(loginId, loginPw, loginPwCheck, email, name, nickName, poneNm, bornDate, area, gender);
+        ResultData joinRd = memberService.join(loginId, loginPw, loginPwCheck, email, name, nickName, phoneNumber, bornDate, area, gender);
 
         if (joinRd.isFail()) {
             return Ut.jsHistoryBack(joinRd.getResultCode(), joinRd.getMsg());
@@ -142,5 +149,110 @@ public class MemberController {
 
         return Ut.jsReplace(joinRd.getResultCode(), joinRd.getMsg(), "../home/main");
     }
+
+    @RequestMapping("/usr/member/modify")
+    public String showModify(HttpServletRequest req, Model model) {
+        Rq rq = (Rq) req.getAttribute("rq");
+
+
+        req.setAttribute("rq", rq);
+
+        return "usr/member/modify"; // modify.jsp
+    }
+    @RequestMapping("/usr/member/doModify")
+    @ResponseBody
+    public String doModify(HttpServletRequest req,
+                           String loginPw,
+                           String email,
+                           String area,
+                           String phoneNumber,
+                           String nickName,
+                           String teamNm,
+                           String intro) {
+
+        System.out.println("doModify");
+
+        Rq rq = (Rq) req.getAttribute("rq");
+        int loginedMemberId = rq.getLoginedMemberId();
+
+        Member member = memberService.getMemberById(loginedMemberId);
+
+        if (member == null) {
+            return Ut.jsReplace("F-1", "회원이 존재하지 않습니다.", "/");
+        }
+        System.out.println(loginedMemberId);
+        System.out.println(email);
+        System.out.println(phoneNumber);
+        // 필수값 검증
+        if (rq.getLoginedMember() == null) {
+            return Ut.jsReplace("F-0", "로그인 후 이용해주세요.", "/usr/home/main");
+        }
+
+        if (Ut.isEmptyOrNull(email)) {
+            return Ut.jsHistoryBack("F-2", "이메일을 입력하세요.");
+        }
+        if (Ut.isEmptyOrNull(area)) {
+            return Ut.jsHistoryBack("F-3", "지역을 선택하세요.");
+        }
+        if (Ut.isEmptyOrNull(phoneNumber)) {
+            return Ut.jsHistoryBack("F-4", "전화번호를 입력하세요.");
+        }
+        if (Ut.isEmptyOrNull(nickName)) {
+            return Ut.jsHistoryBack("F-5", "닉네임을 입력하세요.");
+        }
+
+        ResultData rd;
+
+        // 비밀번호 변경 여부에 따라 처리 분기
+        if (Ut.isEmptyOrNull(loginPw)) {
+            rd = memberService.modifyMemberWithoutPw(loginedMemberId, email, area, phoneNumber, nickName, teamNm, intro);
+        } else {
+            rd = memberService.modifyMember(loginedMemberId, loginPw, email, area, phoneNumber, nickName, teamNm, intro);
+        }
+
+        return Ut.jsReplace(rd.getResultCode(), rd.getMsg(), "../home/myPage");
+    }
+
+
+    @RequestMapping("/usr/member/checkPw")
+    public String showCheckPw(HttpServletRequest req) {
+        return "usr/member/checkPw";
+    }
+
+    @RequestMapping("/usr/member/doModifyPw")
+    @ResponseBody
+    public String doModifyPw(HttpServletRequest req, String loginPw, String newLoginPw, String newLoginPwConfirm) {
+        System.out.println("doModifyPw");
+
+        Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("rq: " + rq);
+        System.out.println("rq.getLoginedMember(): " + (rq != null ? rq.getLoginedMember() : "null"));
+
+        // ✅ null 체크 먼저
+        if (rq == null || rq.getLoginedMember() == null) {
+            return Ut.jsReplace("F-0", "로그인 후 이용해주세요.", "/usr/member/login");
+        }
+
+        // ✅ 디버깅 로그
+        System.out.println("현재 비밀번호: " + loginPw);
+        System.out.println("새 비밀번호: " + newLoginPw);
+        System.out.println("새 비밀번호 확인: " + newLoginPwConfirm);
+
+        // ✅ 현재 비밀번호 일치 확인
+        if (!rq.getLoginedMember().getLoginPw().equals(loginPw)) {
+            return Ut.jsHistoryBack("F-1", "현재 비밀번호가 틀립니다.");
+        }
+
+        // ✅ 새 비밀번호 확인 일치
+        if (!newLoginPw.equals(newLoginPwConfirm)) {
+            return Ut.jsHistoryBack("F-2", "새 비밀번호가 서로 일치하지 않습니다.");
+        }
+
+        // ✅ 비밀번호 변경
+        memberService.modifyLoginPw(rq.getLoginedMemberId(), newLoginPw);
+
+        return Ut.jsReplace("S-1", "비밀번호가 성공적으로 변경되었습니다.", "/usr/member/myPage");
+    }
+
 
 }

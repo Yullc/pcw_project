@@ -15,7 +15,7 @@
             `name` = #{name},
             bornDate =#{bornDate},
             nickName = #{nickName},
-            poneNm = #{poneNm},
+            phoneNumber = #{phoneNumber},
             `area` = #{area},
             `gender` = #{gender},
             email = #{email}
@@ -43,5 +43,45 @@
         SELECT * FROM `member`
         WHERE id = #{id}
     </select>
+
+    <select id="findTeamNameByMemberId" parameterType="int" resultType="string">
+        SELECT teamNm
+        FROM `member`
+        WHERE id = #{id}
+            LIMIT 1
+    </select>
+    <update id="modifyMember">
+        UPDATE member
+        SET
+            loginPw = #{loginPw},
+            email = #{email},
+            area = #{area},
+            phoneNumber = #{phoneNumber},
+            nickName = #{nickName},
+            teamNm = #{teamNm},
+            intro = #{intro},
+            updateDate = NOW()
+        WHERE id = #{loginedMemberId}
+    </update>
+
+    <update id="modifyMemberWithoutPw">
+        UPDATE member
+        SET
+            updateDate = NOW(),
+            email = #{email},
+            area = #{area},
+            phoneNumber = #{phoneNumber},
+            nickName = #{nickName},
+            teamNm = #{teamNm},
+            intro = #{intro}
+        WHERE id = #{loginedMemberId}
+    </update>
+
+    <update id="updateLoginPw">
+        UPDATE member
+        SET loginPw = #{newLoginPw},
+            updateDate = NOW()
+        WHERE id = #{loginedMemberId}
+    </update>
 
 </mapper>

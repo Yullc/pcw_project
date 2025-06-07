@@ -37,6 +37,7 @@ public class Rq {
         if (session.getAttribute("loginedMemberId") != null) {
             isLogined = true;
             loginedMemberId = (int) session.getAttribute("loginedMemberId");
+            loginedMember = (Member) session.getAttribute("loginedMember");
         }
 
         this.req.setAttribute("rq", this);
@@ -70,11 +71,12 @@ public class Rq {
 
     public void logout() {
         session.removeAttribute("loginedMemberId");
+        session.removeAttribute("loginedMember");
     }
 
     public void login(Member member) {
         session.setAttribute("loginedMemberId", member.getId());
-
+        session.setAttribute("loginedMember", member);
     }
 
     public void initBeforeActionInterceptor() {

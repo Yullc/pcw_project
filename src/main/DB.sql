@@ -1,25 +1,32 @@
-CREATE DATABASE `pcw_project`;
-USE `pcw_project`;
+CREATE DATABASE `pcw_project_DB`;
+USE `pcw_project_DB`;
+SHOW DATABASES;
+`pcw_project`
 
+
+DROP TABLE `member`;
 CREATE TABLE `member` (
-                          `id`	INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                          `regDate`	DATETIME	NOT NULL,
-                          `updateDate`	DATETIME	NOT NULL,
-                          `loginId`	CHAR(30)	NOT NULL,
-                          `loginPw`	CHAR(100)	NOT NULL,
-                          `poneNm`	INT	NOT NULL,
-                          `bornDate`	DATETIME	NOT NULL,
-                          `area`	CHAR(20)	NOT NULL,
-                          `gender`	CHAR(20)	NOT NULL,
-                          `name`	CHAR(20)	NOT NULL,
-                          `nickName`	CHAR(20)	NOT NULL,
-                          `authLevel`	CHAR(20)	NOT NULL,
-                          `rank`	CHAR(20)	NOT NULL,
-                          `delStatus`	TINYINT(1) UNSIGNED	NOT NULL,
-                          `delDate`	DATETIME	NULL,
-                          `manner`	FLOAT	NULL,
-                          `teamNm`	CHAR(20)	NULL
+                          `id` INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                          `regDate` DATETIME NOT NULL,
+                          `updateDate` DATETIME NOT NULL,
+                          `loginId` CHAR(30) NOT NULL,
+                          `loginPw` CHAR(100) NOT NULL,
+                          `loginPwCheck` CHAR(100) NOT NULL,
+                          email CHAR(100) NOT NULL,
+                          `poneNm` INT NOT NULL,
+                          `bornDate` DATETIME NOT NULL,
+                          `area` CHAR(20) NOT NULL,
+                          `gender` CHAR(20) NOT NULL,
+                          `name` CHAR(20) NOT NULL,
+                          `nickName` CHAR(20) NOT NULL,
+                          `authLevel` CHAR(20) NOT NULL DEFAULT 'normal',
+                          `rank` CHAR(20) NOT NULL DEFAULT 'rookie',
+                          `delStatus` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
+                          `delDate` DATETIME NULL,
+                          `manner` FLOAT NULL,
+                          `teamNm` CHAR(20) NULL
 );
+
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
@@ -36,7 +43,7 @@ delStatus = 1,
 delDate = NOW(),
 `manner` = 34.1,
 teamNm = '최강';
-
+SELECT * FROM MEMBER;
 CREATE TABLE `scArticle` (
                              `id`	INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
                              `regDate`	DATETIME	NOT NULL,
@@ -105,31 +112,25 @@ CREATE TABLE `team` (
 
 CREATE TABLE soccer_stadium (
                                 id INT AUTO_INCREMENT PRIMARY KEY,
-                                rsrc_no CHAR(50),
-                                rsrc_nm CHAR(255),
-                                zip CHAR(20),
-                                addr CHAR(255),
-                                daddr CHAR(255),
-                                lot CHAR(50),
-                                lat CHAR(50),
-                                inst_url_addr TEXT,
-                                img_file_url_addr TEXT
+                                `area` VARCHAR(50),
+                                stadiumName VARCHAR(100),
+                                address VARCHAR(255),
+                                img VARCHAR(1000)
 );
+
 
 CREATE TABLE football_stadium (
                                   id INT AUTO_INCREMENT PRIMARY KEY,
-                                  rsrc_no CHAR(50),
-                                  rsrc_nm CHAR(255),
-                                  zip CHAR(20),
-                                  addr CHAR(255),
-                                  daddr CHAR(255),
-                                  lot CHAR(50),
-                                  lat CHAR(50),
-                                  inst_url_addr TEXT,
-                                  img_file_url_addr TEXT
+                                  `area` VARCHAR(50),
+                                  stadiumName VARCHAR(100),
+                                  address VARCHAR(255),
+                                  img VARCHAR(1000)
 );
 
+
 DROP TABLE `message`;
+
+SELECT * FROM football_stadium;
 SELECT * FROM `member`;
 SELECT * FROM football_stadium ORDER BY id DESC;
 SELECT * FROM soccer_stadium ORDER BY id DESC;
