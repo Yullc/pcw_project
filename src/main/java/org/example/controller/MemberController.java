@@ -56,7 +56,7 @@ public class MemberController {
         System.out.println("비밀번호 받아옴 비밀번호 받아옴 비밀번호 받아옴 비밀번호 받아옴 "+loginPw);
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("controller Rq = " +rq);
-
+        System.out.println("asd");
         if (Ut.isEmptyOrNull(loginId)) {
             return Ut.jsHistoryBack("F-1", "아이디를 입력해");
         }
