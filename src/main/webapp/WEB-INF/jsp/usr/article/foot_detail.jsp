@@ -47,14 +47,12 @@
 
   <!-- 참가 선수 -->
   <div class="mt-6">
-    <h2 class="text-md font-bold text-green-600 mb-2">참가선수</h2>
+    <h2 class="text-md font-bold text-green-600 mb-2">참가자 목록</h2>
     <c:forEach var="player" items="${participants}">
       <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-1">
         <span class="font-semibold text-green-800">${player.nickName}</span>
         <span class="text-sm">| ${player.rankName}</span>
-
         <span class="text-sm">| 매너온도: ${player.manner}</span>
-        <span>😊</span>
       </div>
     </c:forEach>
   </div>
@@ -62,15 +60,22 @@
   <!-- 참가하기 버튼 -->
   <div class="mt-4 text-center">
     <c:choose>
+      <%-- 지난 경기인 경우 --%>
+      <c:when test="${pastMatch}">
+        <div class="text-gray-400 text-sm">종료된 경기입니다. 참가할 수 없습니다.</div>
+      </c:when>
+
+      <%-- 이미 참가한 경우 --%>
       <c:when test="${isAlreadyJoined}">
         <button class="bg-gray-400 text-white px-6 py-2 rounded-full cursor-not-allowed" disabled>
           ✅ 이미 참가했어요
         </button>
       </c:when>
+
+      <%-- 참가 가능한 경우 --%>
       <c:otherwise>
         <form action="/usr/article/joinMatch" method="post">
           <input type="hidden" name="id" value="${ftArticle.id}" />
-
           <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
             ⚽ 참가하기
           </button>
@@ -78,7 +83,6 @@
       </c:otherwise>
     </c:choose>
   </div>
-
 
 
   <!-- 주의사항 -->

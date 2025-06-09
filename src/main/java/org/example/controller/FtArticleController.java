@@ -139,43 +139,41 @@ public class FtArticleController {
     public String showFootDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
         FtArticle ftArticle = ftarticleService.getFtArticleById(id);
-        System.out.println("detail 진입:" + rq);
-
+        System.out.println("detail 들어옴");
         if (ftArticle == null) {
             return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
         }
 
-        // 🧑‍🤝‍🧑 참가자 리스트 가져오기
         List<Member> participants = matchParticipantService.getParticipants(id);
-        System.out.println(participants);
-
-        // 🏷️ 참가자 rank 숫자 → 문자열 변환 + 평균 계산 준비
         int totalRank = 0;
+
         for (Member m : participants) {
             int rank = m.getRank();
             m.setRankName(RankUtil.getRankName(rank));
             totalRank += rank;
         }
 
-        // 평균 계산
+        boolean pastMatch = LocalDateTime.now().isAfter(
+                LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        );
+
         if (!participants.isEmpty()) {
             double avg = totalRank / (double) participants.size();
-            int roundedAvg = (int) Math.round(avg);
-            String avgLevelName = RankUtil.getRankName(roundedAvg);
-            ftArticle.setAvgLevelName(avgLevelName);
+            ftArticle.setAvgLevelName(RankUtil.getRankName((int) Math.round(avg)));
         } else {
             ftArticle.setAvgLevelName("미정");
         }
 
-        // 📅 날짜 + 날씨
         String area = ftArticle.getArea();
         LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
         List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
 
-        // 📦 모델에 데이터 담기
         model.addAttribute("ftArticle", ftArticle);
         model.addAttribute("weatherList", weatherList);
         model.addAttribute("participants", participants);
+        model.addAttribute("pastMatch", pastMatch);
+        model.addAttribute("isAlreadyJoined", matchParticipantService.isAlreadyJoined(id, rq.getLoginedMemberId()));
+
 
         return "usr/article/foot_detail";
     }
@@ -184,8 +182,9 @@ public class FtArticleController {
 
 
 
+
     @PostMapping("/usr/article/joinMatch")
-    public String joinMatch(@RequestParam int id, HttpServletRequest req) {
+    public String joinMatch(@RequestParam("id") int id, HttpServletRequest req) {
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("joinMatch 메서드 진입");
 

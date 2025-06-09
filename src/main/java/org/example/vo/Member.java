@@ -34,4 +34,5 @@ public class Member {
     private String profileImg;
     private String intro;
     private String rankName;
+    private String mannerEmoji;
 }
