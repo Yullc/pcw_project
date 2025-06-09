@@ -1,9 +1,9 @@
-
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
   <meta charset="UTF-8">
   <title>풋살 매칭 UI (Tailwind)</title>
   <script src="https://cdn.tailwindcss.com"></script>
@@ -17,10 +17,25 @@
     }
   </style>
 
+  <meta charset="UTF-8">
+  <title>풋살 매칭 UI (Tailwind)</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* 가로 스크롤을 마우스 휠로 전환 */
+    #scrollWrapper {
+      scroll-snap-type: x mandatory;
+    }
+    .snap {
+      scroll-snap-align: start;
+    }
+  </style>
+
+
 </head>
 
 <body class="h-screen flex flex-col">
 <div class="px-[150px]">
+
   <header class="flex items-center justify-between p-5 border-b border-gray-300">
     <!-- 왼쪽 로고 -->
     <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">
@@ -50,6 +65,8 @@
     <div class="flex items-center gap-6 whitespace-nowrap">
       <a href="/usr/home/findMercenary" class="text-sm text-black hover:text-green-600">용병 구하기</a>
       <a href="/usr/home/findTeam" class="text-sm text-black hover:text-green-600">팀 구하기</a>
+      <!-- 로그아웃 버튼 추가 -->
+      <a href="/usr/member/doLogout" class="text-sm text-black hover:text-red-500">로그아웃</a>
 
       <a href="/usr/home/myPage" class="block w-10 h-10">
         <img src="${profileImg}" alt="profile"
@@ -94,6 +111,8 @@
       <!-- 달력용 CSS 링크 -->
       <link rel="stylesheet" href="/css/calender.css">
 
+      <link rel="stylesheet" href="/css/calender.css">
+
       <!-- ========== 달력 컴포넌트 삽입 ========== -->
       <div class="calendar-container">
         <!-- 1) 달력 헤더 -->
@@ -125,6 +144,7 @@
         </div>
       </div>
 
+
     </aside>
     <script src="/js/calender.js"></script>
 
@@ -132,22 +152,25 @@
       <div class="px-[100px]">
         <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
           <c:forEach var="ftArticle" items="${ftArticles}">
-            <div class="border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48">
+            <a href="/usr/article/foot_detail?id=${ftArticle.id}" class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 hover:shadow-lg transition">
               <img src="${ftArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
               <div class="p-2 text-sm">
-                <div class="font-semibold">${ftArticle.stadiumName}</div>
+                <div class="font-semibold">${ftArticle.stadium}</div>
                 <div>${ftArticle.area}</div>
                 <div>${ftArticle.playDate}</div>
                 <div class="text-xs text-gray-500">${ftArticle.address}</div>
                 <div class="text-xs text-gray-500">${ftArticle.avgLevel}</div>
               </div>
-            </div>
+            </a>
           </c:forEach>
+
           <c:if test="${empty ftArticles}">
             <div class="text-gray-500 text-center col-span-4 row-span-4">경기장 정보가 없습니다.</div>
           </c:if>
         </div>
+      </div>
     </main>
+
 
   </div>
 

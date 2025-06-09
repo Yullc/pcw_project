@@ -60,4 +60,3 @@ public class MyPageController {
         return "usr/home/myPage";
     }
 }
-

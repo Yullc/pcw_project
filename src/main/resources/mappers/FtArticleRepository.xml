@@ -55,5 +55,21 @@
         </if>
     </select>
 
+    <select id="getFtArticleById" resultType="org.example.vo.FtArticle">
+        SELECT
+            fa.id,
+            fa.regDate,
+            fa.playDate,
+            fa.title,
+            fa.body,
+            fa.area,
+            fs.address,
+            fa.avgLevel,
+            fs.img AS img
+        FROM ftArticle fa
+                 INNER JOIN football_stadium fs
+                            ON fa.fsid = fs.id
+        WHERE fa.id = #{id}
+    </select>
 
 </mapper>

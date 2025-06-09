@@ -24,7 +24,7 @@ public class FtArticleService {
     }
 
 
-//    public FtArticle getForPrintFtArticle(int loginedMemberId, int id) {
+    //    public FtArticle getForPrintFtArticle(int loginedMemberId, int id) {
 //
 //        FtArticle ftArticle = ftArticleRepository.getForPrintFtArticle(id);
 //
@@ -35,9 +35,9 @@ public class FtArticleService {
 //
 //
 //
-//    public FtArticle getArticleById(int id) {
-//        return ftArticleRepository.getFtArticleById(id);
-//    }
+    public FtArticle getFtArticleById(int id) {
+        return ftArticleRepository.getFtArticleById(id);
+    }
 //
 //    public List<FtArticle> getFtArticles() {
 //        return ftArticleRepository.getFtArticles();

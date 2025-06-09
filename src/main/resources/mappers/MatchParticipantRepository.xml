@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.repository.MatchParticipantRepository">
+
+    <insert id="join">
+        INSERT INTO match_participant (matchId, memberId)
+        VALUES (#{matchId}, #{memberId})
+    </insert>
+
+
+    <select id="isAlreadyJoined" resultType="int">
+        SELECT COUNT(*) FROM match_participant
+        WHERE matchId = #{matchId} AND memberId = #{memberId}
+    </select>
+
+    <select id="getParticipants" resultType="org.example.vo.Member">
+        SELECT m.*
+        FROM match_participant mp
+                 JOIN ftArticle fa ON mp.matchId = fa.matchId
+                 JOIN member m ON mp.memberId = m.id
+        WHERE fa.id = #{id}
+    </select>
+
+
+</mapper>

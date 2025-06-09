@@ -43,7 +43,13 @@ delStatus = 1,
 delDate = NOW(),
 `manner` = 34.1,
 teamNm = '최강';
+
+
 SELECT * FROM MEMBER;
+CREATE TABLE `match` (
+                         id INT AUTO_INCREMENT PRIMARY KEY,
+                         articleId INT NOT NULL
+);
 CREATE TABLE `scArticle` (
                              `id`	INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
                              `regDate`	DATETIME	NOT NULL,
@@ -126,10 +132,27 @@ CREATE TABLE football_stadium (
                                   address VARCHAR(255),
                                   img VARCHAR(1000)
 );
+CREATE TABLE `match` (
+                         id INT AUTO_INCREMENT PRIMARY KEY,
+                         articleId INT NOT NULL
+);
 
+CREATE TABLE match_participant (
+                                   id INT AUTO_INCREMENT PRIMARY KEY,
+                                   matchId INT NOT NULL,
+                                   memberId INT NOT NULL
 
+);
+INSERT INTO `match_participant`
+SET matchId = 1,
+memberId = 2;
+DROP TABLE match_participant;
+SELECT * FROM match_participant;
+SELECT * FROM ftArticle;
 DROP TABLE `message`;
-
+UPDATE `member`
+SET profileImg = '/img/pcw.jpeg'
+WHERE id = 2;
 SELECT * FROM football_stadium;
 SELECT * FROM `member`;
 SELECT * FROM football_stadium ORDER BY id DESC;
