@@ -159,7 +159,7 @@
                 <div>${ftArticle.area}</div>
                 <div>${ftArticle.playDate}</div>
                 <div class="text-xs text-gray-500">${ftArticle.address}</div>
-                <div class="text-xs text-gray-500">${ftArticle.avgLevel}</div>
+                <div class="text-xs text-gray-500">${ftArticle.avgLevelName}</div>
               </div>
             </a>
           </c:forEach>

@@ -7,8 +7,12 @@
   <title>매치 상세</title>
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body class="bg-gray-100">
 
+<body class="bg-gray-100">
+<!-- 헤더 -->
+<a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">
+  로고
+</a>
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
   <!-- 경기장 이미지 -->
   <img src="${ftArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
@@ -35,7 +39,10 @@
   </div>
 
   <!-- 평균 레벨 -->
-  <div class="text-lg font-semibold text-green-600">평균레벨 <span class="text-black">${ftArticle.avgLevel}</span></div>
+  <div class="text-lg font-semibold text-green-600">
+    평균레벨 <span class="text-black">${ftArticle.avgLevelName}</span>
+  </div>
+
 
 
   <!-- 참가 선수 -->

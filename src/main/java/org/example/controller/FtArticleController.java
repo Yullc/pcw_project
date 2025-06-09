@@ -93,7 +93,6 @@ public class FtArticleController {
                            @RequestParam(defaultValue = "") String avgLevel,
                            @RequestParam(defaultValue = "") String playDate
     ) {
-
         Rq rq = (Rq) req.getAttribute("rq");
         int itemsInAPage = 16;
         int boardId = 1;
@@ -106,25 +105,35 @@ public class FtArticleController {
         List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(
                 boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
 
-        model.addAttribute("ftArticles", ftArticles);
-        System.out.println("ftArticles" + ftArticles);
-        model.addAttribute("searchKeyword", searchKeyword);
-        System.out.println("searchKeyword" + searchKeyword);
-        model.addAttribute("area", area);
-        System.out.println("area" + area);
-        model.addAttribute("avgLevel", avgLevel);
-        System.out.println("avgLevel" + avgLevel);
-        model.addAttribute("playDate", playDate);
-        System.out.println("playDate" + playDate);
-        model.addAttribute("pagesCount", pagesCount);
-        System.out.println("pagesCount" + pagesCount);
-        model.addAttribute("totalCount", totalCount);
-        System.out.println("totalCount" + totalCount);
-        model.addAttribute("page", page);
-        System.out.println("page" + page);
+        // ✅ avgLevel → avgLevelName으로 변환
+        for (FtArticle f : ftArticles) {
+            try {
+                if (f.getAvgLevel() != null && !f.getAvgLevel().isEmpty()) {
+                    int level = Integer.parseInt(f.getAvgLevel());
+                    f.setAvgLevelName(RankUtil.getRankName(level));
+                } else {
+                    f.setAvgLevelName("미정");
+                }
+            } catch (NumberFormatException e) {
+                f.setAvgLevelName("미정");
+            }
+            System.out.println("avgLevel: " + f.getAvgLevel());
+            System.out.println("avgLevelName: " + f.getAvgLevelName());
 
+        }
+
+        model.addAttribute("ftArticles", ftArticles);
+        model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("area", area);
+
+        model.addAttribute("playDate", playDate);
+        model.addAttribute("pagesCount", pagesCount);
+        model.addAttribute("totalCount", totalCount);
+        model.addAttribute("page", page);
+        System.out.println("avgLevel"+avgLevel);
         return "usr/home/foot_menu";
     }
+
 
     @RequestMapping("/usr/article/foot_detail")
     public String showFootDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
@@ -140,9 +149,22 @@ public class FtArticleController {
         List<Member> participants = matchParticipantService.getParticipants(id);
         System.out.println(participants);
 
-        // 🏷️ 숫자 랭크 → 문자열로 변환
+        // 🏷️ 참가자 rank 숫자 → 문자열 변환 + 평균 계산 준비
+        int totalRank = 0;
         for (Member m : participants) {
-            m.setRankName(RankUtil.getRankName(m.getRank()));
+            int rank = m.getRank();
+            m.setRankName(RankUtil.getRankName(rank));
+            totalRank += rank;
+        }
+
+        // 평균 계산
+        if (!participants.isEmpty()) {
+            double avg = totalRank / (double) participants.size();
+            int roundedAvg = (int) Math.round(avg);
+            String avgLevelName = RankUtil.getRankName(roundedAvg);
+            ftArticle.setAvgLevelName(avgLevelName);
+        } else {
+            ftArticle.setAvgLevelName("미정");
         }
 
         // 📅 날짜 + 날씨
@@ -157,6 +179,8 @@ public class FtArticleController {
 
         return "usr/article/foot_detail";
     }
+
+
 
 
 
