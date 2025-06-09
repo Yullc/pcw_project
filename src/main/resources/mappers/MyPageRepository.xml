@@ -5,7 +5,17 @@
 
 <mapper namespace="org.example.repository.MyPageRepository">
 
+    <select id="getRecentGamesByMemberId" resultType="org.example.vo.FtArticle">
 
+        SELECT fa.*, fs.img
+        FROM ftArticle fa
+        INNER JOIN match_participant mp ON fa.id = mp.matchId
+        INNER JOIN football_stadium fs ON fa.id=fs.id
+        WHERE mp.memberId = 1
+        AND fa.playDate &lt;  NOW()
+        ORDER BY fa.playDate DESC
+        LIMIT 3;
+    </select>
 
 
 </mapper>

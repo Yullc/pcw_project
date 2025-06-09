@@ -36,20 +36,24 @@
     <div class="w-2/3 space-y-6">
 
       <!-- 최근 경기 -->
-      <div>
-        <div class="text-lg font-bold mb-2">최근게임</div>
-        <div class="flex gap-4">
-          <c:forEach var="game" items="ㅋㅋ" end="2">
-            <div class="flex w-28">
-              <img src="/img/sta.jpg" class="rounded w-full h-20 object-cover" />
-              <img src="/img/sta.jpg" class="rounded w-full h-20 object-cover" />
-              <img src="/img/sta.jpg" class="rounded w-full h-20 object-cover" />
-              <div class="text-xs text-gray-500">레벨: ${rank}</div>
+      <h2 class="text-md font-bold mt-6 text-green-600">최근 참가한 경기</h2>
 
+      <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
+        <c:forEach var="game" items="${recentGames}">
+          <div class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md">
+            <img src="${game.img}" alt="경기장 이미지" class="w-full h-28 object-cover rounded-t-lg" />
+            <div class="p-2 text-sm">
+              <div class="font-semibold">${game.stadium}</div>
+              <div class="text-gray-500">${game.playDate}</div>
+              <div class="text-gray-700">${game.title}</div>
             </div>
-          </c:forEach>
-        </div>
+          </div>
+        </c:forEach>
       </div>
+      <c:if test="${empty recentGames}">
+        <div class="text-sm text-gray-400">참가한 경기가 없습니다.</div>
+      </c:if>
+
 
       <!-- 팀/레벨 -->
       <div class="flex gap-4">

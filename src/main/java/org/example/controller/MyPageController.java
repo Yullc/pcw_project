@@ -32,27 +32,29 @@ public class MyPageController {
 
         int memberId = rq.getLoginedMemberId();
 
-        // 1. 로그인 회원 정보
+
         Member member = memberService.getMemberById(memberId);
-
-        // 2. 팀 이름 (없으면 "없음")
         String teamName = myPageService.getTeamNameByMemberId(memberId);
-        if (teamName == null || teamName.trim().isEmpty()) {
-            teamName = "없음";
-        }
-
+        if (teamName == null || teamName.trim().isEmpty()) teamName = "없음";
 
         String rankName = RankUtil.getRankName(member.getRank());
 
-        // 4. model에 담기
+        // ✅ 최근 경기 목록 가져오기
+        List<FtArticle> recentGames = myPageService.getRecentGamesByMemberId(memberId);
+        for (FtArticle game : recentGames) {
+            System.out.println("▶ 최근경기 img: " + game.getImg());
+        }
+
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("nickName", member.getNickName());
         model.addAttribute("teamNm", teamName);
         model.addAttribute("rank", rankName);
         model.addAttribute("intro", member.getIntro());
+        model.addAttribute("recentGames", recentGames);
 
         return "usr/home/myPage";
     }
+
 
 }

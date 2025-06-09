@@ -19,6 +19,9 @@ public class MyPageService {
     public String getTeamNameByMemberId(int memberId) {
         return memberRepository.findTeamNameByMemberId(memberId);
     }
+    public List<FtArticle> getRecentGamesByMemberId(int memberId) {
+        return myPageRepository.getRecentGamesByMemberId(memberId);
+    }
 
 //    // (예: 최근 경기 불러오는 메서드도 같이 있을 수 있음)
 //    public List<FtArticle> getRecentGamesByMemberId(int memberId) {
