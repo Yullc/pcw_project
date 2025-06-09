@@ -183,11 +183,6 @@ public class FtArticleController {
         return "usr/article/foot_detail";
     }
 
-
-
-
-
-
     @PostMapping("/usr/article/joinMatch")
     public String joinMatch(@RequestParam("id") int id, HttpServletRequest req) {
         Rq rq = (Rq) req.getAttribute("rq");

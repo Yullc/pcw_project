@@ -24,7 +24,7 @@
       <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover" />
       <div class="text-xl font-semibold">${nickName}</div>
       <div class="text-red-500 text-lg">❤️</div>
-      <div class="text-3xl">😊</div>
+      <div class="text-3xl">${mannerEmoji}</div>
 
       <div class="flex justify-between w-full text-center mt-4">
         <a href="#" class="text-green-600 font-semibold flex-1">매너온도</a>

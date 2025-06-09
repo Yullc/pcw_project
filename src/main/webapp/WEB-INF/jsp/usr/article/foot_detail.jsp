@@ -52,7 +52,7 @@
       <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-1">
         <span class="font-semibold text-green-800">${player.nickName}</span>
         <span class="text-sm">| ${player.rankName}</span>
-        <span class="text-sm">| 매너온도: ${player.manner}</span>
+        <span class="text-sm">| 매너온도: ${player.mannerEmoji}</span>
       </div>
     </c:forEach>
   </div>

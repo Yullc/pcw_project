@@ -8,18 +8,22 @@
     <insert id="doJoin" parameterType="map">
         INSERT INTO `member` SET
             regDate = NOW(),
-		updateDate = NOW(),
-		loginId = #{loginId},
+        updateDate = NOW(),
+        loginId = #{loginId},
             loginPw = #{loginPw},
             loginPwCheck = #{loginPwCheck},
             `name` = #{name},
-            bornDate =#{bornDate},
+            bornDate = #{bornDate},
             nickName = #{nickName},
             phoneNumber = #{phoneNumber},
             `area` = #{area},
             `gender` = #{gender},
-            email = #{email}
+            email = #{email},
+            rank = 1,
+            manner = 36.0,
+            delStatus =1
     </insert>
+
 
     <select id="getLastInsertId" parameterType="int">
         SELECT LAST_INSERT_ID()
