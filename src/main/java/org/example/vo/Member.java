@@ -26,11 +26,12 @@ public class Member {
     private String name;
     private String nickName;
     private String authLevel;
-    private String rank;
+    private int rank;
     private int delStatus;
     private String delDate;
     private Float manner;
     private String teamNm;
     private String profileImg;
     private String intro;
+    private String rankName;
 }

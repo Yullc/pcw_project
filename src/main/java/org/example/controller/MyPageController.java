@@ -3,6 +3,7 @@ package org.example.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.service.MemberService;
 import org.example.service.MyPageService;
+import org.example.util.RankUtil;
 import org.example.vo.FtArticle;
 import org.example.vo.Member;
 import org.example.vo.Rq;
@@ -34,29 +35,24 @@ public class MyPageController {
         // 1. 로그인 회원 정보
         Member member = memberService.getMemberById(memberId);
 
-//        // 2. 최근 경기
-//        List<FtArticle> recentGames = myPageService.getRecentGamesByMemberId(memberId);
-
-        // 3. 팀 이름 (없으면 "없음")
+        // 2. 팀 이름 (없으면 "없음")
         String teamName = myPageService.getTeamNameByMemberId(memberId);
         if (teamName == null || teamName.trim().isEmpty()) {
             teamName = "없음";
         }
 
-        // 4. 매너온도
-//        double mannerTemp = myPageService.getMannerTemperature(memberId,teamNm);
 
-        // 5. model에 담기
-        System.out.println(member.getProfileImg());
+        String rankName = RankUtil.getRankName(member.getRank());
+
+        // 4. model에 담기
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("nickName", member.getNickName());
-//        model.addAttribute("recentGames", recentGames);
-        model.addAttribute("teamNm", member.getTeamNm());
-        model.addAttribute("rank", member.getRank());
+        model.addAttribute("teamNm", teamName);
+        model.addAttribute("rank", rankName);
         model.addAttribute("intro", member.getIntro());
-//        model.addAttribute("mannerTemp", mannerTemp);
 
         return "usr/home/myPage";
     }
+
 }

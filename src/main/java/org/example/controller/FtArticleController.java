@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+
+import org.example.util.RankUtil;
 import org.example.util.Ut;
 import org.example.service.*;
 import org.springframework.ui.Model;
@@ -128,14 +130,20 @@ public class FtArticleController {
     public String showFootDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
         FtArticle ftArticle = ftarticleService.getFtArticleById(id);
-        System.out.println("detail 진입:"+rq);
+        System.out.println("detail 진입:" + rq);
+
         if (ftArticle == null) {
             return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
         }
 
         // 🧑‍🤝‍🧑 참가자 리스트 가져오기
-        List<Member> participants = matchParticipantService.getParticipants(id); // articleId 사용
+        List<Member> participants = matchParticipantService.getParticipants(id);
         System.out.println(participants);
+
+        // 🏷️ 숫자 랭크 → 문자열로 변환
+        for (Member m : participants) {
+            m.setRankName(RankUtil.getRankName(m.getRank()));
+        }
 
         // 📅 날짜 + 날씨
         String area = ftArticle.getArea();
@@ -149,6 +157,7 @@ public class FtArticleController {
 
         return "usr/article/foot_detail";
     }
+
 
 
     @PostMapping("/usr/article/joinMatch")

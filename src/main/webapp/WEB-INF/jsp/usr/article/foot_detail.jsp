@@ -1,7 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-
+<%@ page import="org.example.util.RankUtil" %>
 <html>
 <head>
   <title>매치 상세</title>
@@ -44,7 +44,8 @@
     <c:forEach var="player" items="${participants}">
       <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-1">
         <span class="font-semibold text-green-800">${player.nickName}</span>
-        <span class="text-sm">| ${player.rank}</span>
+        <span class="text-sm">| ${player.rankName}</span>
+
         <span class="text-sm">| 매너온도: ${player.manner}</span>
         <span>😊</span>
       </div>
@@ -62,8 +63,6 @@
       <c:otherwise>
         <form action="/usr/article/joinMatch" method="post">
           <input type="hidden" name="id" value="${ftArticle.id}" />
-          <p>ftArticle.id: ${ftArticle.id}</p>
-          <p style="color: red;">디버그: ftArticle.id = ${ftArticle.id}</p>
 
           <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
             ⚽ 참가하기
