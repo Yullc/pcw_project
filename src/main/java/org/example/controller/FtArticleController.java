@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.util.Ut;
 import org.example.service.*;
@@ -151,6 +152,10 @@ public class FtArticleController {
             int rank = m.getRank();
             m.setRankName(RankUtil.getRankName(rank));
             totalRank += rank;
+
+            // ✅ 매너온도 이모지 설정
+            String emoji = MannerUtil.getMannerEmoji(m.getManner());
+            m.setMannerEmoji(emoji);
         }
 
         boolean pastMatch = LocalDateTime.now().isAfter(

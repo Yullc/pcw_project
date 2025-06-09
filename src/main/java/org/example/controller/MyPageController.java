@@ -3,6 +3,7 @@ package org.example.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.service.MemberService;
 import org.example.service.MyPageService;
+import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.vo.FtArticle;
 import org.example.vo.Member;
@@ -32,8 +33,12 @@ public class MyPageController {
 
         int memberId = rq.getLoginedMemberId();
 
-
         Member member = memberService.getMemberById(memberId);
+
+        // ✅ 매너온도 이모지 설정
+        String emoji = MannerUtil.getMannerEmoji(member.getManner());
+        member.setMannerEmoji(emoji);
+
         String teamName = myPageService.getTeamNameByMemberId(memberId);
         if (teamName == null || teamName.trim().isEmpty()) teamName = "없음";
 
@@ -53,8 +58,13 @@ public class MyPageController {
         model.addAttribute("intro", member.getIntro());
         model.addAttribute("recentGames", recentGames);
 
+        // ✅ manner 온도와 이모지도 모델에 추가
+        model.addAttribute("manner", member.getManner());
+        model.addAttribute("mannerEmoji", member.getMannerEmoji());
+
         return "usr/home/myPage";
     }
+
 
 
 }

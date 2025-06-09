@@ -2,7 +2,7 @@ package org.example.util;
 
 public class MannerUtil {
 
-    public static String getMannerEmoji(int temperature) {
+    public static String getMannerEmoji(Float temperature) {
         if (temperature >= 25 && temperature <= 30) {
             return "😠";
         } else if (temperature >= 31 && temperature <= 35) {
