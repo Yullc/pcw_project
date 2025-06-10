@@ -90,13 +90,13 @@
       <button onclick="toggleModal('writeModal')" class="text-gray-500 hover:text-black">✖</button>
     </div>
 
-    <form action="/usr/message/doWrite" method="post" class="space-y-3">
-      <input type="hidden" name="receiverId" value="${targetMember.id}" />
-      <input type="hidden" name="receiverNickname" value="${targetMember.nickName}" />
+    <form action="/usr/message/doWriteMsg" method="post" class="space-y-3">
+      <input type="hidden" name="receiverId" value="${toId}" />
+      <input type="hidden" name="receiverNickname" value="${toNickname}" />
 
       <div>
         <label class="block text-sm font-semibold mb-3">받는 사람</label>
-        <input type="text" value="${targetMember.nickName}" class="w-full border border-gray-400 rounded px-2 py-1 bg-gray-100" readonly />
+        <input type="text" value="${toNickname}" class="w-full border border-gray-400 rounded px-2 py-1 bg-gray-100"  />
       </div>
 
       <div>
@@ -127,7 +127,7 @@
         <div class="text-xs text-right text-gray-400">${msg.sendDate}</div>
       </div>
     </c:forEach>
-    <c:if test="${empty receivedMessages}">
+    <c:if test="${empty messages}">
       <div class="text-center text-gray-400">받은 쪽지가 없습니다.</div>
     </c:if>
   </div>

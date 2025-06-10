@@ -75,7 +75,7 @@ public class MemberController {
             return Ut.jsHistoryBack("F-3", Ut.f("%s는(은) 없는 아이디야", loginId));
         }
 
-        if (member.getLoginPw().equals(loginPw) == false) {
+        if (!member.getLoginPw().equals(loginPw)) {
             return Ut.jsHistoryBack("F-4", "비밀번호가 일치하지 않습니다");
         }
 

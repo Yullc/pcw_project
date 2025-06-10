@@ -28,6 +28,7 @@ public class Rq {
     private Member loginedMember;
     private boolean isLogined = false;
     private int loginedMemberId = 0;
+    private String loginedMemberNickName;
 
 
     public Rq(HttpServletRequest req, HttpServletResponse resp) {
@@ -45,7 +46,11 @@ public class Rq {
 
     public void setLoginedMember(Member member) {
         this.loginedMember = member;
+        System.out.println("rq");
         this.loginedMemberId = member.getId();
+        this.loginedMemberNickName= member.getNickName();
+        System.out.println("Nickname = " + loginedMember.getNickName());
+        System.out.println("Nickname = " + loginedMemberNickName);
         this.isLogined = true;
     }
 

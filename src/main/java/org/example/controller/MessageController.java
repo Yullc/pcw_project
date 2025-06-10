@@ -14,10 +14,14 @@ import java.util.List;
 
 @Controller
 public class MessageController {
-
+    private final BeforeActionInterceptor beforeActionInterceptor;
 
     @Autowired
     private MessageService messageService;
+
+    public MessageController(BeforeActionInterceptor beforeActionInterceptor) {
+        this.beforeActionInterceptor = beforeActionInterceptor;
+    }
 
     // 받은 쪽지 목록
     @RequestMapping("/usr/message/recevied")
@@ -29,7 +33,7 @@ public class MessageController {
         model.addAttribute("messages", receivedMessages);
         model.addAttribute("type", "received");
 
-        return "usr/message/list";
+        return "usr/home/myPage";
     }
 
     // 보낸 쪽지 목록
@@ -42,7 +46,7 @@ public class MessageController {
         model.addAttribute("messages", sentMessages);
         model.addAttribute("type", "sent");
 
-        return "usr/message/list";
+        return "usr/home/myPage";
     }
 
     // 쪽지 작성 폼
@@ -54,23 +58,29 @@ public class MessageController {
         model.addAttribute("toId", toId);
         model.addAttribute("toNickname", toNickname);
 
-        return "usr/message/write";
+        return "usr/home/myPage";
     }
 
     // 쪽지 전송 처리
-    @RequestMapping("/usr/message/doWrite")
+    @RequestMapping("/usr/message/doWriteMsg")
     public String doWrite(HttpServletRequest req) {
+        System.out.println("doWrite 진입");
         Rq rq = (Rq) req.getAttribute("rq");
-
+        System.out.println(rq);
+        System.out.println(rq.getLoginedMemberId());
+        System.out.println(rq.getLoginedMember().getNickName());
+        System.out.println(rq.getLoginedMember().getManner());
+        System.out.println(rq.getLoginedMember().getRank());
         int senderId = rq.getLoginedMemberId();
+        System.out.println("senderId = " + senderId);
         String senderNickname = rq.getLoginedMember().getNickName();
-
+        System.out.println("senderNickname = " + senderNickname);
         int receiverId = Integer.parseInt(req.getParameter("receiverId"));
         String receiverNickname = req.getParameter("receiverNickname");
         String content = req.getParameter("content");
 
         messageService.sendMessage(senderId, senderNickname, receiverId, receiverNickname, content);
 
-        return "redirect:/usr/message/sent";
+        return "redirect:usr/home/myPage";
     }
 }

@@ -35,7 +35,7 @@ public class MyPageController {
 
         Member member = memberService.getMemberById(memberId);
 
-        // ✅ 매너온도 이모지 설정
+        //  매너온도 이모지 설정
         String emoji = MannerUtil.getMannerEmoji(member.getManner());
         member.setMannerEmoji(emoji);
 
@@ -44,7 +44,7 @@ public class MyPageController {
 
         String rankName = RankUtil.getRankName(member.getRank());
 
-        // ✅ 최근 경기 목록 가져오기
+        //  최근 경기 목록 가져오기
         List<FtArticle> recentGames = myPageService.getRecentGamesByMemberId(memberId);
         for (FtArticle game : recentGames) {
             System.out.println("▶ 최근경기 img: " + game.getImg());
@@ -58,7 +58,7 @@ public class MyPageController {
         model.addAttribute("intro", member.getIntro());
         model.addAttribute("recentGames", recentGames);
 
-        // ✅ manner 온도와 이모지도 모델에 추가
+        //  manner 온도와 이모지도 모델에 추가
         model.addAttribute("manner", member.getManner());
         model.addAttribute("mannerEmoji", member.getMannerEmoji());
 
