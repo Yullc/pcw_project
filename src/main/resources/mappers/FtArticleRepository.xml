@@ -71,5 +71,10 @@
                             ON fa.fsid = fs.id
         WHERE fa.id = #{id}
     </select>
+    <select id="getFtArticleMatch" parameterType="int" resultType="int">
+        SELECT matchId FROM ftArticle WHERE id = #{id}
+    </select>
+
+
 
 </mapper>

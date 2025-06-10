@@ -8,8 +8,6 @@ import org.example.util.Ut;
 import org.example.vo.Member;
 import org.example.vo.ResultData;
 
-import java.time.LocalDateTime;
-
 @Service
 public class MemberService {
 
@@ -64,6 +62,7 @@ public class MemberService {
         return ResultData.from("S-1", "회원정보 수정 완료");
     }
 
-
-
+    public int updateRankAndManner(int memberId, int rank, float manner) {
+        return memberRepository.updateRankAndManner(memberId, rank, manner);
+    }
 }

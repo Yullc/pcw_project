@@ -22,4 +22,6 @@ public interface MemberRepository {
     public void modifyMember(int id, String loginPw, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
 
     public  void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
+
+    public int updateRankAndManner(int memberId, int rank, float manner);
 }

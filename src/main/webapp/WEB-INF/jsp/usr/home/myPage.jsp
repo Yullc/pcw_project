@@ -26,9 +26,10 @@
       <div class="text-red-500 text-lg">❤️</div>
       <div class="text-3xl">${mannerEmoji}</div>
 
+      <!-- 쪽지 버튼 -->
       <div class="flex justify-between w-full text-center mt-4">
-        <a href="#" class="text-green-600 font-semibold flex-1">매너온도</a>
-        <a href="#" class="text-green-600 font-semibold flex-1">쪽지</a>
+        <a href="#" onclick="toggleModal('inboxModal')" class="text-green-600 font-semibold flex-1">📥 받은 쪽지함</a>
+        <a href="#" onclick="toggleModal('outboxModal')" class="text-green-600 font-semibold flex-1">📤 보낸 쪽지함</a>
       </div>
     </div>
 
@@ -73,9 +74,55 @@
           회원정보 수정
         </a>
       </div>
-
     </div>
   </div>
 </div>
+
+<!-- 받은 쪽지함 모달 -->
+<div id="inboxModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg w-96 p-4">
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="text-lg font-bold text-blue-600">📥 받은 쪽지함</h2>
+      <button onclick="toggleModal('inboxModal')" class="text-gray-500 hover:text-black">✖</button>
+    </div>
+    <c:forEach var="msg" items="${receivedMessages}">
+      <div class="border-t py-2">
+        <div class="text-sm text-gray-600">보낸 사람: ${msg.senderNickname}</div>
+        <div class="text-gray-800">${msg.content}</div>
+        <div class="text-xs text-right text-gray-400">${msg.sendDate}</div>
+      </div>
+    </c:forEach>
+    <c:if test="${empty receivedMessages}">
+      <div class="text-center text-gray-400">받은 쪽지가 없습니다.</div>
+    </c:if>
+  </div>
+</div>
+
+<!-- 보낸 쪽지함 모달 -->
+<div id="outboxModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg w-96 p-4">
+    <div class="flex justify-between items-center mb-2">
+      <h2 class="text-lg font-bold text-green-600">📤 보낸 쪽지함</h2>
+      <button onclick="toggleModal('outboxModal')" class="text-gray-500 hover:text-black">✖</button>
+    </div>
+    <c:forEach var="msg" items="${sentMessages}">
+      <div class="border-t py-2">
+        <div class="text-sm text-gray-600">받는 사람: ${msg.receiverNickname}</div>
+        <div class="text-gray-800">${msg.content}</div>
+        <div class="text-xs text-right text-gray-400">${msg.sendDate}</div>
+      </div>
+    </c:forEach>
+    <c:if test="${empty sentMessages}">
+      <div class="text-center text-gray-400">보낸 쪽지가 없습니다.</div>
+    </c:if>
+  </div>
+</div>
+
+<script>
+  function toggleModal(id) {
+    const modal = document.getElementById(id);
+    modal.classList.toggle("hidden");
+  }
+</script>
 </body>
 </html>

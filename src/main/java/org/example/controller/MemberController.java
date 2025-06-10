@@ -1,10 +1,14 @@
 package org.example.controller;
 
 import org.example.repository.MemberRepository;
+import org.example.service.FtArticleService;
+import org.example.util.MannerUtil;
+import org.example.util.RankUtil;
 import org.example.vo.FtArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,9 +31,10 @@ public class MemberController {
     private Rq rq;
 
     @Autowired
-    private MemberService memberService;
+    private FtArticleService ftarticleService;
     @Autowired
-    private MemberRepository memberRepository;
+    private MemberService memberService;
+
 
     @RequestMapping("/usr/member/doLogout")
     @ResponseBody
@@ -229,4 +234,32 @@ public class MemberController {
 
         return Ut.jsReplace("S-1", Ut.f("비밀번호 확인 성공"), "modify");
     }
+    @PostMapping("/usr/member/updatePlayerInfo")
+    public String updatePlayerInfo(@RequestParam int memberId,
+                                   @RequestParam("id") int id,
+                                   @RequestParam String rankName,
+                                   @RequestParam String mannerEmoji,
+
+                                   HttpServletRequest req) {
+
+        Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("updatePlayerInfo 진입");
+        System.out.println("넘어온 memberId = " + memberId);
+        System.out.println("넘어온 id (matchId용) = " + id);
+
+        // 랭크/매너 변환
+        int rank = RankUtil.getNameToRank(rankName);
+        float manner = MannerUtil.getTemperatureFromEmoji(mannerEmoji);
+        System.out.println("변환된 rank = " + rank);
+        System.out.println("변환된 manner = " + manner);
+
+
+
+        memberService.updateRankAndManner(memberId, rank, manner);
+
+
+        return "redirect:/usr/article/foot_detail?id=" + id;
+    }
+
+
 }

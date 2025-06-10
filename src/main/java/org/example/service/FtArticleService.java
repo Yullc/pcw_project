@@ -59,6 +59,11 @@ public class FtArticleService {
         return ftArticleRepository.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
     }
 
+    public int getFtArticleMatch(int id) {
+        System.out.println("서비스 진입");
+        return ftArticleRepository.getFtArticleMatch(id);
+    }
+
 //    public ResultData increaseHitCount(int id) {
 //        int affectedRow = ftArticleRepository.increaseHitCount(id);
 //

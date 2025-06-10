@@ -18,7 +18,7 @@
 </head>
 <body>
 <div id="horizontal-scroll">
-	<section class="page page1">페이지 1</section>
+	<section class="page page1"></section>
 	<section class="page page2 flex flex-col items-center justify-center min-h-screen px-4">
 
 		<!-- 로그인 안 한 상태 -->
@@ -57,7 +57,7 @@
 			<h2 class="font-cookie-bold text-3xl font-bold text-white mb-10">
 					${rq.loginedMember.nickName}님 환영합니다!
 			</h2>
-			<a href="/usr/member/myPage"
+			<a href="/usr/home/myPage"
 			   class="font-cookie-bold px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white rounded-full text-lg">
 				마이페이지로 이동 →
 			</a>
@@ -97,7 +97,7 @@
 	</head>
 	<body>
 	<div id="horizontal-scroll">
-		<section class="page page1">페이지 1</section>
+		<section class="page page1"></section>
 		<section class="page page2 flex flex-col items-center justify-center min-h-screen px-4">
 			<!-- 로고 -->
 			<h1 class="font-cookie-bold text-4xl font-bold text-white mb-6">로고</h1>

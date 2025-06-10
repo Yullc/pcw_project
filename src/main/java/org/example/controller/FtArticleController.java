@@ -153,7 +153,7 @@ public class FtArticleController {
             m.setRankName(RankUtil.getRankName(rank));
             totalRank += rank;
 
-            // ✅ 매너온도 이모지 설정
+            // 매너온도 이모지 설정
             String emoji = MannerUtil.getMannerEmoji(m.getManner());
             m.setMannerEmoji(emoji);
         }
