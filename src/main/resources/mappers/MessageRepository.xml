@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.repository.MessageRepository">
+
+    <!-- 1. 쪽지 전송 -->
+    <insert id="sendMessage">
+        INSERT INTO message
+        SET
+            senderId = #{senderId},
+            senderNickname = #{senderNickname},
+            receiverId = #{receiverId},
+            receiverNickname = #{receiverNickname},
+            content = #{content},
+            sendDate = NOW()
+    </insert>
+
+    <!-- 2. 보낸 쪽지 목록 -->
+    <select id="getSentMessages" parameterType="int" resultType="org.example.vo.Message">
+        SELECT *
+        FROM message
+        WHERE senderId = #{memberId}
+        ORDER BY sendDate DESC
+    </select>
+
+    <!-- 3. 받은 쪽지 목록 -->
+    <select id="getReceivedMessages" parameterType="int" resultType="org.example.vo.Message">
+        SELECT *
+        FROM message
+        WHERE receiverId = #{memberId}
+        ORDER BY sendDate DESC
+    </select>
+
+</mapper>
