@@ -25,8 +25,8 @@ public class MessageService {
         return messageRepository.getSentMessages(memberId);
     }
 
-    public void sendMessage(int senderId, String senderNickname, int receiverId, String receiverNickname, String content) {
+    public void sendMessage(int senderId, String senderNickname, String receiverNickname, String content) {
 
-        messageRepository.sendMessage(senderId, senderNickname, receiverId, receiverNickname, content);
+        messageRepository.sendMessage(senderId, senderNickname, receiverNickname, content);
     }
 }

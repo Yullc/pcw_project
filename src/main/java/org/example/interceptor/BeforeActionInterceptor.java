@@ -1,10 +1,11 @@
 package org.example.interceptor;
 
+import org.example.service.MemberService;
+import org.example.vo.Member;
+import org.example.vo.Rq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
-
-import org.example.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,13 +16,21 @@ public class BeforeActionInterceptor implements HandlerInterceptor {
     @Autowired
     private Rq rq;
 
+    @Autowired
+    private MemberService memberService;
+
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse resp, Object handler) throws Exception {
 
-//		Rq rq = new Rq(req, resp);
-
+        // 로그 남기기
         rq.initBeforeActionInterceptor();
 
-        return HandlerInterceptor.super.preHandle(req, resp, handler);
+        // 로그인 상태면, 매 요청마다 Member 객체를 세팅
+        if (rq.isLogined()) {
+            Member member = memberService.getMemberById(rq.getLoginedMemberId());
+            rq.setLoginedMember(member);
+        }
+
+        return true;
     }
 }

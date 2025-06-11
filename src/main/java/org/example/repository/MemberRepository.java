@@ -24,4 +24,6 @@ public interface MemberRepository {
     public  void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
 
     public int updateRankAndManner(int memberId, int rank, float manner);
+
+    public Member getMemberByNickname(String nickName);
 }

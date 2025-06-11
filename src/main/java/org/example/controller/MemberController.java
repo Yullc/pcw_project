@@ -23,6 +23,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class MemberController {
@@ -81,6 +82,7 @@ public class MemberController {
 
         rq.login(member);
         rq.setLoginedMember(member);
+        System.out.println("member 객체 저장"+member);
         return Ut.jsReplace("S-1", Ut.f("%s님 환영합니다", member.getNickName()), "/");
     }
 
@@ -260,6 +262,7 @@ public class MemberController {
 
         return "redirect:/usr/article/foot_detail?id=" + id;
     }
+
 
 
 }

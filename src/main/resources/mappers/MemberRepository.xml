@@ -90,5 +90,12 @@
         WHERE id = #{memberId}
     </update>
 
+    <select id="getMemberByNickName" parameterType="string" resultType="org.example.vo.Member">
+        SELECT *
+        FROM member
+        WHERE nickName = #{param1}
+    </select>
+
+
 
 </mapper>

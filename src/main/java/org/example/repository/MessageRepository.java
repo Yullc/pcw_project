@@ -9,7 +9,7 @@ import java.util.List;
 public interface MessageRepository {
 
 
-    public void sendMessage(int senderId, String senderNickname, int receiverId, String receiverNickname, String content);
+    public void sendMessage(int senderId, String senderNickname, String receiverNickname, String content);
 
 
     public List<Message> getSentMessages(int memberId);

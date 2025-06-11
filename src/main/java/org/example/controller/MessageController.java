@@ -1,7 +1,9 @@
 package org.example.controller;
 
 import org.example.interceptor.BeforeActionInterceptor;
+import org.example.service.MemberService;
 import org.example.service.MessageService;
+import org.example.vo.Member;
 import org.example.vo.Message;
 import org.example.vo.Rq;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +20,9 @@ public class MessageController {
 
     @Autowired
     private MessageService messageService;
+
+    @Autowired
+    private MemberService memberService;
 
     public MessageController(BeforeActionInterceptor beforeActionInterceptor) {
         this.beforeActionInterceptor = beforeActionInterceptor;
@@ -63,7 +68,7 @@ public class MessageController {
 
     // 쪽지 전송 처리
     @RequestMapping("/usr/message/doWriteMsg")
-    public String doWrite(HttpServletRequest req) {
+    public String doWrite(HttpServletRequest req, String nickName, Model model) {
         System.out.println("doWrite 진입");
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println(rq);
@@ -75,11 +80,14 @@ public class MessageController {
         System.out.println("senderId = " + senderId);
         String senderNickname = rq.getLoginedMember().getNickName();
         System.out.println("senderNickname = " + senderNickname);
-        int receiverId = Integer.parseInt(req.getParameter("receiverId"));
-        String receiverNickname = req.getParameter("receiverNickname");
+        Member member = memberService.getMemberByNickname(nickName);
+
+        String receiverNickname = member.getNickName();
+        System.out.println("receiverNickname = " + receiverNickname);
         String content = req.getParameter("content");
 
-        messageService.sendMessage(senderId, senderNickname, receiverId, receiverNickname, content);
+        System.out.println(content);
+        messageService.sendMessage(senderId, senderNickname,  receiverNickname, content);
 
         return "redirect:usr/home/myPage";
     }

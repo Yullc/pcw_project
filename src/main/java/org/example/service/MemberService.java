@@ -65,4 +65,9 @@ public class MemberService {
     public int updateRankAndManner(int memberId, int rank, float manner) {
         return memberRepository.updateRankAndManner(memberId, rank, manner);
     }
+
+    public Member getMemberByNickname(String nickName) {
+        System.out.println("getMemberByNickname 서비스 진입");
+        return memberRepository.getMemberByNickname(nickName);
+    }
 }

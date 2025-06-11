@@ -1,6 +1,12 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="org.example.util.RankUtil" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:url var="link" value="/some/path">
+  <c:param name="nickName" value="${nickName}" />
+</c:url>
+
+
+
+
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -86,24 +92,36 @@
 <div id="writeModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg w-96 p-6">
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-bold text-grenn-600">✉️ 쪽지 보내기</h2>
+      <h2 class="text-lg font-bold text-green-600">✉️ 쪽지 보내기</h2>
       <button onclick="toggleModal('writeModal')" class="text-gray-500 hover:text-black">✖</button>
     </div>
 
     <form action="/usr/message/doWriteMsg" method="post" class="space-y-3">
-      <input type="hidden" name="receiverId" value="${toId}" />
-      <input type="hidden" name="receiverNickname" value="${toNickname}" />
+      <!-- 닉네임 전송 -->
+      <input type="hidden" name="receiverNickname" id="receiverNicknameInput" />
 
+      <!-- 닉네임 입력 -->
       <div>
-        <label class="block text-sm font-semibold mb-3">받는 사람</label>
-        <input type="text" value="${toNickname}" class="w-full border border-gray-400 rounded px-2 py-1 bg-gray-100"  />
+        <label class="block text-sm font-semibold mb-1">받는 사람 닉네임</label>
+        <div class="flex gap-2">
+          <input type="text" id="nickNameInput" placeholder="닉네임 입력" class="flex-1 border border-gray-400 rounded px-2 py-1" />
+          <button type="button" onclick="fetchReceiverInfo()" class="bg-gray-300 px-3 rounded hover:bg-gray-400">확인</button>
+        </div>
       </div>
 
+      <!-- 확인된 닉네임 표시 -->
       <div>
-        <label class="block text-sm font-semibold mb-3">내용</label>
+        <label class="block text-sm font-semibold mb-1">확인된 닉네임</label>
+        <input type="text" id="receiverNicknameDisplay" readonly class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100" />
+      </div>
+
+      <!-- 내용 -->
+      <div>
+        <label class="block text-sm font-semibold mb-1">내용</label>
         <textarea name="content" rows="4" class="w-full border border-gray-400 rounded px-2 py-1" required></textarea>
       </div>
 
+      <!-- 전송 버튼 -->
       <div class="text-right">
         <button type="submit" class="bg-green-600 hover:bg-blue-700 text-white px-4 py-1 rounded">
           보내기
@@ -112,6 +130,45 @@
     </form>
   </div>
 </div>
+
+<script>
+  function fetchReceiverInfo() {
+    const nickName = document.getElementById('nickNameInput').value.trim();
+    if (!nickName) {
+      alert("닉네임을 입력하세요.");
+      return;
+    }
+
+    const encodedNickName = encodeURIComponent(nickName);
+    fetch(`/usr/member/getByNickname?nickName=${encodedNickName}`)
+            .then(res => res.json())
+            .then(data => {
+              if (data.success) {
+                document.getElementById('receiverNicknameInput').value = data.member.nickName;
+                document.getElementById('receiverNicknameDisplay').value = data.member.nickName;
+                alert("받는 사람 확인 완료!");
+              } else {
+                alert("해당 닉네임의 사용자가 없습니다.");
+              }
+            })
+            .catch(error => {
+              console.error("서버 오류:", error);
+              alert("서버 오류로 실패했습니다.");
+            });
+  }
+
+  function toggleModal(id) {
+    document.getElementById(id).classList.toggle("hidden");
+  }
+
+  function openWriteModal(toNickname) {
+    document.getElementById("receiverNicknameInput").value = toNickname;
+    document.getElementById("receiverNicknameDisplay").value = toNickname;
+    document.getElementById("nickNameInput").value = toNickname;
+    toggleModal('writeModal');
+  }
+</script>
+
 
 <!-- 받은 쪽지함 모달 -->
 <div id="inboxModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
@@ -153,11 +210,7 @@
   </div>
 </div>
 
-<script>
-  function toggleModal(id) {
-    const modal = document.getElementById(id);
-    modal.classList.toggle("hidden");
-  }
-</script>
+
+
 </body>
 </html>
