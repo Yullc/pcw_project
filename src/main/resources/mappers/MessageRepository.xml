@@ -11,6 +11,7 @@
         SET
             senderId = #{senderId},
             senderNickname = #{senderNickname},
+            receiverId = #{receiverId},
             receiverNickname = #{receiverNickname},
             content = #{content},
             sendDate = NOW()

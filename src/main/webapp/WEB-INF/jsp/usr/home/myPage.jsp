@@ -97,14 +97,12 @@
     </div>
 
     <form action="/usr/message/doWriteMsg" method="post" class="space-y-3">
-      <!-- 닉네임 전송 -->
-      <input type="hidden" name="receiverNickname" id="receiverNicknameInput" />
-
       <!-- 닉네임 입력 -->
       <div>
         <label class="block text-sm font-semibold mb-1">받는 사람 닉네임</label>
         <div class="flex gap-2">
-          <input type="text" id="nickNameInput" placeholder="닉네임 입력" class="flex-1 border border-gray-400 rounded px-2 py-1" />
+          <input type="text" name="nickName" id="nickName" placeholder="닉네임 입력"
+                 class="flex-1 border border-gray-400 rounded px-2 py-1" required />
           <button type="button" onclick="fetchReceiverInfo()" class="bg-gray-300 px-3 rounded hover:bg-gray-400">확인</button>
         </div>
       </div>
@@ -112,7 +110,8 @@
       <!-- 확인된 닉네임 표시 -->
       <div>
         <label class="block text-sm font-semibold mb-1">확인된 닉네임</label>
-        <input type="text" id="receiverNicknameDisplay" readonly class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100" />
+        <input type="text" id="receiverNicknameDisplay" readonly
+               class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100" />
       </div>
 
       <!-- 내용 -->
@@ -133,7 +132,7 @@
 
 <script>
   function fetchReceiverInfo() {
-    const nickName = document.getElementById('nickNameInput').value.trim();
+    const nickName = document.getElementById('nickName').value.trim();
     if (!nickName) {
       alert("닉네임을 입력하세요.");
       return;
@@ -144,7 +143,6 @@
             .then(res => res.json())
             .then(data => {
               if (data.success) {
-                document.getElementById('receiverNicknameInput').value = data.member.nickName;
                 document.getElementById('receiverNicknameDisplay').value = data.member.nickName;
                 alert("받는 사람 확인 완료!");
               } else {
@@ -162,9 +160,8 @@
   }
 
   function openWriteModal(toNickname) {
-    document.getElementById("receiverNicknameInput").value = toNickname;
+    document.getElementById("nickName").value = toNickname;
     document.getElementById("receiverNicknameDisplay").value = toNickname;
-    document.getElementById("nickNameInput").value = toNickname;
     toggleModal('writeModal');
   }
 </script>

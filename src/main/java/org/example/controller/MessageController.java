@@ -3,6 +3,7 @@ package org.example.controller;
 import org.example.interceptor.BeforeActionInterceptor;
 import org.example.service.MemberService;
 import org.example.service.MessageService;
+import org.example.util.Ut;
 import org.example.vo.Member;
 import org.example.vo.Message;
 import org.example.vo.Rq;
@@ -68,27 +69,39 @@ public class MessageController {
 
     // 쪽지 전송 처리
     @RequestMapping("/usr/message/doWriteMsg")
-    public String doWrite(HttpServletRequest req, String nickName, Model model) {
+    public String doWrite(HttpServletRequest req, @RequestParam String nickName, Model model) {
         System.out.println("doWrite 진입");
+
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println(rq);
         System.out.println(rq.getLoginedMemberId());
         System.out.println(rq.getLoginedMember().getNickName());
         System.out.println(rq.getLoginedMember().getManner());
         System.out.println(rq.getLoginedMember().getRank());
+
         int senderId = rq.getLoginedMemberId();
         System.out.println("senderId = " + senderId);
+
         String senderNickname = rq.getLoginedMember().getNickName();
         System.out.println("senderNickname = " + senderNickname);
-        Member member = memberService.getMemberByNickname(nickName);
 
+        Member member = memberService.getMemberByNickname(nickName);
+        if (member == null) {
+            // 닉네임에 해당하는 회원이 없을 경우 처리
+            System.out.println("받는 사람 없음");
+            return Ut.jsHistoryBack("F-1", "해당 닉네임의 사용자가 없습니다.");
+        }
+        int receiverId = member.getId();
+        System.out.println(receiverId);
         String receiverNickname = member.getNickName();
         System.out.println("receiverNickname = " + receiverNickname);
+
         String content = req.getParameter("content");
-
         System.out.println(content);
-        messageService.sendMessage(senderId, senderNickname,  receiverNickname, content);
 
-        return "redirect:usr/home/myPage";
+        messageService.sendMessage(senderId, senderNickname, receiverId, receiverNickname, content);
+
+        return "redirect:/usr/home/myPage";
     }
+
 }
