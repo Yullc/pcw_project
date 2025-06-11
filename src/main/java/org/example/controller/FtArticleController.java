@@ -3,6 +3,7 @@ package org.example.controller;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.example.util.MannerUtil;
@@ -92,21 +93,20 @@ public class FtArticleController {
                            @RequestParam(defaultValue = "") String searchKeyword,
                            @RequestParam(defaultValue = "") String area,
                            @RequestParam(defaultValue = "") String avgLevel,
-                           @RequestParam(defaultValue = "") String playDate
-    ) {
+                           @RequestParam(defaultValue = "") String playDate) {
+
         Rq rq = (Rq) req.getAttribute("rq");
         int itemsInAPage = 16;
         int boardId = 1;
-
         String searchKeywordTypeCode = "stadiumName";
 
-        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
+        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, "", playDate); // avgLevel은 필터 X
         int pagesCount = (int) Math.ceil(totalCount / (double) itemsInAPage);
 
         List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
+                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate); // avgLevel은 여기서도 필터 X
 
-        // ✅ avgLevel → avgLevelName으로 변환
+        // ✅ avgLevelName 설정
         for (FtArticle f : ftArticles) {
             try {
                 if (f.getAvgLevel() != null && !f.getAvgLevel().isEmpty()) {
@@ -118,22 +118,33 @@ public class FtArticleController {
             } catch (NumberFormatException e) {
                 f.setAvgLevelName("미정");
             }
-            System.out.println("avgLevel: " + f.getAvgLevel());
-            System.out.println("avgLevelName: " + f.getAvgLevelName());
-
         }
+
+        if (!avgLevel.isEmpty()) {
+            List<FtArticle> filteredList = new ArrayList<>();
+
+            for (FtArticle f : ftArticles) {
+                if (f.getAvgLevelName() != null && f.getAvgLevelName().startsWith(avgLevel)) {
+                    filteredList.add(f);
+                }
+            }
+
+            ftArticles = filteredList;
+        }
+
 
         model.addAttribute("ftArticles", ftArticles);
         model.addAttribute("searchKeyword", searchKeyword);
         model.addAttribute("area", area);
-
+        model.addAttribute("avgLevel", avgLevel);
         model.addAttribute("playDate", playDate);
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
-        System.out.println("avgLevel"+avgLevel);
+
         return "usr/home/foot_menu";
     }
+
 
 
     @RequestMapping("/usr/article/foot_detail")

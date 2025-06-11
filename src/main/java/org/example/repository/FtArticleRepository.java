@@ -18,4 +18,5 @@ public interface FtArticleRepository {
 
     public int getFtArticleMatch(int id);
 
+    List<FtArticle> getFilteredArticles(String area, Integer minLevel, Integer maxLevel, String playDate);
 }

@@ -64,6 +64,11 @@ public class FtArticleService {
         return ftArticleRepository.getFtArticleMatch(id);
     }
 
+    public List<FtArticle> getFilteredArticles(String area, Integer minLevel, Integer maxLevel, String playDate) {
+
+        return ftArticleRepository.getFilteredArticles(area, minLevel, maxLevel, playDate);
+    }
+
 //    public ResultData increaseHitCount(int id) {
 //        int affectedRow = ftArticleRepository.increaseHitCount(id);
 //
