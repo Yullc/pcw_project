@@ -63,8 +63,10 @@
 
     <!-- 오른쪽 메뉴 -->
     <div class="flex items-center gap-6 whitespace-nowrap">
-      <a href="/usr/home/findMercenary" class="text-sm text-black hover:text-green-600">용병 구하기</a>
-      <a href="/usr/home/findTeam" class="text-sm text-black hover:text-green-600">팀 구하기</a>
+      <a href="/usr/article/findTeam" class="text-sm font-bold text-black border-b-2 border-green-600">풋살하기</a>
+      <a href="/usr/article/findTeam" class="text-sm text-black hover:text-red-600">축구하기</a>
+      <a href="/usr/article/findMercenary" class="text-sm text-black hover:text-red-600">용병 구하기</a>
+      <a href="/usr/article/findTeam" class="text-sm text-black hover:text-red-600">팀 구하기</a>
       <!-- 로그아웃 버튼 추가 -->
       <a href="/usr/member/doLogout" class="text-sm text-black hover:text-red-500">로그아웃</a>
 
