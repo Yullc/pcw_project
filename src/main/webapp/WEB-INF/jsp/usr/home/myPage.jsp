@@ -34,11 +34,11 @@
 
       <!-- 쪽지 버튼 -->
       <div class="flex justify-between w-full text-center mt-4">
-        <button onclick="toggleModal('writeModal')" class="text-green-600 font-semibold flex-1">
+        <button onclick="toggleModal('writeModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">
           ✉️ 쪽지 보내기
         </button>
-        <a href="#" onclick="toggleModal('inboxModal')" class="text-green-600 font-semibold flex-1">📥 받은 쪽지함</a>
-        <a href="#" onclick="toggleModal('outboxModal')" class="text-green-600 font-semibold flex-1">📤 보낸 쪽지함</a>
+        <a href="#" onclick="toggleModal('inboxModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">📥 받은 쪽지함</a>
+        <a href="#" onclick="toggleModal('outboxModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">📤 보낸 쪽지함</a>
       </div>
     </div>
 
@@ -93,7 +93,7 @@
   <div class="bg-white rounded-lg w-96 p-6">
     <!-- 헤더 -->
     <div class="flex justify-between items-center mb-4">
-      <h2 class="text-lg font-bold text-green-600">✉️ 쪽지 보내기</h2>
+      <h2 class="text-lg font-bold text-black-600">✉️ 쪽지 보내기</h2>
       <button onclick="toggleModal('writeModal')" class="text-gray-500 hover:text-black">✖</button>
     </div>
 
@@ -135,9 +135,9 @@
 <!-- 받은 쪽지함 모달 -->
 
 <div id="inboxModal" class="fixed inset-0 ${type == 'received' ? '' : 'hidden'} bg-black bg-opacity-40 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg w-96 p-4 max-h-[80vh] overflow-y-auto">
-    <div class="flex justify-between items-center mb-2">
-      <h2 class="text-lg font-bold text-blue-600">📥 받은 쪽지함</h2>
+  <div class="bg-white rounded-lg w-96 max-h-[80vh] overflow-y-auto p-4">
+    <div class="flex justify-between items-center mb-2 sticky top-0 bg-white z-10">
+      <h2 class="text-lg font-bold text-black-600">📥 받은 쪽지함</h2>
       <div class="flex gap-2">
         <a href="/usr/message/recevied" class="text-sm text-gray-500 hover:text-black border px-2 py-1 rounded">
           🔄
@@ -164,13 +164,15 @@
 
 
 
+
 <!-- 보낸 쪽지함 모달 -->
 <div id="outboxModal" class="fixed inset-0 ${type == 'sent' ? '' : 'hidden'} bg-black bg-opacity-40 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg w-96 p-4">
-    <div class="flex justify-between items-center mb-2">
-      <h2 class="text-lg font-bold text-green-600">📤 보낸 쪽지함</h2>
+  <div class="bg-white rounded-lg w-96 max-h-[80vh] overflow-y-auto p-4">
+    <div class="flex justify-between items-center mb-2 sticky top-0 bg-white z-10">
+      <h2 class="text-lg font-bold text-black-600">📤 보낸 쪽지함</h2>
       <button onclick="toggleModal('outboxModal')" class="text-gray-500 hover:text-black">✖</button>
     </div>
+
     <c:forEach var="msg" items="${sentMessages}">
       <div class="border-t py-2">
         <div class="text-sm text-gray-600">받는 사람: ${msg.receiverNickname}</div>
@@ -178,11 +180,13 @@
         <div class="text-xs text-right text-gray-400">${msg.sendDate}</div>
       </div>
     </c:forEach>
+
     <c:if test="${empty sentMessages}">
       <div class="text-center text-gray-400">보낸 쪽지가 없습니다.</div>
     </c:if>
   </div>
 </div>
+
 
 <!-- 스크립트: 모달 열기 토글 함수 -->
 <script>
