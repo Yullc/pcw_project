@@ -94,7 +94,7 @@ public class TeamArticleController {
             return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 없습니다", id));
         }
 
-        ResultData userCanDeleteRd = teamArticleService.userCanDelete(rq.getLoginedMemberId()teamArticle);
+        ResultData userCanDeleteRd = teamArticleService.userCanModify(rq.getLoginedMemberId(),teamArticle);
 
         if (userCanDeleteRd.isFail()) {
             return Ut.jsHistoryBack(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg());
@@ -113,42 +113,17 @@ public class TeamArticleController {
 
         TeamArticle teamArticle = teamArticleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
-        ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "teamArticle", id);
 
-        if (usersReactionRd.isSuccess()) {
-            model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
-        }
 
-        List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "teamArticle", id);
 
-        int repliesCount = replies.size();
 
-        model.addAttribute("replies", replies);
-        model.addAttribute("repliesCount", repliesCount);
 
-        model.addAttribute("article", article);
-        model.addAttribute("usersReaction", usersReactionRd.getData1());
-        model.addAttribute("isAlreadyAddGoodRp",
-                reactionPointService.isAlreadyAddGoodRp(rq.getLoginedMemberId(), id, "teamArticle"));
-        model.addAttribute("isAlreadyAddBadRp",
-                reactionPointService.isAlreadyAddBadRp(rq.getLoginedMemberId(), id, "teamArticle"));
+
+        model.addAttribute("article", teamArticle);
 
         return "usr/article/detail";
     }
 
-    @RequestMapping("/usr/article/doIncreaseHitCountRd")
-    @ResponseBody
-    public ResultData doIncreaseHitCount(int id) {
-
-        ResultData increaseHitCountRd = teamArticleService.increaseHitCount(id);
-
-        if (increaseHitCountRd.isFail()) {
-            return increaseHitCountRd;
-        }
-
-        return ResultData.from(increaseHitCountRd.getResultCode(), increaseHitCountRd.getMsg(), "hitCount",
-                teamArticleService.getArticleHitCount(id), "articleId", id);
-    }
 
     @RequestMapping("/usr/article/write")
     public String showWrite(HttpServletRequest req) {
@@ -206,7 +181,7 @@ public class TeamArticleController {
 
         int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 
-        List<TeamArticle> teamArticle = teamArticleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode,
+        List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode,
                 searchKeyword);
 
         model.addAttribute("pagesCount", pagesCount);

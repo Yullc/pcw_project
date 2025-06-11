@@ -9,16 +9,12 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class TeamArticle {
+public class Team {
     private int id;
     private String regDate;
     private String updateDate;
-    private String title;
-    private String body;
+    private String teamName;
+    private String teamRank;
+    private String area;
     private String teamLeader;
-    private int memberId;
-    private boolean userCanModify;
-    private boolean userCanDelete;
-
-
 }
