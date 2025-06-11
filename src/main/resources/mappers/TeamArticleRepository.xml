@@ -3,10 +3,10 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="org.example.repository.TeamRepository">
+<mapper namespace="org.example.repository.TeamArticleRepository">
 
     <!-- 팀 목록 조회 -->
-    <select id="getForPrintTeam" resultType="org.example.vo.Team">
+    <select id="getForPrintTeam" resultType="org.example.vo.TeamArticle">
         SELECT *
         FROM team
         WHERE 1=1
