@@ -2,11 +2,13 @@ package org.example.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.service.MemberService;
+import org.example.service.MessageService;
 import org.example.service.MyPageService;
 import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.vo.FtArticle;
 import org.example.vo.Member;
+import org.example.vo.Message;
 import org.example.vo.Rq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,6 +24,9 @@ public class MyPageController {
 
     @Autowired
     private MyPageService myPageService;
+
+    @Autowired
+    private MessageService messageService;
 
     @RequestMapping("/usr/home/myPage")
     public String showMyPage(HttpServletRequest req, Model model) {
@@ -61,6 +66,12 @@ public class MyPageController {
         //  manner 온도와 이모지도 모델에 추가
         model.addAttribute("manner", member.getManner());
         model.addAttribute("mannerEmoji", member.getMannerEmoji());
+        List<Message> receivedMessages = messageService.getReceivedMessages(rq.getLoginedMemberId());
+        List<Message> sentMessages = messageService.getSentMessages(rq.getLoginedMemberId());
+        model.addAttribute("receivedMessages", receivedMessages);
+        model.addAttribute("sentMessages", sentMessages);
+
+
 
         return "usr/home/myPage";
     }

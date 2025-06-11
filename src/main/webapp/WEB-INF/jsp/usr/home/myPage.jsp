@@ -133,12 +133,23 @@
 
 
 <!-- 받은 쪽지함 모달 -->
-<div id="inboxModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
+<!-- 받은 쪽지함 모달 -->
+<div id="inboxModal" class="fixed inset-0 ${type == 'received' ? '' : 'hidden'} bg-black bg-opacity-40 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg w-96 p-4">
     <div class="flex justify-between items-center mb-2">
       <h2 class="text-lg font-bold text-blue-600">📥 받은 쪽지함</h2>
-      <button onclick="toggleModal('inboxModal')" class="text-gray-500 hover:text-black">✖</button>
+      <div class="flex gap-2">
+        <!-- 새로고침 -->
+        <a href="/usr/message/recevied" class="text-sm text-gray-500 hover:text-black border px-2 py-1 rounded">
+          🔄
+        </a>
+        <!-- 닫기 -->
+        <button onclick="toggleModal('inboxModal')" class="text-gray-500 hover:text-black text-lg px-2">
+          ✖
+        </button>
+      </div>
     </div>
+
     <c:forEach var="msg" items="${receivedMessages}">
       <div class="border-t py-2">
         <div class="text-sm text-gray-600">보낸 사람: ${msg.senderNickname}</div>
@@ -147,13 +158,14 @@
       </div>
     </c:forEach>
     <c:if test="${empty receivedMessages}">
-      <div class="text-center text-gray-400">받은 쪽지가 없습니다.</div>
+      <div class="text-center text-gray-400 mt-4">받은 쪽지가 없습니다.</div>
     </c:if>
   </div>
 </div>
 
+
 <!-- 보낸 쪽지함 모달 -->
-<div id="outboxModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
+<div id="outboxModal" class="fixed inset-0 ${type == 'sent' ? '' : 'hidden'} bg-black bg-opacity-40 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg w-96 p-4">
     <div class="flex justify-between items-center mb-2">
       <h2 class="text-lg font-bold text-green-600">📤 보낸 쪽지함</h2>
@@ -171,6 +183,14 @@
     </c:if>
   </div>
 </div>
+
+<!-- 스크립트: 모달 열기 토글 함수 -->
+<script>
+  function toggleModal(id) {
+    const modal = document.getElementById(id);
+    modal.classList.toggle("hidden");
+  }
+</script>
 
 
 
