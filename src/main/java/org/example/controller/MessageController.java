@@ -33,10 +33,12 @@ public class MessageController {
     @RequestMapping("/usr/message/recevied")
     public String showReceivedMessages(HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("받은 편지함 진입");
         int memberId = rq.getLoginedMemberId();
 
         List<Message> receivedMessages = messageService.getReceivedMessages(memberId);
-        model.addAttribute("messages", receivedMessages);
+        System.out.println("receivedMess"+receivedMessages);
+        model.addAttribute("receivedMessages", receivedMessages);
         model.addAttribute("type", "received");
 
         return "usr/home/myPage";
@@ -46,10 +48,12 @@ public class MessageController {
     @RequestMapping("/usr/message/sent")
     public String showSentMessages(HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("보낸 편지함 진입");
         int memberId = rq.getLoginedMemberId();
 
         List<Message> sentMessages = messageService.getSentMessages(memberId);
-        model.addAttribute("messages", sentMessages);
+        System.out.println("sentMess"+sentMessages);
+        model.addAttribute("sentMessages", sentMessages);
         model.addAttribute("type", "sent");
 
         return "usr/home/myPage";

@@ -91,38 +91,32 @@
 <!-- 쪽지 작성 모달 -->
 <div id="writeModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg w-96 p-6">
+    <!-- 헤더 -->
     <div class="flex justify-between items-center mb-4">
       <h2 class="text-lg font-bold text-green-600">✉️ 쪽지 보내기</h2>
       <button onclick="toggleModal('writeModal')" class="text-gray-500 hover:text-black">✖</button>
     </div>
 
+    <!-- 폼 -->
     <form action="/usr/message/doWriteMsg" method="post" class="space-y-3">
       <!-- 닉네임 입력 -->
       <div>
         <label class="block text-sm font-semibold mb-1">받는 사람 닉네임</label>
-        <div class="flex gap-2">
-          <input type="text" name="nickName" id="nickName" placeholder="닉네임 입력"
-                 class="flex-1 border border-gray-400 rounded px-2 py-1" required />
-          <button type="button" onclick="fetchReceiverInfo()" class="bg-gray-300 px-3 rounded hover:bg-gray-400">확인</button>
-        </div>
+        <input type="text" name="nickName" id="nickName" placeholder="닉네임 입력"
+               class="w-full border border-gray-400 rounded px-2 py-1" required />
       </div>
 
-      <!-- 확인된 닉네임 표시 -->
-      <div>
-        <label class="block text-sm font-semibold mb-1">확인된 닉네임</label>
-        <input type="text" id="receiverNicknameDisplay" readonly
-               class="w-full border border-gray-300 rounded px-2 py-1 bg-gray-100" />
-      </div>
-
-      <!-- 내용 -->
+      <!-- 내용 입력 -->
       <div>
         <label class="block text-sm font-semibold mb-1">내용</label>
-        <textarea name="content" rows="4" class="w-full border border-gray-400 rounded px-2 py-1" required></textarea>
+        <textarea name="content" rows="4"
+                  class="w-full border border-gray-400 rounded px-2 py-1" required></textarea>
       </div>
 
       <!-- 전송 버튼 -->
       <div class="text-right">
-        <button type="submit" class="bg-green-600 hover:bg-blue-700 text-white px-4 py-1 rounded">
+        <button type="submit"
+                class="bg-green-600 hover:bg-blue-700 text-white px-4 py-1 rounded">
           보내기
         </button>
       </div>
@@ -131,40 +125,11 @@
 </div>
 
 <script>
-  function fetchReceiverInfo() {
-    const nickName = document.getElementById('nickName').value.trim();
-    if (!nickName) {
-      alert("닉네임을 입력하세요.");
-      return;
-    }
-
-    const encodedNickName = encodeURIComponent(nickName);
-    fetch(`/usr/member/getByNickname?nickName=${encodedNickName}`)
-            .then(res => res.json())
-            .then(data => {
-              if (data.success) {
-                document.getElementById('receiverNicknameDisplay').value = data.member.nickName;
-                alert("받는 사람 확인 완료!");
-              } else {
-                alert("해당 닉네임의 사용자가 없습니다.");
-              }
-            })
-            .catch(error => {
-              console.error("서버 오류:", error);
-              alert("서버 오류로 실패했습니다.");
-            });
-  }
-
   function toggleModal(id) {
     document.getElementById(id).classList.toggle("hidden");
   }
-
-  function openWriteModal(toNickname) {
-    document.getElementById("nickName").value = toNickname;
-    document.getElementById("receiverNicknameDisplay").value = toNickname;
-    toggleModal('writeModal');
-  }
 </script>
+
 
 
 <!-- 받은 쪽지함 모달 -->
@@ -181,7 +146,7 @@
         <div class="text-xs text-right text-gray-400">${msg.sendDate}</div>
       </div>
     </c:forEach>
-    <c:if test="${empty messages}">
+    <c:if test="${empty receivedMessages}">
       <div class="text-center text-gray-400">받은 쪽지가 없습니다.</div>
     </c:if>
   </div>
