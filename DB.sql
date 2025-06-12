@@ -118,6 +118,15 @@ CREATE TABLE `team` (
                         `teamRank`	CHAR(20)	NOT NULL
 );
 
+CREATE TABLE `team` (
+                        `id`	INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                        `regDate`	DATETIME	NOT NULL,
+                        `updateDate`	DATETIME	NOT NULL,
+                        `teamNm`	CHAR(20)	NOT NULL,
+                        `teamRank`	CHAR(20)	NOT NULL
+);
+
+
 CREATE TABLE soccer_stadium (
                                 id INT AUTO_INCREMENT PRIMARY KEY,
                                 `area` VARCHAR(50),

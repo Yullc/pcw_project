@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.interceptor.BeforeActionInterceptor;
 import org.example.service.BoardService;
 import org.example.service.ReactionPointService;
+import org.example.service.ReplyService;
 import org.example.service.TeamArticleService;
 import org.example.util.Ut;
 import org.example.vo.*;
@@ -33,6 +34,8 @@ public class TeamArticleController {
     @Autowired
     private ReactionPointService reactionPointService;
 
+    @Autowired
+    private ReplyService replyService;
 
     public TeamArticleController(BeforeActionInterceptor beforeActionInterceptor) {
         this.beforeActionInterceptor = beforeActionInterceptor;
@@ -117,7 +120,12 @@ public class TeamArticleController {
 
 
 
+        List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "article", id);
 
+        int repliesCount = replies.size();
+
+        model.addAttribute("replies", replies);
+        model.addAttribute("repliesCount", repliesCount);
 
         model.addAttribute("article", teamArticle);
 
@@ -158,19 +166,16 @@ public class TeamArticleController {
         return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../article/detail?id=" + id);
     }
 
-    @RequestMapping("/usr/article/list")
-    public String showList(HttpServletRequest req, Model model, @RequestParam(defaultValue = "1") int boardId,
+    @RequestMapping("/usr/article/findTeam")
+    public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "title") String searchKeywordTypeCode,
                            @RequestParam(defaultValue = "") String searchKeyword) throws IOException {
 
         Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("팀구하기 리스트 진입");
 
-        Board board = boardService.getBoardById(boardId);
-
-        if (board == null) {
-            return rq.historyBackOnView("존재하지 않는 게시판");
-        }
+        int boardId =3;
 
         int articlesCount = teamArticleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
 
@@ -183,16 +188,15 @@ public class TeamArticleController {
 
         List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode,
                 searchKeyword);
-
+        System.out.println(teamArticles);
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("articlesCount", articlesCount);
         model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
         model.addAttribute("searchKeyword", searchKeyword);
         model.addAttribute("teamArticles", teamArticles);
         model.addAttribute("boardId", boardId);
-        model.addAttribute("board", board);
         model.addAttribute("page", page);
 
-        return "usr/article/list";
+        return "usr/article/findTeam";
     }
 }

@@ -1,26 +1,29 @@
 package org.example.vo;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-public class TeamArticle {
+public class Reply {
+
     private int id;
     private String regDate;
     private String updateDate;
-    private String title;
-    private String body;
-    private String teamLeader;
     private int memberId;
+    private String relTypeCode;
+    private int relId;
+    private String body;
+    private int goodReactionPoint;
+    private int badReactionPoint;
+
+    private String extra__writer;
+
+    private String extra__sumReactionPoint;
+
     private boolean userCanModify;
     private boolean userCanDelete;
 
-    private String teamName;
-    private String teamRank;
-    private String area;
 }

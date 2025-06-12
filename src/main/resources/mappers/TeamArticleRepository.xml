@@ -5,21 +5,172 @@
 
 <mapper namespace="org.example.repository.TeamArticleRepository">
 
-    <!-- 팀 목록 조회 -->
-    <select id="getForPrintTeam" resultType="org.example.vo.TeamArticle">
-        SELECT *
-        FROM team
-        WHERE 1=1
-        <if test="teamName != null and teamName != ''">
-            AND teamName LIKE CONCAT('%', #{teamName}, '%')
+    <insert id="writeArticle" parameterType="map">
+        INSERT INTO teamArticle
+        SET
+            regDate = NOW(),
+		updateDate = NOW(),
+		memberId = #{memberId},
+            title =
+            #{title},
+            `body` = #{body}
+    </insert>
+
+    <delete id="deleteArticle" parameterType="int">
+        DELETE FROM teamArticle
+        WHERE id = #{id}
+    </delete>
+
+    <update id="modifyArticle" parameterType="map">
+        UPDATE teamArticle
+        <set>
+            <if test="title != null and title != ''">title = #{title},</if>
+            <if test="body != null and body != ''">`body` = #{body},</if>
+            updateDate = NOW()
+        </set>
+        WHERE id = #{id}
+    </update>
+
+    <update id="increaseHitCount" parameterType="int">
+        UPDATE teamArticle
+        SET
+            hitCount = hitCount + 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="increaseGoodReactionPoint" parameterType="int">
+        UPDATE
+            teamArticle
+        SET
+            goodReactionPoint = goodReactionPoint + 1
+        WHERE id = #{relId}
+    </update>
+
+    <update id="decreaseGoodReactionPoint" parameterType="int">
+        UPDATE
+            teamArticle
+        SET goodReactionPoint = goodReactionPoint - 1
+        WHERE id =
+              #{relId}
+    </update>
+
+    <update id="increaseBadReactionPoint" parameterType="int">
+        UPDATE
+            teamArticle
+        SET badReactionPoint = badReactionPoint + 1
+        WHERE id = #{relId}
+    </update>
+
+    <update id="decreaseBadReactionPoint" parameterType="int">
+        UPDATE
+            teamArticle
+        SET badReactionPoint = badReactionPoint - 1
+        WHERE id = #{relId}
+    </update>
+
+
+
+    <select id="getArticleCount" parameterType="int">
+        SELECT COUNT(*) , M.nickname AS extra__writer
+        FROM teamArticle AS A
+        INNER
+        JOIN `member` AS M
+        ON A.memberId = M.id
+        WHERE 1
+
+        <if test="searchKeyword != ''">
+            <choose>
+                <when test="searchKeywordTypeCode == 'title'">
+                    AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchKeywordTypeCode == 'body'">
+                    AND A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchKeywordTypeCode == 'nickname'">
+                    AND M.nickname LIKE CONCAT('%', #{searchKeyword},
+                    '%')
+                </when>
+                <otherwise>
+                    AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR
+                    A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
+                </otherwise>
+            </choose>
         </if>
-        <if test="teamRank != null and teamRank != ''">
-            AND teamRank = #{teamRank}
-        </if>
-        <if test="teamLeader != null and teamLeader != ''">
-            AND teamLeader = #{teamLeader}
-        </if>
-        ORDER BY id DESC
     </select>
+
+    <select id="getLastInsertId" parameterType="int">
+        SELECT
+            LAST_INSERT_ID()
+    </select>
+
+
+    <select id="getForPrintArticle" parameterType="int"
+            resultType="org.example.vo.TeamArticle">
+        SELECT A.*, M.nickname AS extra__writer
+        FROM teamArticle AS A
+                 INNER JOIN `member` AS M
+                            ON A.memberId = M.id
+        WHERE A.id = #{id}
+    </select>
+
+    <select id="getArticleById" parameterType="int"
+            resultType="org.example.vo.TeamArticle">
+        SELECT *
+        FROM teamArticle
+        WHERE id =#{id}
+    </select>
+
+    <select id="getForPrintArticles"
+            resultType="org.example.vo.TeamArticle">
+        SELECT
+        A.*,
+        M.nickname AS extra__writer,
+        IFNULL(COUNT(R.id), 0) AS extra__repliesCount,
+        T.teamName AS teamName,
+        T.teamRank AS teamRank,
+        T.area AS area
+        FROM teamArticle AS A
+        INNER JOIN `member` AS M ON A.memberId = M.id
+        LEFT JOIN `reply` AS R ON A.id = R.relId
+        LEFT JOIN `team` AS T ON A.teamId = T.id
+        WHERE 1
+        <if test="searchKeyword != ''">
+            <choose>
+                <when test="searchKeywordTypeCode == 'title'">
+                    AND A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchKeywordTypeCode == 'body'">
+                    AND A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchKeywordTypeCode == 'nickname'">
+                    AND M.nickname LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <otherwise>
+                    AND (
+                    A.title LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR A.`body` LIKE CONCAT('%', #{searchKeyword}, '%')
+                    )
+                </otherwise>
+            </choose>
+        </if>
+        GROUP BY A.id
+        ORDER BY A.id DESC
+        <if test="limitFrom >= 0">
+            LIMIT #{limitFrom}, #{limitTake}
+        </if>
+    </select>
+
+
+    <select id="getArticles"
+            resultType="org.example.vo.TeamArticle">
+        SELECT A.*, M.nickname AS extra__writer
+        FROM teamArticle AS A
+                 INNER JOIN `member` AS M
+                            ON A.memberId = M.id
+        ORDER BY A.id
+                DESC
+    </select>
+
 
 </mapper>
