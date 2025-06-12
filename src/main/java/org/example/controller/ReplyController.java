@@ -37,7 +37,7 @@ public class ReplyController {
 
         int id = (int) writeReplyRd.getData1();
 
-        return Ut.jsReplace(writeReplyRd.getResultCode(), writeReplyRd.getMsg(), "../article/detail?id=" + relId);
+        return Ut.jsReplace(writeReplyRd.getResultCode(), writeReplyRd.getMsg(), "../article/findTeam_detail?id=" + relId);
     }
 
     @RequestMapping("/usr/reply/doModify")

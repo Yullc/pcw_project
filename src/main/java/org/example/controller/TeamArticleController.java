@@ -125,7 +125,7 @@ public class TeamArticleController {
         }
 
         // ✅ 댓글 목록 가져오기
-        List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "article", id);
+        List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "teamArticle", id);
         int repliesCount = replies.size();
 
         model.addAttribute("replies", replies);

@@ -46,6 +46,75 @@
                 </a>
             </div>
         </c:if>
+        <!-- 댓글 영역 -->
+        <!-- 댓글 작성 폼 -->
+        <c:if test="${rq.isLogined()}">
+            <form action="/usr/reply/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;" class="mt-10 space-y-4">
+                <input type="hidden" name="relTypeCode" value="teamArticle" />
+                <input type="hidden" name="relId" value="${teamArticle.id}" />
+
+                <textarea name="body" rows="3"
+                          class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                          placeholder="댓글을 입력하세요"></textarea>
+
+                <div class="text-right">
+                    <button type="submit"
+                            class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition">
+                        댓글 작성
+                    </button>
+                </div>
+            </form>
+        </c:if>
+
+        <c:if test="${!rq.isLogined()}">
+            <div class="text-gray-500 mt-8 text-center">
+                댓글을 작성하려면 <a href="${rq.loginUri}" class="text-green-600 font-semibold hover:underline">로그인</a>이 필요합니다.
+            </div>
+        </c:if>
+
+        <!-- 댓글 리스트 -->
+        <div class="mt-8 space-y-4">
+            <c:forEach var="reply" items="${replies}">
+                <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+                    <div class="flex justify-between items-center text-sm text-gray-600">
+                        <div>
+                            <span class="font-semibold">${reply.extra__writer}</span>
+                            <span class="ml-2">${reply.regDate.substring(0,10)}</span>
+                        </div>
+                        <div class="space-x-2">
+                            <span>👍 ${reply.goodReactionPoint}</span>
+                            <span>👎 ${reply.badReactionPoint}</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-2 text-gray-800" id="reply-${reply.id}">${reply.body}</div>
+
+                    <form id="modify-form-${reply.id}" class="mt-2 hidden" method="POST" action="/usr/reply/doModify">
+                        <input type="hidden" name="id" value="${reply.id}" />
+                        <input type="text" name="body" value="${reply.body}"
+                               class="w-full border border-gray-300 p-2 rounded" />
+                    </form>
+
+                    <div class="mt-2 flex gap-4 text-sm text-green-700">
+                        <c:if test="${reply.userCanModify}">
+                            <button id="modify-btn-${reply.id}" onclick="toggleModifybtn('${reply.id}')"
+                                    class="hover:underline">수정</button>
+                            <button id="save-btn-${reply.id}" onclick="doModifyReply('${reply.id}')"
+                                    class="hover:underline hidden">저장</button>
+                        </c:if>
+
+                        <c:if test="${reply.userCanDelete}">
+                            <a href="/usr/reply/doDelete?id=${reply.id}" onclick="return confirm('정말 삭제할까요?')"
+                               class="text-red-600 hover:underline">삭제</a>
+                        </c:if>
+                    </div>
+                </div>
+            </c:forEach>
+
+            <c:if test="${empty replies}">
+                <div class="text-center text-gray-500 mt-6">댓글이 없습니다.</div>
+            </c:if>
+        </div>
 
         <!-- 뒤로가기 버튼 -->
         <div class="pt-4 text-right">
@@ -55,6 +124,34 @@
         </div>
     </div>
 </div>
+<!-- 댓글 영역 -->
+
+
+
+        <script>
+            function ReplyWrite__submit(form) {
+                form.body.value = form.body.value.trim();
+
+                if (form.body.value.length < 3) {
+                    alert("댓글은 3글자 이상 입력해주세요.");
+                    form.body.focus();
+                    return;
+                }
+
+                form.submit();
+            }
+
+            function toggleModifybtn(replyId) {
+                document.querySelector(`#reply-${replyId}`).style.display = "none";
+                document.querySelector(`#modify-form-${replyId}`).classList.remove("hidden");
+                document.querySelector(`#modify-btn-${replyId}`).classList.add("hidden");
+                document.querySelector(`#save-btn-${replyId}`).classList.remove("hidden");
+            }
+
+            function doModifyReply(replyId) {
+                document.querySelector(`#modify-form-${replyId}`).submit();
+            }
+        </script>
 
 </body>
 </html>
