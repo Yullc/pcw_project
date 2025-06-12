@@ -81,12 +81,17 @@
                     </div>
                     <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
                         <div>${team.teamName}</div>
-                        <div>${team.teamLeader}</div>
+                        <div>${team.extra__writer}</div>
                         <div>${team.avgLevelName}</div>
                     </div>
                 </div>
             </c:forEach>
-
+            <div class="text-right mb-4">
+                <a href="/usr/article/findTeam_write"
+                   class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full shadow-md">
+                    ✏ 글쓰기
+                </a>
+            </div>
             <!-- ✅ 페이지네이션 -->
             <c:set var="groupSize" value="5" />
             <fmt:parseNumber value="${(page - 1) div groupSize}" integerOnly="true" var="currentGroup" />

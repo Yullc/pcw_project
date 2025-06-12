@@ -142,15 +142,15 @@ public class TeamArticleController {
     }
 
 
-    @RequestMapping("/usr/article/write")
+    @RequestMapping("/usr/article/findTeam_write")
     public String showWrite(HttpServletRequest req) {
 
-        return "usr/article/write";
+        return "usr/article/findTeam_write";
     }
 
     @RequestMapping("/usr/article/doWrite")
     @ResponseBody
-    public String doWrite(HttpServletRequest req, String title, String body, String boardId) {
+    public String doWrite(HttpServletRequest req, String title, String body) {
 
         Rq rq = (Rq) req.getAttribute("rq");
 
@@ -162,11 +162,9 @@ public class TeamArticleController {
             return Ut.jsHistoryBack("F-2", "내용을 입력하세요");
         }
 
-        if (Ut.isEmptyOrNull(boardId)) {
-            return Ut.jsHistoryBack("F-3", "게시판을 선택하세요");
-        }
 
-        ResultData doWriteRd = teamArticleService.writeArticle(rq.getLoginedMemberId(), title, body, boardId);
+
+        ResultData doWriteRd = teamArticleService.writeArticle(rq.getLoginedMemberId(), title, body);
 
         int id = (int) doWriteRd.getData1();
 

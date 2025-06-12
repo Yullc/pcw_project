@@ -34,7 +34,7 @@
 
         <!-- 뒤로가기 버튼 -->
         <div class="pt-4 text-right">
-            <a href="/usr/article/findTeam" class="text-sm text-white bg-green-500 hover:bg-green-600 px-4 py-2 rounded-full">
+            <a href="/usr/article/findTeam" class="text-sm text-white bg-green-600 hover:bg-green-600 px-4 py-2 rounded-full">
                 ← 목록으로
             </a>
         </div>

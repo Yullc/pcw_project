@@ -19,7 +19,7 @@
   <img src="${ftArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
   <!-- 날씨 정보 -->
-  <div class="flex gap-4 justify-center text-center text-sm mt-2">
+  <div class="flex gap-4 bg-green-600 justify-center text-center text-sm mt-2">
     <c:forEach var="weather" items="${weatherList}">
       <div>
         <div>

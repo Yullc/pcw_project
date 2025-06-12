@@ -36,15 +36,6 @@ public class RankUtil {
             default -> 1;
         };
     }
-    public static int[] getRangeByCategory(String category) {
-        return switch (category) {
-            case "루키" -> new int[]{1, 3};
-            case "아마추어" -> new int[]{4, 6};
-            case "세미프로" -> new int[]{7, 9};
-            case "프로" -> new int[]{10, 12};
-            default -> null;
-        };
-    }
 
 
 }

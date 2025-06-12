@@ -40,6 +40,9 @@ public class FtArticleController {
     private FtArticleService ftarticleService;
 
     @Autowired
+    private MemberService memberService;
+
+    @Autowired
     private BoardService boardService;
 
     @Autowired
@@ -100,12 +103,14 @@ public class FtArticleController {
         int boardId = 1;
         String searchKeywordTypeCode = "stadiumName";
 
-        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, "", playDate); // avgLevel은 필터 X
+        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, "", playDate);
         int pagesCount = (int) Math.ceil(totalCount / (double) itemsInAPage);
 
         List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate); // avgLevel은 여기서도 필터 X
+                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate);
 
+        int memberId = rq.getLoginedMemberId();
+        Member member = memberService.getMemberById(memberId);
         // ✅ avgLevelName 설정
         for (FtArticle f : ftArticles) {
             try {
@@ -132,7 +137,7 @@ public class FtArticleController {
             ftArticles = filteredList;
         }
 
-
+        model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("ftArticles", ftArticles);
         model.addAttribute("searchKeyword", searchKeyword);
         model.addAttribute("area", area);
