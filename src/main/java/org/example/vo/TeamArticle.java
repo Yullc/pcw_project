@@ -19,7 +19,7 @@ public class TeamArticle {
     private int memberId;
     private boolean userCanModify;
     private boolean userCanDelete;
-
+    private String avgLevelName;
     private String teamName;
     private String teamRank;
     private String area;

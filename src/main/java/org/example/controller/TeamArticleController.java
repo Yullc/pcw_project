@@ -6,6 +6,7 @@ import org.example.service.BoardService;
 import org.example.service.ReactionPointService;
 import org.example.service.ReplyService;
 import org.example.service.TeamArticleService;
+import org.example.util.RankUtil;
 import org.example.util.Ut;
 import org.example.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -170,7 +172,8 @@ public class TeamArticleController {
     public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "title") String searchKeywordTypeCode,
-                           @RequestParam(defaultValue = "") String searchKeyword) throws IOException {
+                           @RequestParam(defaultValue = "") String searchKeyword,  @RequestParam(defaultValue = "") String avgLevel,
+                           @RequestParam(defaultValue = "") String area) throws IOException {
 
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("팀구하기 리스트 진입");
@@ -188,6 +191,30 @@ public class TeamArticleController {
 
         List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode,
                 searchKeyword);
+        // ✅ teamRank → avgLevelName 으로 변환
+        for (TeamArticle t : teamArticles) {
+            try {
+                if (t.getTeamRank() != null && !t.getTeamRank().isEmpty()) {
+                    int level = Integer.parseInt(t.getTeamRank()); // 숫자로 저장된 경우
+                    t.setAvgLevelName(RankUtil.getRankName(level));
+                } else {
+                    t.setAvgLevelName("미정");
+                }
+            } catch (NumberFormatException e) {
+                t.setAvgLevelName("미정");
+            }
+        }
+
+// ✅ 필터링
+        if (!avgLevel.isEmpty()) {
+            List<TeamArticle> filteredList = new ArrayList<>();
+            for (TeamArticle t : teamArticles) {
+                if (t.getAvgLevelName() != null && t.getAvgLevelName().startsWith(avgLevel)) {
+                    filteredList.add(t);
+                }
+            }
+            teamArticles = filteredList;
+        }
         System.out.println(teamArticles);
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("articlesCount", articlesCount);
@@ -196,6 +223,9 @@ public class TeamArticleController {
         model.addAttribute("teamArticles", teamArticles);
         model.addAttribute("boardId", boardId);
         model.addAttribute("page", page);
+        model.addAttribute("avgLevel", avgLevel);
+        model.addAttribute("area", area);
+
 
         return "usr/article/findTeam";
     }
