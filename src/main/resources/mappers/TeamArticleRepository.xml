@@ -107,12 +107,18 @@
 
     <select id="getForPrintArticle" parameterType="int"
             resultType="org.example.vo.TeamArticle">
-        SELECT A.*, M.nickname AS extra__writer
+        SELECT
+            A.*,
+            M.nickname AS extra__writer,
+            T.teamName AS teamName,
+            T.teamRank AS teamRank,
+            T.area AS area
         FROM teamArticle AS A
-                 INNER JOIN `member` AS M
-                            ON A.memberId = M.id
+                 INNER JOIN `member` AS M ON A.memberId = M.id
+                 LEFT JOIN `team` AS T ON A.teamId = T.id
         WHERE A.id = #{id}
     </select>
+
 
     <select id="getArticleById" parameterType="int"
             resultType="org.example.vo.TeamArticle">

@@ -23,4 +23,6 @@ public class TeamArticle {
     private String teamName;
     private String teamRank;
     private String area;
+
+    private String extra__writer;
 }

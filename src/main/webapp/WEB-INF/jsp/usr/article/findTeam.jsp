@@ -72,7 +72,11 @@
                     <div class="flex items-center gap-4">
                         <div class="w-2 h-6 bg-green-500 rounded-r"></div>
                         <div>
-                            <div class="font-bold text-lg">${team.title}</div>
+                            <div class="font-bold text-lg">
+                                <a href="/usr/article/findTeam_detail?id=${team.id}" class="hover:underline hover:text-green-600">
+                                        ${team.title}
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">

@@ -112,26 +112,33 @@ public class TeamArticleController {
         return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../article/list");
     }
 
-    @RequestMapping("/usr/article/detail")
+    @RequestMapping("/usr/article/findTeam_detail")
     public String showDetail(HttpServletRequest req, Model model, int id) {
         Rq rq = (Rq) req.getAttribute("rq");
 
         TeamArticle teamArticle = teamArticleService.getForPrintArticle(rq.getLoginedMemberId(), id);
 
+        // ✅ avgLevelName 설정 (teamRank → avgLevelName)
+        try {
+            if (teamArticle.getTeamRank() != null && !teamArticle.getTeamRank().isEmpty()) {
+                int level = Integer.parseInt(teamArticle.getTeamRank());
+                teamArticle.setAvgLevelName(RankUtil.getRankName(level));
+            } else {
+                teamArticle.setAvgLevelName("미정");
+            }
+        } catch (NumberFormatException e) {
+            teamArticle.setAvgLevelName("미정");
+        }
 
-
-
-
+        // ✅ 댓글 목록 가져오기
         List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "article", id);
-
         int repliesCount = replies.size();
 
         model.addAttribute("replies", replies);
         model.addAttribute("repliesCount", repliesCount);
+        model.addAttribute("teamArticle", teamArticle);
 
-        model.addAttribute("article", teamArticle);
-
-        return "usr/article/detail";
+        return "usr/article/findTeam_detail";
     }
 
 
