@@ -74,15 +74,17 @@ CREATE TABLE `ftArticle` (
                              `boardId`	INT	NOT NULL
 );
 
-CREATE TABLE `board` (
-                         `id` INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                         `regDate` DATETIME NOT NULL,
-                         `updateDate` DATETIME NOT NULL,
-                         `name` CHAR(20) NOT NULL,
-                         `delStatus` TINYINT(1) UNSIGNED NOT NULL,`25_05_Spring`
-                             `delDate` DATETIME
+CREATE TABLE board (
+                       id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                       regDate DATETIME NOT NULL,
+                       updateDate DATETIME NOT NULL,
+
+                       `name` CHAR(20) NOT NULL UNIQUE COMMENT '게시판 이름',
+                       delStatus TINYINT(1) UNSIGNED NOT NULL DEFAULT 0 COMMENT '삭제 여부 (0=삭제 전, 1=삭제 후)',
+                       delDate DATETIME COMMENT '삭제 날짜'
 );
 
+DROP TABLE board;
 
 CREATE TABLE `like` (
                         `id`	INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -114,18 +116,11 @@ CREATE TABLE `team` (
                         `id`	INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
                         `regDate`	DATETIME	NOT NULL,
                         `updateDate`	DATETIME	NOT NULL,
-                        `teamNm`	CHAR(20)	NOT NULL,
-                        `teamRank`	CHAR(20)	NOT NULL
+                        `teamName`	CHAR(20)	NOT NULL,
+                        `teamRank`	INT	NOT NULL,
+                        `area` CHAR(20) NOT NULL,
+                        teamLeader CHAR(20) NOT NULL
 );
-
-CREATE TABLE `team` (
-                        `id`	INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
-                        `regDate`	DATETIME	NOT NULL,
-                        `updateDate`	DATETIME	NOT NULL,
-                        `teamNm`	CHAR(20)	NOT NULL,
-                        `teamRank`	CHAR(20)	NOT NULL
-);
-
 
 CREATE TABLE soccer_stadium (
                                 id INT AUTO_INCREMENT PRIMARY KEY,
@@ -154,12 +149,194 @@ CREATE TABLE match_participant (
                                    memberId INT NOT NULL
 
 );
+
+CREATE TABLE teamArticle (
+                             id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                             regDate DATETIME NOT NULL,
+                             updateDate DATETIME NOT NULL,
+                             title CHAR(100) NOT NULL,
+                             `body` TEXT NOT NULL,
+                             teamLeader CHAR(20) NOT NULL,
+                             memberId INT NOT NULL,
+                             teamId INT NOT NULL
+);
+
+CREATE TABLE reply (
+                       id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                       regDate DATETIME NOT NULL,
+                       updateDate DATETIME NOT NULL,
+                       memberId INT(10) UNSIGNED NOT NULL,
+                       relTypeCode CHAR(50) NOT NULL COMMENT '관련 데이터 타입 코드',
+                       relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
+                       `body` TEXT NOT NULL
+);
+
 ALTER TABLE ftArticle ADD matchId INT AFTER fsId;
 UPDATE ftArticle SET matchId = id WHERE matchId IS NULL;
 
 INSERT INTO `match_participant`
 SET matchId = 1,
 memberId = 2;
+
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+
+
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+INSERT INTO `teamArticle`
+SET regDate = NOW(),
+updateDate = NOW(),
+title = '최강팀 멤버 구해요 !!',
+`body`= "최강팀 멤버 구합니다 !",
+teamLeader = 'qwe',
+memberId =1,
+teamId =1;
+
+
+select *from team;
+
+INSERT INTO `team`
+SET regDate = NOW(),
+updateDate = NOW(),
+teamName = '최강',
+teamRank = 4,
+`area` = '서울',
+teamLeader = 'qwe';
+
+INSERT INTO `team`
+SET regDate = NOW(),
+updateDate = NOW(),
+teamName = 'APKQWD',
+teamRank = 8,
+`area` = '경기',
+teamLeader = 'test11';
+
+INSERT INTO `team`
+SET regDate = NOW(),
+updateDate = NOW(),
+teamName = 'KLPPM',
+teamRank = 1,
+`area` = '부산',
+teamLeader = 'zzzz';
+
+INSERT INTO `team`
+SET regDate = NOW(),
+updateDate = NOW(),
+teamName = '9DKLN',
+teamRank = 9,
+`area` = '대전',
+teamLeader = 'dddd';
+
+INSERT INTO `team`
+SET regDate = NOW(),
+updateDate = NOW(),
+teamName = 'JKLBDV',
+teamRank = 4,
+`area` = '충남',
+teamLeader = 'qwe';
+
+INSERT INTO `team`
+SET regDate = NOW(),
+updateDate = NOW(),
+teamName = 'KLEOIQ',
+teamRank = 7,
+`area` = '전남',
+teamLeader = 'qwe';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+
+`name` = '풋살게시판';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+
+`name` = '축구게시판';
+
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+
+`name` = '팀구하기';
+INSERT INTO board
+SET regDate = NOW(),
+updateDate = NOW(),
+
+`name` = '용병구하기';
+
 
 DROP TABLE match_participant;
 UPDATE ftArticle SET playDate = '2024-06-01 15:00:00' WHERE id = 1015;
@@ -168,9 +345,12 @@ UPDATE ftArticle SET playDate = '2024-06-02 15:00:00' WHERE id = 810;
 SELECT * FROM match_participant;
 
 SELECT * FROM ftArticle;
+SELECT * FROM teamArticle;
 
-DROP TABLE `message`;
+DROP TABLE `teamArticle`;
 
+DROP TABLE `teamArticle`;
+select * from board;
 UPDATE `member`
 SET manner = '36.1'
 WHERE id = 2;
@@ -179,12 +359,12 @@ UPDATE ftArticle SET avgLevel = 5 WHERE avgLevel = '아마추어';
 
 ALTER TABLE `ftArticle`
     MODIFY COLUMN avgLevel INT;
-
+alter table teamArticle add column boardId int(10) not null after `memberId`;
 SELECT * FROM football_stadium;
-DROP TABLE message;
-SELECT * FROM message;
+drop table message;
+select * from message;
 SELECT * FROM `member`;
-
+select * from team;
 SELECT * FROM football_stadium ORDER BY id DESC;
 
 SELECT * FROM soccer_stadium ORDER BY id DESC;
@@ -195,7 +375,7 @@ WHERE matchId = 0;
 SELECT fa.*, fs.img
 FROM ftArticle fa
          INNER JOIN match_participant mp ON fa.id = mp.matchId
-         INNER JOIN football_stadium fs ON fa.id=fs.id
+         inner join football_stadium fs on fa.id=fs.id
 WHERE mp.memberId = 1
   AND fa.playDate < NOW()
 ORDER BY fa.playDate DESC

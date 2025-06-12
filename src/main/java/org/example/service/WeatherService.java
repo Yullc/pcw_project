@@ -7,8 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +18,10 @@ public class WeatherService {
 
     public List<WeatherDto> getWeatherByAreaAndDate(String area, LocalDate date) {
         System.out.println("🛰️ WeatherService 진입");
-        System.out.println("🎯 경기 날짜 (playDate): " + date);  // date는 LocalDate
+        System.out.println("🎯 경기 날짜 (playDate): " + date);
 
-        String cityName = "Seoul"; // 일단 서울만 고정
+        String cityName = convertAreaToCity(area);
+        System.out.println("📍 변환된 도시 이름: " + cityName);
 
         String url = String.format(
                 "https://api.openweathermap.org/data/2.5/forecast?q=%s,KR&appid=%s&units=metric",
@@ -39,20 +39,26 @@ public class WeatherService {
             for (int i = 0; i < list.length(); i++) {
                 JSONObject item = list.getJSONObject(i);
                 String dt_txt = item.getString("dt_txt");
-                LocalDateTime dateTime = LocalDateTime.parse(dt_txt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-                if (dateTime.toLocalDate().equals(date)) {
+                // 1. UTC 시간 파싱
+                LocalDateTime utcDateTime = LocalDateTime.parse(dt_txt, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+                ZonedDateTime koreaTime = utcDateTime.atZone(ZoneId.of("UTC")).withZoneSameInstant(ZoneId.of("Asia/Seoul"));
+
+                // 2. 날짜 비교 (KST 기준)
+                if (koreaTime.toLocalDate().equals(date)) {
                     double temp = item.getJSONObject("main").getDouble("temp");
                     String description = item.getJSONArray("weather").getJSONObject(0).getString("description");
                     String iconCode = item.getJSONArray("weather").getJSONObject(0).getString("icon");
                     String iconUrl = "https://openweathermap.org/img/wn/" + iconCode + "@2x.png";
 
-                    System.out.printf("🌤️ %s → %.1f°C, %s (%s)%n", dt_txt, temp, description, iconUrl);  // 로그!
+                    // 3. 표시용 시간 포맷
+                    String displayTime = koreaTime.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
-                    weatherList.add(new WeatherDto(description, temp, iconUrl, dt_txt));
+                    System.out.printf("🌤️ %s → %.1f°C, %s (%s)%n", displayTime, temp, description, iconUrl);
+
+                    weatherList.add(new WeatherDto(description, temp, iconUrl, displayTime));
                 }
             }
-
 
         } catch (HttpClientErrorException e) {
             System.err.println("🌧️ OpenWeather API 오류: " + e.getResponseBodyAsString());
@@ -60,26 +66,25 @@ public class WeatherService {
 
         return weatherList;
     }
+
     private String convertAreaToCity(String area) {
-        return switch (area) {
-            case "서울" -> "Seoul";
-            case "경기" -> "Suwon";
-            case "부산" -> "Busan";
-            case "인천" -> "Incheon";
-            case "대전" -> "Daejeon";
-            case "대구" -> "Daegu";
-            case "광주" -> "Gwangju";
-            case "울산" -> "Ulsan";
-            case "제주" -> "Jeju";
-            case "세종" -> "Sejong";
-            case "강원도" -> "Gangneung";
-            case "충청북도" -> "Cheongju";
-            case "충청남도" -> "Cheonan";
-            case "경상북도" -> "Pohang";
-            case "경상남도" -> "Changwon";
-            case "전라북도" -> "Jeonju";
-            case "전라남도" -> "Yeosu";
-            default -> "Seoul";
-        };
+        if (area.contains("서울")) return "Seoul";
+        if (area.contains("경기")) return "Suwon";
+        if (area.contains("부산")) return "Busan";
+        if (area.contains("인천")) return "Incheon";
+        if (area.contains("대전")) return "Daejeon";
+        if (area.contains("대구")) return "Daegu";
+        if (area.contains("광주")) return "Gwangju";
+        if (area.contains("울산")) return "Ulsan";
+        if (area.contains("제주")) return "Jeju";
+        if (area.contains("세종")) return "Sejong";
+        if (area.contains("강원")) return "Gangneung";
+        if (area.contains("충북")) return "Cheongju";
+        if (area.contains("충남")) return "Cheonan";
+        if (area.contains("경북")) return "Pohang";
+        if (area.contains("경남")) return "Changwon";
+        if (area.contains("전북")) return "Jeonju";
+        if (area.contains("전남")) return "Yeosu";
+        return "Seoul";
     }
 }
