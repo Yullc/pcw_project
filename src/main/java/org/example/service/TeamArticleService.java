@@ -82,12 +82,12 @@ public class TeamArticleService {
 
     }
 
-    public List<TeamArticle> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword) {
+    public List<TeamArticle> getForPrintArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword,String area) {
 
         int limitFrom = (page - 1) * itemsInAPage;
         int limitTake = itemsInAPage;
 
         return teamArticleRepository.getForPrintArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode,
-                searchKeyword);
+                searchKeyword,area);
     }
 }

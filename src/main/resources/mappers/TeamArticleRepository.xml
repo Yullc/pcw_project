@@ -154,12 +154,18 @@
                 </otherwise>
             </choose>
         </if>
+
+        <if test="area != ''">
+            AND T.area = #{area}
+        </if>
+
         GROUP BY A.id
         ORDER BY A.id DESC
         <if test="limitFrom >= 0">
             LIMIT #{limitFrom}, #{limitTake}
         </if>
     </select>
+
 
 
     <select id="getArticles"

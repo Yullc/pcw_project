@@ -18,7 +18,7 @@ public interface TeamArticleRepository {
 
     int getArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword);
 
-    List<TeamArticle> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode, String searchKeyword);
+    List<TeamArticle> getForPrintArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode, String searchKeyword,String area);
 
     TeamArticle getForPrintArticle(int id);
 

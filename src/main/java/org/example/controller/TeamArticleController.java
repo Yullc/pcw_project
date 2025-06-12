@@ -189,8 +189,8 @@ public class TeamArticleController {
 
         int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 
-        List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode,
-                searchKeyword);
+        List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(
+                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
         // ✅ teamRank → avgLevelName 으로 변환
         for (TeamArticle t : teamArticles) {
             try {
