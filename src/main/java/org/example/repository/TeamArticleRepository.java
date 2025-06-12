@@ -12,7 +12,7 @@ public interface TeamArticleRepository {
 
     int getLastInsertId();
 
-    void writeArticle(int memberId, String title, String body);
+    void writeArticle(int memberId, String title, String body,int teamId);
 
     TeamArticle getArticleById(int id);
 

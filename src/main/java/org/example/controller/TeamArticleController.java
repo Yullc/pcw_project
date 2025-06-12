@@ -2,10 +2,7 @@ package org.example.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.interceptor.BeforeActionInterceptor;
-import org.example.service.BoardService;
-import org.example.service.ReactionPointService;
-import org.example.service.ReplyService;
-import org.example.service.TeamArticleService;
+import org.example.service.*;
 import org.example.util.RankUtil;
 import org.example.util.Ut;
 import org.example.vo.*;
@@ -29,10 +26,12 @@ public class TeamArticleController {
 
     @Autowired
     private TeamArticleService teamArticleService;
-
+    @Autowired
+    private TeamService teamService;
     @Autowired
     private BoardService boardService;
-
+    @Autowired
+    private MemberService memberService;
     @Autowired
     private ReactionPointService reactionPointService;
 
@@ -151,7 +150,6 @@ public class TeamArticleController {
     @RequestMapping("/usr/article/doWrite")
     @ResponseBody
     public String doWrite(HttpServletRequest req, String title, String body) {
-
         Rq rq = (Rq) req.getAttribute("rq");
 
         if (Ut.isEmptyOrNull(title)) {
@@ -162,16 +160,17 @@ public class TeamArticleController {
             return Ut.jsHistoryBack("F-2", "내용을 입력하세요");
         }
 
+        int loginedMemberId = rq.getLoginedMemberId();
+        Member member = memberService.getMemberById(loginedMemberId); // 닉네임을 얻기 위함
+        Team team = teamService.getTeamByLeaderNickName(member.getNickName());
+        int teamId = team.getId();
 
+        ResultData doWriteRd = teamArticleService.writeArticle(loginedMemberId, title, body, teamId);
 
-        ResultData doWriteRd = teamArticleService.writeArticle(rq.getLoginedMemberId(), title, body);
-
-        int id = (int) doWriteRd.getData1();
-
-        TeamArticle teamArticle = teamArticleService.getArticleById(id);
-
-        return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../article/detail?id=" + id);
+        int newId = (int) doWriteRd.getData1();
+        return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../article/findTeam_detail?id=" + newId);
     }
+
 
     @RequestMapping("/usr/article/findTeam")
     public String showList(HttpServletRequest req, Model model,

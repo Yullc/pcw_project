@@ -9,10 +9,10 @@
         INSERT INTO teamArticle
         SET
             regDate = NOW(),
-		updateDate = NOW(),
-		memberId = #{memberId},
-            title =
-            #{title},
+        updateDate = NOW(),
+        memberId = #{memberId},
+            teamId = #{teamId},
+            title = #{title},
             `body` = #{body}
     </insert>
 

@@ -17,6 +17,7 @@ public class TeamArticle {
     private String body;
     private String teamLeader;
     private int memberId;
+    private int teamId;
     private boolean userCanModify;
     private boolean userCanDelete;
     private String avgLevelName;
