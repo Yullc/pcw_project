@@ -44,7 +44,7 @@ public class TeamArticleService {
             return ResultData.from("F-A", Ut.f("%d번 게시글에 대한 삭제 권한 없음", teamArticle.getId()));
         }
 
-        return ResultData.from("S-1", Ut.f("%d번 게시글 삭제 가능", teamArticle.getId()));
+        return ResultData.from("S-1", Ut.f("%d번 게시글 삭제 완료", teamArticle.getId()));
     }
 
     public TeamArticle getArticleById(int id) {
@@ -58,7 +58,7 @@ public class TeamArticleService {
             return ResultData.from("F-A", Ut.f("%d번 게시글에 대한 수정 권한 없음", teamArticle.getId()));
         }
 
-        return ResultData.from("S-1", Ut.f("%d번 게시글 수정 가능", teamArticle.getId()));
+        return ResultData.from("S-1", Ut.f("%d번 게시글 수정 완료", teamArticle.getId()));
     }
 
     public void modifyArticle(int id, String title, String body) {

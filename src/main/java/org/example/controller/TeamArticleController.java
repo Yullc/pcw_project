@@ -93,7 +93,7 @@ public class TeamArticleController {
             return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 없습니다", id));
         }
 
-        ResultData userCanDeleteRd = teamArticleService.userCanModify(rq.getLoginedMemberId(),teamArticle);
+        ResultData userCanDeleteRd = teamArticleService.userCanDelete(rq.getLoginedMemberId(),teamArticle);
 
         if (userCanDeleteRd.isFail()) {
             return Ut.jsHistoryBack(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg());
@@ -103,7 +103,7 @@ public class TeamArticleController {
             teamArticleService.deleteArticle(id);
         }
 
-        return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../article/list");
+        return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../article/findTeam");
     }
 
     @RequestMapping("/usr/article/findTeam_detail")
