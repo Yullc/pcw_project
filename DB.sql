@@ -170,7 +170,8 @@ CREATE TABLE reply (
                        relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
                        `body` TEXT NOT NULL
 );
-
+SELECT * FROM teamArticle;
+SELECT * FROM `member`;
 ALTER TABLE ftArticle ADD matchId INT AFTER fsId;
 UPDATE ftArticle SET matchId = id WHERE matchId IS NULL;
 
@@ -264,7 +265,7 @@ memberId =1,
 teamId =1;
 
 
-select *from team;
+SELECT *FROM team;
 
 INSERT INTO `team`
 SET regDate = NOW(),
@@ -343,39 +344,40 @@ UPDATE ftArticle SET playDate = '2024-06-01 15:00:00' WHERE id = 1015;
 UPDATE ftArticle SET playDate = '2024-06-02 15:00:00' WHERE id = 810;
 
 SELECT * FROM match_participant;
-
+SELECT * FROM reply;
 SELECT * FROM ftArticle;
 SELECT * FROM teamArticle;
-
+SELECT * FROM team;
 DROP TABLE `teamArticle`;
 
 DROP TABLE `teamArticle`;
-select * from board;
+SELECT * FROM board;
 UPDATE `member`
-SET manner = '36.1'
+SET teamId = '2'
 WHERE id = 2;
 
 UPDATE ftArticle SET avgLevel = 5 WHERE avgLevel = '아마추어';
 
 ALTER TABLE `ftArticle`
     MODIFY COLUMN avgLevel INT;
-alter table teamArticle add column boardId int(10) not null after `memberId`;
+ALTER TABLE `member` ADD COLUMN `teamId` INT NOT NULL AFTER `manner`;
 SELECT * FROM football_stadium;
-drop table message;
-select * from message;
+DROP TABLE message;
+SELECT * FROM message;
 SELECT * FROM `member`;
-select * from team;
+SELECT * FROM team;
 SELECT * FROM football_stadium ORDER BY id DESC;
 
 SELECT * FROM soccer_stadium ORDER BY id DESC;
 
 DELETE FROM match_participant
 WHERE matchId = 0;
+ALTER TABLE `member` DROP COLUMN teamNm;
 
 SELECT fa.*, fs.img
 FROM ftArticle fa
          INNER JOIN match_participant mp ON fa.id = mp.matchId
-         inner join football_stadium fs on fa.id=fs.id
+         INNER JOIN football_stadium fs ON fa.id=fs.id
 WHERE mp.memberId = 1
   AND fa.playDate < NOW()
 ORDER BY fa.playDate DESC
