@@ -42,9 +42,8 @@ public class TeamArticleController {
         this.beforeActionInterceptor = beforeActionInterceptor;
     }
 
-    @RequestMapping("/usr/team/modify")
+    @RequestMapping("/usr/article/modify")
     public String showModify(HttpServletRequest req, Model model, int id) {
-
         Rq rq = (Rq) req.getAttribute("rq");
 
         TeamArticle teamArticle = teamArticleService.getForPrintArticle(rq.getLoginedMemberId(), id);
@@ -53,22 +52,21 @@ public class TeamArticleController {
             return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 없습니다", id));
         }
 
-        model.addAttribute("article", teamArticle);
-
-        return "/usr/article/modify";
+        model.addAttribute("teamArticle", teamArticle);
+        return "usr/article/findTeam_modify";
     }
+
 
     // 로그인 체크 -> 유무 체크 -> 권한체크
     @RequestMapping("/usr/article/doModify")
     @ResponseBody
     public String doModify(HttpServletRequest req, int id, String title, String body) {
-
         Rq rq = (Rq) req.getAttribute("rq");
 
         TeamArticle teamArticle = teamArticleService.getArticleById(id);
 
         if (teamArticle == null) {
-            return Ut.jsReplace("F-1", Ut.f("%d번 게시글은 없습니다", id), "../article/list");
+            return Ut.jsReplace("F-1", Ut.f("%d번 게시글은 없습니다", id), "../article/findTeam");
         }
 
         ResultData userCanModifyRd = teamArticleService.userCanModify(rq.getLoginedMemberId(), teamArticle);
@@ -77,14 +75,11 @@ public class TeamArticleController {
             return Ut.jsHistoryBack(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg());
         }
 
-        if (userCanModifyRd.isSuccess()) {
-            teamArticleService.modifyArticle(id, title, body);
-        }
+        teamArticleService.modifyArticle(id, title, body);
 
-        teamArticle = teamArticleService.getArticleById(id);
-
-        return Ut.jsReplace(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg(), "../article/detail?id=" + id);
+        return Ut.jsReplace("S-1", "수정되었습니다.", "../article/findTeam_detail?id=" + id);
     }
+
 
     @RequestMapping("/usr/article/doDelete")
     @ResponseBody

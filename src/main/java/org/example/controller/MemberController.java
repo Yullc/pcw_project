@@ -164,7 +164,7 @@ public class MemberController {
 
         req.setAttribute("rq", rq);
 
-        return "usr/member/modify"; // modify.jsp
+        return "usr/member/modify";
     }
     @RequestMapping("/usr/member/doModify")
     @ResponseBody

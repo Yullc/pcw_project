@@ -32,9 +32,24 @@
             </div>
         </div>
 
+        <!-- ✅ 작성자일 경우에만 수정/삭제 버튼 노출 -->
+        <c:if test="${rq.loginedMemberId == teamArticle.memberId}">
+            <div class="pt-4 flex justify-end space-x-2">
+                <a href="/usr/article/modify?id=${teamArticle.id}"
+                   class="text-sm text-white bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-full">
+                    ✏️ 수정
+                </a>
+                <a href="/usr/article/doDelete?id=${teamArticle.id}"
+                   onclick="return confirm('정말 삭제하시겠습니까?');"
+                   class="text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full">
+                    🗑️ 삭제
+                </a>
+            </div>
+        </c:if>
+
         <!-- 뒤로가기 버튼 -->
         <div class="pt-4 text-right">
-            <a href="/usr/article/findTeam" class="text-sm text-white bg-green-600 hover:bg-green-600 px-4 py-2 rounded-full">
+            <a href="/usr/article/findTeam" class="text-sm text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-full">
                 ← 목록으로
             </a>
         </div>
