@@ -14,7 +14,7 @@ public interface MercenaryArticleRepository {
 
     int getLastInsertId();
 
-    void writeArticle(int memberId, String title, String body);
+    void writeArticle(int memberId, String title, String body, String area);
 
     MercenaryArticle getArticleById(int id);
 

@@ -71,8 +71,8 @@ public class MercenaryArticleService {
         mercenaryArticleRepository.deleteArticle(id);
     }
 
-    public ResultData writeArticle(int memberId, String title, String body) {
-        mercenaryArticleRepository.writeArticle(memberId, title, body);
+    public ResultData writeArticle(int memberId, String title, String body, String area) {
+        mercenaryArticleRepository.writeArticle(memberId, title, body, area);
 
         int id = mercenaryArticleRepository.getLastInsertId();
 

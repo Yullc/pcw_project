@@ -40,6 +40,8 @@
                    class="w-full border border-green-600 p-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-400" required />
         </div>
 
+
+
         <div class="mb-6">
             <label class="block mb-2 font-semibold">내용</label>
             <div class="toast-ui-editor">

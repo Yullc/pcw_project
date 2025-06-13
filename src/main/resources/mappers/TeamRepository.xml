@@ -9,6 +9,7 @@
         SELECT *
         FROM team
         WHERE teamLeader = #{nickName}
+        LIMIT 1
     </select>
 
 </mapper>

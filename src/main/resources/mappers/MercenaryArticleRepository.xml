@@ -12,7 +12,8 @@
             updateDate = NOW(),
             memberId = #{memberId},
             title = #{title},
-            `body` = #{body}
+            `body` = #{body},
+            area = #{area}
     </insert>
 
     <delete id="deleteArticle" parameterType="int">

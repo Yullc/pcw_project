@@ -139,7 +139,7 @@ public class MercenaryArticleController {
 
     @RequestMapping("/usr/mercenaryArticle/doWrite")
     @ResponseBody
-    public String doWrite(HttpServletRequest req, String title, String body) {
+    public String doWrite(HttpServletRequest req, String title, String body, String area) {
         Rq rq = (Rq) req.getAttribute("rq");
 
         if (Ut.isEmptyOrNull(title)) {
@@ -155,7 +155,7 @@ public class MercenaryArticleController {
 
 
 
-        ResultData doWriteRd = mercenaryArticleService.writeArticle(loginedMemberId, title, body);
+        ResultData doWriteRd = mercenaryArticleService.writeArticle(loginedMemberId, title, body, area);
 
         int newId = (int) doWriteRd.getData1();
         return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../mercenaryArticle/findMercenary_detail?id=" + newId);
