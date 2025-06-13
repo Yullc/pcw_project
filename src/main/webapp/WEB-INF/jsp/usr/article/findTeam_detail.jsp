@@ -49,9 +49,10 @@
         <!-- 댓글 영역 -->
         <!-- 댓글 작성 폼 -->
         <c:if test="${rq.isLogined()}">
-            <form action="/usr/reply/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;" class="mt-10 space-y-4">
-                <input type="hidden" name="relTypeCode" value="teamArticle" />
-                <input type="hidden" name="relId" value="${teamArticle.id}" />
+            <form action="/usr/reply/doWrite" method="POST" onsubmit="ReplyWrite__submit(this); return false;"
+                  class="mt-10 space-y-4">
+                <input type="hidden" name="relTypeCode" value="teamArticle"/>
+                <input type="hidden" name="relId" value="${teamArticle.id}"/>
 
                 <textarea name="body" rows="3"
                           class="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
@@ -79,20 +80,21 @@
         <div class="mt-8 space-y-4">
             <c:forEach var="reply" items="${replies}">
                 <div id="reply-${reply.id}" class="bg-gray-100 rounded p-2 my-2">
-
                     <div class="flex justify-between items-start">
                         <div class="text-sm text-gray-700">
                             <strong>${reply.extra__writer}</strong>
-                            <span class="ml-2">${reply.body}</span>
+                            <span class="ml-2 reply-body">${reply.body}</span>
                         </div>
 
                         <c:if test="${rq.loginedMemberId == reply.memberId}">
                             <div class="space-x-2 text-right">
-                                <button class="text-yellow-600 text-sm font-semibold edit-btn" data-id="${reply.id}" data-body="${reply.body}">
+                                <button type="button"
+                                        class="text-yellow-600 text-sm font-semibold edit-btn"
+                                        data-id="${reply.id}">
                                     ✏️ 수정
                                 </button>
                                 <form action="/usr/reply/doDelete" method="post" class="inline">
-                                    <input type="hidden" name="id" value="${reply.id}" />
+                                    <input type="hidden" name="id" value="${reply.id}"/>
                                     <button type="submit" class="text-red-600 text-sm font-semibold">🗑 삭제</button>
                                 </form>
                             </div>
@@ -100,17 +102,24 @@
                     </div>
 
                     <!-- ✅ 숨겨진 수정 폼 -->
-                    <form action="/usr/reply/doModify" method="post" class="edit-form mt-2 hidden" id="edit-form-${reply.id}">
-                        <input type="hidden" name="id" value="${reply.id}" />
-                        <textarea name="body" class="w-full p-2 border rounded text-sm">${reply.body}</textarea>
+                    <form onsubmit="submitReplyModify(event, '${reply.id}')"
+                          class="edit-form mt-2 hidden"
+                          id="edit-form-${reply.id}">
+                        <input type="hidden" name="id" value="${reply.id}"/>
+                        <textarea name="body"
+                                  class="reply-textarea w-full p-2 border rounded text-sm">${reply.body}</textarea>
                         <div class="text-right mt-1">
-                            <button type="submit" class="bg-green-500 text-white text-sm px-3 py-1 rounded">💾 저장</button>
-                            <button type="button" class="cancel-btn text-gray-500 text-sm ml-2" data-id="${reply.id}">취소</button>
+                            <button type="submit" class="bg-green-500 text-white text-sm px-3 py-1 rounded">💾 저장
+                            </button>
+                            <button type="button" class="cancel-btn text-gray-500 text-sm ml-2" data-id="${reply.id}">
+                                취소
+                            </button>
                         </div>
                     </form>
                 </div>
             </c:forEach>
         </div>
+
         <script>
             document.addEventListener("DOMContentLoaded", function () {
                 const editButtons = document.querySelectorAll(".edit-btn");
@@ -122,11 +131,9 @@
                         const replyDiv = document.getElementById("reply-" + id);
                         const editForm = document.getElementById("edit-form-" + id);
 
-                        // 기존 댓글 텍스트 숨기기
-                        replyDiv.querySelector("span").style.display = "none";
+                        // 본문 숨기기, 폼 보이기
+                        replyDiv.querySelector("span.reply-body").style.display = "none";
                         this.style.display = "none";
-
-                        // 수정 폼 보여주기
                         editForm.classList.remove("hidden");
                     });
                 });
@@ -137,27 +144,62 @@
                         const replyDiv = document.getElementById("reply-" + id);
                         const editForm = document.getElementById("edit-form-" + id);
 
-                        // 댓글 텍스트 다시 보이기
-                        replyDiv.querySelector("span").style.display = "inline";
+                        // 본문 보이기, 폼 숨기기
+                        replyDiv.querySelector("span.reply-body").style.display = "inline";
                         replyDiv.querySelector(".edit-btn").style.display = "inline";
-
-                        // 수정 폼 숨기기
                         editForm.classList.add("hidden");
                     });
                 });
             });
+
+            // ✅ AJAX 댓글 수정 함수
+            function submitReplyModify(event, replyId) {
+                event.preventDefault();
+
+                const form = document.getElementById("edit-form-" + replyId);
+                const textArea = form.querySelector(".reply-textarea");
+                const newBody = textArea.value.trim();
+
+                if (newBody.length < 3) {
+                    alert("댓글은 3글자 이상이어야 합니다.");
+                    textArea.focus();
+                    return;
+                }
+
+                fetch("/usr/reply/doModify", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: "id=" + replyId + "&body=" + encodeURIComponent(newBody)
+
+                })
+                    .then(res => res.text())
+                    .then(res => {
+                        const replyDiv = document.getElementById("reply-" + replyId);
+                        replyDiv.querySelector("span.reply-body").textContent = newBody;
+                        replyDiv.querySelector("span.reply-body").style.display = "inline";
+                        replyDiv.querySelector(".edit-btn").style.display = "inline";
+                        form.classList.add("hidden");
+                    })
+                    .catch(err => {
+                        alert("댓글 수정 중 오류 발생");
+                        console.error(err);
+                    });
+            }
         </script>
+
 
         <!-- 뒤로가기 버튼 -->
         <div class="pt-4 text-right">
-            <a href="/usr/article/findTeam" class="text-sm text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-full">
+            <a href="/usr/article/findTeam"
+               class="text-sm text-white bg-green-600 hover:bg-green-700 px-4 py-2 rounded-full">
                 ← 목록으로
             </a>
         </div>
     </div>
 </div>
 <!-- 댓글 영역 -->
-
 
 
 <script>
