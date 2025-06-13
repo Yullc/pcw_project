@@ -35,7 +35,7 @@
         <!-- ✅ 작성자일 경우에만 수정/삭제 버튼 노출 -->
         <c:if test="${rq.loginedMemberId == mercenaryArticle.memberId}">
             <div class="pt-4 flex justify-end space-x-2">
-                <a href="/usr/mercenaryArticle/doModify?id=${mercenaryArticle.id}"
+                <a href="/usr/mercenaryArticle/modify?id=${mercenaryArticle.id}"
                    class="text-sm text-white bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-full">
                     ✏️ 수정
                 </a>

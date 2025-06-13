@@ -149,7 +149,7 @@ public class TeamArticleController {
 
     @RequestMapping("/usr/article/doWrite")
     @ResponseBody
-    public String doWrite(HttpServletRequest req, String title, String body) {
+    public String doWrite(HttpServletRequest req, String title, String body, String area) {
         Rq rq = (Rq) req.getAttribute("rq");
 
         if (Ut.isEmptyOrNull(title)) {
@@ -165,7 +165,7 @@ public class TeamArticleController {
         Team team = teamService.getTeamByLeaderNickName(member.getNickName());
         int teamId = team.getId();
 
-        ResultData doWriteRd = teamArticleService.writeArticle(loginedMemberId, title, body, teamId);
+        ResultData doWriteRd = teamArticleService.writeArticle(loginedMemberId, title, body, teamId, area);
 
         int newId = (int) doWriteRd.getData1();
         return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../article/findTeam_detail?id=" + newId);

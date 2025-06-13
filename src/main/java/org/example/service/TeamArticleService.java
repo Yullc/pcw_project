@@ -77,8 +77,8 @@ public class TeamArticleService {
         teamArticleRepository.deleteArticle(id);
     }
 
-    public ResultData writeArticle(int memberId, String title, String body, int teamId) {
-        teamArticleRepository.writeArticle(memberId, title, body, teamId);
+    public ResultData writeArticle(int memberId, String title, String body, int teamId, String area) {
+        teamArticleRepository.writeArticle(memberId, title, body, teamId, area);
 
         int id = teamArticleRepository.getLastInsertId();
 

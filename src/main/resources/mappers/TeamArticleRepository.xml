@@ -13,7 +13,8 @@
         memberId = #{memberId},
             teamId = #{teamId},
             title = #{title},
-            `body` = #{body}
+            `body` = #{body},
+            area = #{area}
     </insert>
 
     <delete id="deleteArticle" parameterType="int">

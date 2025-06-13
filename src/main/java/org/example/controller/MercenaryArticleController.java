@@ -48,7 +48,7 @@ public class MercenaryArticleController {
         }
 
         model.addAttribute("mercenaryArticle", mercenaryArticle);
-        return "usr/mercenaryArticle/findTeam_modify";
+        return "usr/mercenaryArticle/findMercenary_modify";
     }
 
 
