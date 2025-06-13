@@ -180,7 +180,8 @@ public class TeamArticleController {
         int boardId =3;
 
         int articlesCount = teamArticleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
-
+        int memberId = rq.getLoginedMemberId();
+        Member member = memberService.getMemberById(memberId);
         // 한 페이지에 글 10개씩
         // 글 20 -> 2page
         // 글 25 -> 3page
@@ -215,6 +216,7 @@ public class TeamArticleController {
             teamArticles = filteredList;
         }
         System.out.println(teamArticles);
+        model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("articlesCount", articlesCount);
         model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);

@@ -35,11 +35,11 @@
         <!-- ✅ 작성자일 경우에만 수정/삭제 버튼 노출 -->
         <c:if test="${rq.loginedMemberId == teamArticle.memberId}">
             <div class="pt-4 flex justify-end space-x-2">
-                <a href="/usr/article/modify?id=${teamArticle.id}"
+                <a href="/usr/reply/doModify?id=${teamArticle.id}"
                    class="text-sm text-white bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-full">
                     ✏️ 수정
                 </a>
-                <a href="/usr/article/doDelete?id=${teamArticle.id}"
+                <a href="/usr/reply/doDelete?id=${teamArticle.id}"
                    onclick="return confirm('정말 삭제하시겠습니까?');"
                    class="text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full">
                     🗑️ 삭제
@@ -81,10 +81,7 @@
                             <span class="font-semibold">${reply.extra__writer}</span>
                             <span class="ml-2">${reply.regDate.substring(0,10)}</span>
                         </div>
-                        <div class="space-x-2">
-                            <span>👍 ${reply.goodReactionPoint}</span>
-                            <span>👎 ${reply.badReactionPoint}</span>
-                        </div>
+
                     </div>
 
                     <div class="mt-2 text-gray-800" id="reply-${reply.id}">${reply.body}</div>

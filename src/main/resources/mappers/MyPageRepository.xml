@@ -11,7 +11,7 @@
         FROM ftArticle fa
         INNER JOIN match_participant mp ON fa.id = mp.matchId
         INNER JOIN football_stadium fs ON fa.id=fs.id
-        WHERE mp.memberId = 1
+        WHERE mp.memberId = #{memberId}
         AND fa.playDate &lt;  NOW()
         ORDER BY fa.playDate DESC
         LIMIT 3;
