@@ -3,3 +3,28 @@
 .toastui-editor-contents {
     text-align: center;
 }
+
+/* 테마 */Add commentMore actions
+        .btn-theme-toggle>span:first-child {
+            display: none;
+        }
+
+html[data-theme="dark"] .btn-theme-toggle>span:first-child {
+    display: inline;
+}
+
+html[data-theme="dark"] * {
+    color: white;
+}
+
+html[data-theme="dark"] .toastui-editor-md-preview {
+    color: white;
+}
+
+html[data-theme="dark"] .toastui-editor-contents * {
+    color: white !important;
+}
+
+html[data-theme="dark"] .btn-theme-toggle>span:last-child {
+    display: none;
+}
