@@ -68,50 +68,85 @@
 
         <c:if test="${!rq.isLogined()}">
             <div class="text-gray-500 mt-8 text-center">
-                댓글을 작성하려면 <a href="${rq.loginUri}" class="text-green-600 font-semibold hover:underline">로그인</a>이 필요합니다.
+                댓글을 작성하려면
+                <a href="${rq.loginUri}" class="text-green-600 font-semibold hover:underline">로그인</a>
+                이 필요합니다.
             </div>
         </c:if>
+
 
         <!-- 댓글 리스트 -->
         <div class="mt-8 space-y-4">
             <c:forEach var="reply" items="${replies}">
-                <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-                    <div class="flex justify-between items-center text-sm text-gray-600">
-                        <div>
-                            <span class="font-semibold">${reply.extra__writer}</span>
-                            <span class="ml-2">${reply.regDate.substring(0,10)}</span>
+                <div id="reply-${reply.id}" class="bg-gray-100 rounded p-2 my-2">
+
+                    <div class="flex justify-between items-start">
+                        <div class="text-sm text-gray-700">
+                            <strong>${reply.extra__writer}</strong>
+                            <span class="ml-2">${reply.body}</span>
                         </div>
 
+                        <c:if test="${rq.loginedMemberId == reply.memberId}">
+                            <div class="space-x-2 text-right">
+                                <button class="text-yellow-600 text-sm font-semibold edit-btn" data-id="${reply.id}" data-body="${reply.body}">
+                                    ✏️ 수정
+                                </button>
+                                <form action="/usr/reply/doDelete" method="post" class="inline">
+                                    <input type="hidden" name="id" value="${reply.id}" />
+                                    <button type="submit" class="text-red-600 text-sm font-semibold">🗑 삭제</button>
+                                </form>
+                            </div>
+                        </c:if>
                     </div>
 
-                    <div class="mt-2 text-gray-800" id="reply-${reply.id}">${reply.body}</div>
-
-                    <form id="modify-form-${reply.id}" class="mt-2 hidden" method="POST" action="/usr/reply/doModify">
+                    <!-- ✅ 숨겨진 수정 폼 -->
+                    <form action="/usr/reply/doModify" method="post" class="edit-form mt-2 hidden" id="edit-form-${reply.id}">
                         <input type="hidden" name="id" value="${reply.id}" />
-                        <input type="text" name="body" value="${reply.body}"
-                               class="w-full border border-gray-300 p-2 rounded" />
+                        <textarea name="body" class="w-full p-2 border rounded text-sm">${reply.body}</textarea>
+                        <div class="text-right mt-1">
+                            <button type="submit" class="bg-green-500 text-white text-sm px-3 py-1 rounded">💾 저장</button>
+                            <button type="button" class="cancel-btn text-gray-500 text-sm ml-2" data-id="${reply.id}">취소</button>
+                        </div>
                     </form>
-
-                    <div class="mt-2 flex gap-4 text-sm text-green-700">
-                        <c:if test="${reply.userCanModify}">
-                            <button id="modify-btn-${reply.id}" onclick="toggleModifybtn('${reply.id}')"
-                                    class="hover:underline">수정</button>
-                            <button id="save-btn-${reply.id}" onclick="doModifyReply('${reply.id}')"
-                                    class="hover:underline hidden">저장</button>
-                        </c:if>
-
-                        <c:if test="${reply.userCanDelete}">
-                            <a href="/usr/reply/doDelete?id=${reply.id}" onclick="return confirm('정말 삭제할까요?')"
-                               class="text-red-600 hover:underline">삭제</a>
-                        </c:if>
-                    </div>
                 </div>
             </c:forEach>
-
-            <c:if test="${empty replies}">
-                <div class="text-center text-gray-500 mt-6">댓글이 없습니다.</div>
-            </c:if>
         </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", function () {
+                const editButtons = document.querySelectorAll(".edit-btn");
+                const cancelButtons = document.querySelectorAll(".cancel-btn");
+
+                editButtons.forEach(btn => {
+                    btn.addEventListener("click", function () {
+                        const id = this.dataset.id;
+                        const replyDiv = document.getElementById("reply-" + id);
+                        const editForm = document.getElementById("edit-form-" + id);
+
+                        // 기존 댓글 텍스트 숨기기
+                        replyDiv.querySelector("span").style.display = "none";
+                        this.style.display = "none";
+
+                        // 수정 폼 보여주기
+                        editForm.classList.remove("hidden");
+                    });
+                });
+
+                cancelButtons.forEach(btn => {
+                    btn.addEventListener("click", function () {
+                        const id = this.dataset.id;
+                        const replyDiv = document.getElementById("reply-" + id);
+                        const editForm = document.getElementById("edit-form-" + id);
+
+                        // 댓글 텍스트 다시 보이기
+                        replyDiv.querySelector("span").style.display = "inline";
+                        replyDiv.querySelector(".edit-btn").style.display = "inline";
+
+                        // 수정 폼 숨기기
+                        editForm.classList.add("hidden");
+                    });
+                });
+            });
+        </script>
 
         <!-- 뒤로가기 버튼 -->
         <div class="pt-4 text-right">
@@ -125,30 +160,30 @@
 
 
 
-        <script>
-            function ReplyWrite__submit(form) {
-                form.body.value = form.body.value.trim();
+<script>
+    function ReplyWrite__submit(form) {
+        form.body.value = form.body.value.trim();
 
-                if (form.body.value.length < 3) {
-                    alert("댓글은 3글자 이상 입력해주세요.");
-                    form.body.focus();
-                    return;
-                }
+        if (form.body.value.length < 3) {
+            alert("댓글은 3글자 이상 입력해주세요.");
+            form.body.focus();
+            return;
+        }
 
-                form.submit();
-            }
+        form.submit();
+    }
 
-            function toggleModifybtn(replyId) {
-                document.querySelector(`#reply-${replyId}`).style.display = "none";
-                document.querySelector(`#modify-form-${replyId}`).classList.remove("hidden");
-                document.querySelector(`#modify-btn-${replyId}`).classList.add("hidden");
-                document.querySelector(`#save-btn-${replyId}`).classList.remove("hidden");
-            }
+    function toggleModifybtn(replyId) {
+        document.querySelector(`#reply-${replyId}`).style.display = "none";
+        document.querySelector(`#modify-form-${replyId}`).classList.remove("hidden");
+        document.querySelector(`#modify-btn-${replyId}`).classList.add("hidden");
+        document.querySelector(`#save-btn-${replyId}`).classList.remove("hidden");
+    }
 
-            function doModifyReply(replyId) {
-                document.querySelector(`#modify-form-${replyId}`).submit();
-            }
-        </script>
+    function doModifyReply(replyId) {
+        document.querySelector(`#modify-form-${replyId}`).submit();
+    }
+</script>
 
 </body>
 </html>
