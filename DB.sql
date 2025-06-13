@@ -1,3 +1,6 @@
+
+
+
 CREATE DATABASE `pcw_project_DB`;
 USE `pcw_project_DB`;
 SHOW DATABASES;
@@ -161,6 +164,15 @@ CREATE TABLE teamArticle (
                              teamId INT NOT NULL
 );
 
+CREATE TABLE mercenaryArticle (
+                                  id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
+                                  regDate DATETIME NOT NULL,
+                                  updateDate DATETIME NOT NULL,
+                                  title CHAR(100) NOT NULL,
+                                  `body` TEXT NOT NULL,
+                                  memberId INT NOT NULL
+);
+
 CREATE TABLE reply (
                        id INT(10) UNSIGNED NOT NULL PRIMARY KEY AUTO_INCREMENT,
                        regDate DATETIME NOT NULL,
@@ -170,23 +182,32 @@ CREATE TABLE reply (
                        relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
                        `body` TEXT NOT NULL
 );
+SELECT * FROM mercenaryArticle;
 SELECT * FROM teamArticle;
 SELECT * FROM `member`;
-ALTER TABLE ftArticle ADD matchId INT AFTER fsId;
-UPDATE ftArticle SET matchId = id WHERE matchId IS NULL;
+ALTER TABLE `mercenaryArticle` ADD `area` CHAR(20) AFTER `body`;
+ALTER TABLE MEMBER MODIFY COLUMN teamId INT DEFAULT 0;
 
+UPDATE soccer_stadium
+SET img = '/img/default_sta.jpg'
+WHERE img IS NULL;
+
+UPDATE `member`
+SET profileImg = '/img/profile.jpg'
+WHERE profileImg IS NULL;
+
+UPDATE ftArticle SET matchId = id WHERE matchId IS NULL;
+ALTER TABLE MEMBER ADD COLUMN teamNm VARCHAR(100);
 INSERT INTO `match_participant`
 SET matchId = 1,
 memberId = 2;
 
-INSERT INTO `teamArticle`
+INSERT INTO `mercenaryArticle`
 SET regDate = NOW(),
 updateDate = NOW(),
-title = '최강팀 멤버 구해요 !!',
-`body`= "최강팀 멤버 구합니다 !",
-teamLeader = 'qwe',
-memberId =1,
-teamId =1;
+title = '6월 13일 서울 경기장 용병 뛰실 분~',
+`body`= "6월 13일 서울 경기장 용병 뛰실 분",
+memberId =1;
 
 INSERT INTO `teamArticle`
 SET regDate = NOW(),
@@ -346,10 +367,13 @@ UPDATE ftArticle SET playDate = '2024-06-02 15:00:00' WHERE id = 810;
 SELECT * FROM match_participant;
 SELECT * FROM reply;
 SELECT * FROM ftArticle;
-SELECT * FROM teamArticle;
+`area`
 SELECT * FROM team;
 DROP TABLE `teamArticle`;
-
+SELECT id, title, BODY FROM teamArticle WHERE id = 25;
+UPDATE teamArticle
+SET BODY = '초기화된 내용입니다. 다시 수정해 보세요!'
+WHERE id = 25;
 DROP TABLE `teamArticle`;
 SELECT * FROM board;
 UPDATE `member`
@@ -360,12 +384,17 @@ UPDATE ftArticle SET avgLevel = 5 WHERE avgLevel = '아마추어';
 
 ALTER TABLE `ftArticle`
     MODIFY COLUMN avgLevel INT;
-ALTER TABLE `member` ADD COLUMN `teamId` INT NOT NULL AFTER `manner`;
+ALTER TABLE `teamArticle` ADD COLUMN `area` CHAR(20) NOT NULL AFTER `body`;
+ALTER TABLE `teamArticle`
+    MODIFY COLUMN `area` VARCHAR(20) NOT NULL;
+
+DESC teamArticle;
 SELECT * FROM football_stadium;
 DROP TABLE message;
 SELECT * FROM message;
 SELECT * FROM `member`;
 SELECT * FROM team;
+SELECT * FROM `board`
 SELECT * FROM football_stadium ORDER BY id DESC;
 
 SELECT * FROM soccer_stadium ORDER BY id DESC;
