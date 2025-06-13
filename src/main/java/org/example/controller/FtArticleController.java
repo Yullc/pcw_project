@@ -136,7 +136,7 @@ public class FtArticleController {
 
             ftArticles = filteredList;
         }
-
+        System.out.println(member.getProfileImg());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("ftArticles", ftArticles);
         model.addAttribute("searchKeyword", searchKeyword);

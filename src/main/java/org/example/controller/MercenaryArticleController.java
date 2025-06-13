@@ -101,7 +101,7 @@ public class MercenaryArticleController {
         return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../mercenaryArticle/findMercenary");
     }
 
-    @RequestMapping("/usr/mercenaryArticle/findMercenaryArticle_detail")
+    @RequestMapping("/usr/mercenaryArticle/findMercenary_detail")
     public String showDetail(HttpServletRequest req, Model model, int id) {
         Rq rq = (Rq) req.getAttribute("rq");
 
@@ -131,7 +131,7 @@ public class MercenaryArticleController {
     }
 
 
-    @RequestMapping("/usr/mercenaryArticle/findMercenaryArticle_write")
+    @RequestMapping("/usr/mercenaryArticle/findMercenary_write")
     public String showWrite(HttpServletRequest req) {
 
         return "usr/mercenaryArticle/findMercenary_write";
@@ -162,7 +162,7 @@ public class MercenaryArticleController {
     }
 
 
-    @RequestMapping("/usr/mercenaryArticle/findTeam")
+    @RequestMapping("/usr/mercenaryArticle/findMercenary")
     public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "title") String searchKeywordTypeCode,
@@ -223,6 +223,6 @@ public class MercenaryArticleController {
         model.addAttribute("area", area);
 
 
-        return "usr/mercenaryArticles/findMercenaryArticles";
+        return "usr/mercenaryArticle/findMercenary";
     }
 }
