@@ -3,10 +3,12 @@ package org.example.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.service.ReactionPointService;
 import org.example.service.ReplyService;
+import org.example.service.TeamArticleService;
 import org.example.util.Ut;
 import org.example.vo.Reply;
 import org.example.vo.ResultData;
 import org.example.vo.Rq;
+import org.example.vo.TeamArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,6 +24,8 @@ public class ReplyController {
 
     @Autowired
     private ReplyService replyService;
+    @Autowired
+    private TeamArticleService teamArticleService;
 
     @RequestMapping("/usr/reply/doWrite")
     @ResponseBody
@@ -63,4 +67,39 @@ public class ReplyController {
 
         return reply.getBody();
     }
+
+
+
+    @RequestMapping("/usr/reply/doDelete")
+    @ResponseBody
+    public String doDelete(HttpServletRequest req, int id) {
+        Rq rq = (Rq) req.getAttribute("rq");
+
+        // 1. 댓글 먼저 가져오기
+        Reply reply = replyService.getReply(id);
+
+        if (reply == null) {
+            return Ut.jsHistoryBack("F-1", Ut.f("%d번 댓글은 존재하지 않습니다", id));
+        }
+
+        // ✅ 2. 댓글이 달린 게시글 ID 꺼내기
+        int teamArticleId = reply.getRelId(); // relId가 팀 게시글 ID라고 가정
+
+        // 3. 권한 체크
+        ResultData userCanDeleteRd = replyService.userCanDelete(rq.getLoginedMemberId(), reply);
+        if (userCanDeleteRd.isFail()) {
+            return Ut.jsHistoryBack(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg());
+        }
+
+        // 4. 삭제 수행
+        replyService.deleteReply(id);
+
+        // 5. 해당 게시글 상세 페이지로 리디렉션
+        return Ut.jsReplace(
+                userCanDeleteRd.getResultCode(),
+                userCanDeleteRd.getMsg(),
+                "../article/findTeam_detail?id=" + teamArticleId
+        );
+    }
+
 }

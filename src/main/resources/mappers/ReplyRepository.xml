@@ -46,4 +46,8 @@
         WHERE id = #{id}
     </update>
 
+    <delete id="deleteReply" parameterType="int">
+        DELETE FROM reply
+        WHERE id = #{id}
+    </delete>
 </mapper>
