@@ -9,6 +9,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const prevMonthBtn = document.getElementById("prevMonthBtn");
     const nextMonthBtn = document.getElementById("nextMonthBtn");
 
+    // ✅ URL에서 playDate 파라미터 읽기
+    const urlParams = new URLSearchParams(window.location.search);
+    const selectedDateFromURL = urlParams.get("playDate"); // ex: "2025-06-20"
+
+    // ✅ 렌더링 기준 날짜 수정 (선택된 날짜가 있으면 해당 월로 이동)
+    if (selectedDateFromURL) {
+        const parts = selectedDateFromURL.split("-");
+        currentYear = parseInt(parts[0]);
+        currentMonth = parseInt(parts[1]) - 1;
+    }
+
     function renderCalendar(year, month) {
         monthYearLabel.textContent = `${year}년 ${month + 1}월`;
         datesGrid.innerHTML = "";
@@ -16,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const firstDay = new Date(year, month, 1).getDay();
         const totalDays = new Date(year, month + 1, 0).getDate();
 
-        // 빈 칸 채우기
         for (let i = 0; i < firstDay; i++) {
             const emptyDiv = document.createElement("div");
             emptyDiv.classList.add("empty");
@@ -31,21 +41,24 @@ document.addEventListener("DOMContentLoaded", function () {
             if (dayOfWeek === 0) dateDiv.classList.add("sun");
             else if (dayOfWeek === 6) dateDiv.classList.add("sat");
 
+            // 현재 날짜 문자열 만들기
+            const yyyy = String(year);
+            const mm = String(month + 1).padStart(2, "0");
+            const dd = String(day).padStart(2, "0");
+            const fullDate = `${yyyy}-${mm}-${dd}`;
+
+            // ✅ URL에서 넘어온 날짜와 일치하면 선택 표시
+            if (selectedDateFromURL === fullDate) {
+                dateDiv.classList.add("selected");
+                selectedDateDisplay.textContent = fullDate;
+            }
+
             // 날짜 클릭 이벤트
             dateDiv.addEventListener("click", function () {
-                const prevSelected = document.querySelector(".calendar-dates .selected");
-                if (prevSelected) prevSelected.classList.remove("selected");
-                dateDiv.classList.add("selected");
-
-                const selectedFullDate = new Date(year, month, day);
-                const yyyy = selectedFullDate.getFullYear();
-                const mm = String(selectedFullDate.getMonth() + 1).padStart(2, "0");
-                const dd = String(selectedFullDate.getDate()).padStart(2, "0");
-                const playDateStr = `${yyyy}-${mm}-${dd}`;
-
+                const playDateStr = fullDate;
                 selectedDateDisplay.textContent = playDateStr;
 
-                // ✅ URL 파라미터 붙여서 이동
+                // URL 이동
                 const urlParams = new URLSearchParams(window.location.search);
                 urlParams.set("playDate", playDateStr);
                 window.location.href = "/usr/home/foot_menu?" + urlParams.toString();
