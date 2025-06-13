@@ -35,11 +35,11 @@
         <!-- ✅ 작성자일 경우에만 수정/삭제 버튼 노출 -->
         <c:if test="${rq.loginedMemberId == mercenaryArticle.memberId}">
             <div class="pt-4 flex justify-end space-x-2">
-                <a href="/usr/mercenaryReply/doModify?id=${mercenaryArticle.id}"
+                <a href="/usr/mercenaryArticle/doModify?id=${mercenaryArticle.id}"
                    class="text-sm text-white bg-yellow-500 hover:bg-yellow-600 px-4 py-2 rounded-full">
                     ✏️ 수정
                 </a>
-                <a href="/usr/mercenaryReply/doDelete?id=${mercenaryArticle.id}"
+                <a href="/usr/mercenaryArticle/doDelete?id=${mercenaryArticle.id}"
                    onclick="return confirm('정말 삭제하시겠습니까?');"
                    class="text-sm text-white bg-red-500 hover:bg-red-600 px-4 py-2 rounded-full">
                     🗑️ 삭제

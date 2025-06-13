@@ -75,8 +75,13 @@ public class TeamArticleController {
             return Ut.jsHistoryBack(userCanModifyRd.getResultCode(), userCanModifyRd.getMsg());
         }
 
+        System.out.println("🔥 modifyArticle 서비스 호출 전");
         teamArticleService.modifyArticle(id, title, body);
+        System.out.println("🔥 modifyArticle 서비스 호출 후");
 
+        System.out.println("📥 받은 ID: " + id);
+        System.out.println("📥 받은 제목: " + title);
+        System.out.println("📥 받은 내용: " + body);
         return Ut.jsReplace("S-1", "수정되었습니다.", "../article/findTeam_detail?id=" + id);
     }
 

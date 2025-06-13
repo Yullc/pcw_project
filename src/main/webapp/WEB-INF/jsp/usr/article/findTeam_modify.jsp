@@ -1,47 +1,14 @@
-
 <%@ include file="../common/toastUiEditorLib.jspf"%>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <title>팀 구하기 글 수정</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script type="text/javascript">
-        function ArticleModify__submit(form) {
-            form.title.value = form.title.value.trim();
-            if (form.title.value.length === 0) {
-                alert('제목을 입력해주세요.');
-                return;
-            }
-
-            const editor = $(form).find('.toast-ui-editor').data('data-toast-editor');
-            const markdown = editor.getMarkdown().trim();
-
-            if (markdown.length === 0) {
-                alert('내용을 입력해주세요.');
-                return;
-            }
-
-            form.body.value = markdown;
-            form.submit();
-        }
-
-        // ✅ 수정 시 기존 내용을 에디터에 세팅
-        $(document).ready(function () {
-            const editor = new toastui.Editor({
-                el: document.querySelector('.toast-ui-editor'),
-                height: '400px',
-                initialEditType: 'markdown',
-                previewStyle: 'vertical',
-            });
-
-            editor.setMarkdown(`${teamArticleBody}`);
-            $('.toast-ui-editor').data('data-toast-editor', editor);
-        });
-    </script>
 </head>
 <body class="bg-gray-50">
 <div class="max-w-4xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-2xl">
@@ -49,7 +16,7 @@
 
     <form onsubmit="ArticleModify__submit(this); return false;" action="/usr/article/doModify" method="POST">
         <input type="hidden" name="id" value="${teamArticle.id}" />
-        <input type="hidden" name="body" />
+        <input type="hidden" name="body" id="body" />
 
         <div class="mb-4">
             <label class="block mb-2 font-semibold">제목</label>
@@ -59,29 +26,12 @@
 
         <div class="mb-6">
             <label class="block mb-2 font-semibold">내용</label>
-            <div class="toast-ui-editor"></div>
-            <script>
-                const editor = new toastui.Editor({
-                    el: document.querySelector('.toast-ui-editor'),
-                    height: '400px',
-                    initialEditType: 'markdown',
-                    previewStyle: 'vertical',
-                    initialValue: `${fn:escapeXml(teamArticle.body)}`
-                });
 
-                // 폼 제출 시 마크다운 값 세팅
-                function ArticleModify__submit(form) {
-                    form.title.value = form.title.value.trim();
-                    const markdown = editor.getMarkdown().trim();
-                    if (markdown.length === 0) {
-                        alert('내용을 입력해주세요.');
-                        return;
-                    }
-                    form.body.value = markdown;
-                    form.submit();
-                }
-            </script>
+            <!-- ✅ 초기값 저장용 textarea -->
+            <textarea id="editor-init" style="display:none;"><c:out value="${teamArticle.body}" /></textarea>
 
+            <!-- ✅ toast-ui editor가 그려질 영역 -->
+            <div id="editor-root"></div>
         </div>
 
         <div class="flex justify-between">
@@ -96,5 +46,47 @@
         </div>
     </form>
 </div>
+
+<script>
+    let editor;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const initialContent = document.getElementById("editor-init").value;
+
+        console.log("🔥 editor 초기값:", initialContent);
+
+        editor = new toastui.Editor({
+            el: document.getElementById("editor-root"),
+            height: '400px',
+            initialEditType: 'markdown',
+            previewStyle: 'vertical',
+            initialValue: initialContent
+        });
+    });
+
+    function ArticleModify__submit(form) {
+        const title = form.title.value.trim();
+        const markdown = editor.getMarkdown().trim();
+
+        console.log("🧪 사용자 입력한 markdown:", markdown);
+
+        if (title.length === 0) {
+            alert("제목을 입력해주세요.");
+            return false;
+        }
+
+        if (markdown.length === 0) {
+            alert("내용을 입력해주세요.");
+            return false;
+        }
+
+        form.querySelector("#body").value = markdown;
+
+        console.log("📤 전송될 body 내용:", markdown);
+
+
+        form.submit();
+    }
+</script>
 </body>
 </html>

@@ -7,7 +7,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>팀 구하기 글 수정</title>
+    <title>용병 구하기 글 수정</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript">
         function ArticleModify__submit(form) {

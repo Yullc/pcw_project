@@ -7,7 +7,9 @@ import org.example.vo.TeamArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.example.util.Ut.f;
 
@@ -62,7 +64,13 @@ public class TeamArticleService {
     }
 
     public void modifyArticle(int id, String title, String body) {
-        teamArticleRepository.modifyArticle(id, title, body);
+        Map<String, Object> param = new HashMap<>();
+        param.put("id", id);
+        param.put("title", title);
+        param.put("body", body);
+
+        System.out.println("🛠️ DB로 보낼 값: " + param); // 🔍 이거 꼭 추가
+        teamArticleRepository.modifyArticle(param);
     }
 
     public void deleteArticle(int id) {

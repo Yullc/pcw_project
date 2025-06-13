@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.example.vo.TeamArticle;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface TeamArticleRepository {
@@ -25,4 +26,6 @@ public interface TeamArticleRepository {
     void modifyArticle(int id, String title, String body);
 
     void deleteArticle(int id);
+
+    void modifyArticle(Map<String, Object> param);
 }
