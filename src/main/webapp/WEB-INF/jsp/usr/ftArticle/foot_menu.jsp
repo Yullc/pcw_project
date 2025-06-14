@@ -43,7 +43,7 @@
     </a>
 
 
-    <form action="/usr/home/soccer_menu" method="post" class="flex justify-center w-full">
+    <form action="/usr/ftArticle/foot_menu" method="post" class="flex justify-center w-full">
       <div class="relative w-64">
         <input type="text" name="searchKeyword" value="${param.searchKeyword}" placeholder="검색..."
                class="w-full pl-4 pr-10 py-2 rounded-full border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-300" />
@@ -63,10 +63,10 @@
 
     <!-- 오른쪽 메뉴 -->
     <div class="flex items-center gap-6 whitespace-nowrap">
-      <a href="/usr/home/foot_menu" class="text-sm font-bold text-black border-b-2 border-green-600">풋살하기</a>
-      <a href="/usr/home/soccer_menu" class="text-sm text-black hover:text-red-600">축구풋살하기</a>
+      <a href="/usr/ftArticle/foot_menu" class="text-sm font-bold text-black border-b-2 border-green-600">풋살하기</a>
+      <a href="/usr/scArticle/soccer_menu" class="text-sm text-black hover:text-red-600">축구하기</a>
       <a href="/usr/mercenaryArticle/findMercenary" class="text-sm text-black hover:text-red-600">용병 구하기</a>
-      <a href="/usr/article/findTeam" class="text-sm text-black hover:text-red-600">팀 구하기</a>
+      <a href="/usr/teamArticle/findTeam" class="text-sm text-black hover:text-red-600">팀 구하기</a>
       <!-- 로그아웃 버튼 추가 -->
       <a href="/usr/member/doLogout" class="text-sm text-black hover:text-red-500">로그아웃</a>
 
@@ -87,14 +87,14 @@
         <h2 class="font-bold mb-2">지역</h2>
         <div class="flex flex-wrap gap-2">
           <!-- 전체 지역 -->
-          <a href="/usr/home/soccer_menu?area=&avgLevel=${avgLevel}&playDate=${playDate}"
+          <a href="/usr/ftArticle/foot_menu?area=&avgLevel=${avgLevel}&playDate=${playDate}"
              class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty area ? 'bg-green-500 text-white' : ''}">
             전체
           </a>
 
           <!-- 지역 리스트 -->
           <c:forEach var="region" items="${['서울','경기','강원','인천','대전','세종','충북','충남','대구','경북','경남','부산','광주','전북','울산','전남','제주']}">
-            <a href="/usr/home/soccer_menu?area=${region}&avgLevel=${avgLevel}&playDate=${playDate}"
+            <a href="/usr/ftArticle/foot_menu?area=${region}&avgLevel=${avgLevel}&playDate=${playDate}"
                class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${region == area ? 'bg-green-500 text-white' : ''}">
                 ${region}
             </a>
@@ -107,14 +107,14 @@
         <h2 class="font-bold mb-2">레벨</h2>
         <div class="flex flex-wrap gap-2">
           <!-- 전체 레벨 -->
-          <a href="/usr/home/soccer_menu?area=${area}&avgLevel=&playDate=${playDate}"
+          <a href="/usr/ftArticle/foot_menu?area=${area}&avgLevel=&playDate=${playDate}"
              class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty avgLevel ? 'bg-green-500 text-white' : ''}">
             전체
           </a>
 
           <!-- 레벨 리스트 -->
           <c:forEach var="levelOption" items="${['아마추어','루키','세미프로','프로']}">
-            <a href="/usr/home/soccer_menu?area=${area}&avgLevel=${levelOption}&playDate=${playDate}"
+            <a href="/usr/ftArticle/foot_menu?area=${area}&avgLevel=${levelOption}&playDate=${playDate}"
                class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${levelOption == avgLevel ? 'bg-green-500 text-white' : ''}">
                 ${levelOption}
             </a>
@@ -168,20 +168,20 @@
     <main class="scrollWrapper flex-1 overflow-x-auto p-5">
       <div class="px-[100px]">
         <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
-          <c:forEach var="scArticle" items="${scArticles}">
-            <a href="/usr/article/foot_detail?id=${scArticle.id}" class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 hover:shadow-lg transition">
-              <img src="${scArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
+          <c:forEach var="ftArticle" items="${ftArticles}">
+            <a href="/usr/ftArticle/foot_detail?id=${ftArticle.id}" class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 hover:shadow-lg transition">
+              <img src="${ftArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
               <div class="p-2 text-sm">
-                <div class="font-semibold">${scArticle.stadium}</div>
-                <div>${scArticle.area}</div>
-                <div>${scArticle.playDate}</div>
-                <div class="text-xs text-gray-500">${scArticle.address}</div>
-                <div class="text-xs text-gray-500">${scArticle.avgLevelName}</div>
+                <div class="font-semibold">${ftArticle.stadium}</div>
+                <div>${ftArticle.area}</div>
+                <div>${ftArticle.playDate}</div>
+                <div class="text-xs text-gray-500">${ftArticle.address}</div>
+                <div class="text-xs text-gray-500">${ftArticle.avgLevelName}</div>
               </div>
             </a>
           </c:forEach>
 
-          <c:if test="${empty scArticles}">
+          <c:if test="${empty ftArticles}">
             <div class="text-gray-500 text-center col-span-4 row-span-4">경기장 정보가 없습니다.</div>
           </c:if>
         </div>
@@ -222,7 +222,7 @@
 
     <!-- 이전 그룹 버튼 -->
     <c:if test="${groupStart > 1}">
-      <a href="/usr/home/foot_menu?page=${groupStart - 1}&area=${area}"
+      <a href="/usr/ftArticle/foot_menu?page=${groupStart - 1}&area=${area}"
          class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">
         &lt;
       </a>
@@ -230,7 +230,7 @@
 
     <!-- 현재 그룹의 페이지 번호 출력 -->
     <c:forEach begin="${groupStart}" end="${groupEnd}" var="i">
-      <a href="/usr/home/foot_menu?page=${i}&area=${area}"
+      <a href="/usr/ftArticle/foot_menu?page=${i}&area=${area}"
          class="px-3 py-1 border rounded-full
               ${i == page ? 'bg-green-600 text-white' : 'bg-white text-gray-800 hover:bg-gray-200'}">
           ${i}
@@ -239,7 +239,7 @@
 
     <!-- 다음 그룹 버튼 -->
     <c:if test="${groupEnd < pagesCount}">
-      <a href="/usr/home/foot_menu?page=${groupEnd + 1}&area=${area}"
+      <a href="/usr/ftArticle/foot_menu?page=${groupEnd + 1}&area=${area}"
          class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">
         &gt;
       </a>

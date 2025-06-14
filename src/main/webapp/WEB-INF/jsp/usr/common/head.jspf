@@ -34,17 +34,17 @@
             <li>
                 <div class="dropdown dropdown-hover">
                     <div tabindex="0" role="button">
-                        <a href="../article/list?boardId=1">LIST</a>
+                        <a href="../teamArticle/list?boardId=1">LIST</a>
                     </div>
                     <ul tabindex="0" class="dropdown-content menu bg-base-100 rounded-box z-[1] w-52 p-2 shadow">
                         <li>
-                            <a href="../article/list?boardId=1">NOTICE</a>
+                            <a href="../teamArticle/list?boardId=1">NOTICE</a>
                         </li>
                         <li>
-                            <a href="../article/list?boardId=2">FREE</a>
+                            <a href="../teamArticle/list?boardId=2">FREE</a>
                         </li>
                         <li>
-                            <a href="../article/list?boardId=3">QnA</a>
+                            <a href="../teamArticle/list?boardId=3">QnA</a>
                         </li>
                     </ul>
                 </div>
@@ -73,7 +73,7 @@
             </c:if>
             <c:if test="${rq.isLogined() }">
                 <li>
-                    <a class="hover:underline" href="../article/write">WRITE</a>
+                    <a class="hover:underline" href="../teamArticle/write">WRITE</a>
                 </li>
                 <li>
                     <a onclick="if(confirm('로그아웃 하시겠습니까?') == false) return false;" class="hover:underline" href="../member/doLogout">LOGOUT</a>

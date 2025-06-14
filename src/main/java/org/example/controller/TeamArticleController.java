@@ -42,7 +42,7 @@ public class TeamArticleController {
         this.beforeActionInterceptor = beforeActionInterceptor;
     }
 
-    @RequestMapping("/usr/article/modify")
+    @RequestMapping("/usr/teamArticle/modify")
     public String showModify(HttpServletRequest req, Model model, int id) {
         Rq rq = (Rq) req.getAttribute("rq");
 
@@ -53,12 +53,12 @@ public class TeamArticleController {
         }
 
         model.addAttribute("teamArticle", teamArticle);
-        return "usr/article/findTeam_modify";
+        return "usr/teamArticle/findTeam_modify";
     }
 
 
     // 로그인 체크 -> 유무 체크 -> 권한체크
-    @RequestMapping("/usr/article/doModify")
+    @RequestMapping("/usr/teamArticle/doModify")
     @ResponseBody
     public String doModify(HttpServletRequest req, int id, String title, String body) {
         Rq rq = (Rq) req.getAttribute("rq");
@@ -66,7 +66,7 @@ public class TeamArticleController {
         TeamArticle teamArticle = teamArticleService.getArticleById(id);
 
         if (teamArticle == null) {
-            return Ut.jsReplace("F-1", Ut.f("%d번 게시글은 없습니다", id), "../article/findTeam");
+            return Ut.jsReplace("F-1", Ut.f("%d번 게시글은 없습니다", id), "../teamArticle/findTeam");
         }
 
         ResultData userCanModifyRd = teamArticleService.userCanModify(rq.getLoginedMemberId(), teamArticle);
@@ -82,11 +82,11 @@ public class TeamArticleController {
         System.out.println("📥 받은 ID: " + id);
         System.out.println("📥 받은 제목: " + title);
         System.out.println("📥 받은 내용: " + body);
-        return Ut.jsReplace("S-1", "수정되었습니다.", "../article/findTeam_detail?id=" + id);
+        return Ut.jsReplace("S-1", "수정되었습니다.", "../teamArticle/findTeam_detail?id=" + id);
     }
 
 
-    @RequestMapping("/usr/article/doDelete")
+    @RequestMapping("/usr/teamArticle/doDelete")
     @ResponseBody
     public String doDelete(HttpServletRequest req, int id) {
 
@@ -108,10 +108,10 @@ public class TeamArticleController {
             teamArticleService.deleteArticle(id);
         }
 
-        return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../article/findTeam");
+        return Ut.jsReplace(userCanDeleteRd.getResultCode(), userCanDeleteRd.getMsg(), "../teamArticle/findTeam");
     }
 
-    @RequestMapping("/usr/article/findTeam_detail")
+    @RequestMapping("/usr/teamArticle/findTeam_detail")
     public String showDetail(HttpServletRequest req, Model model, int id) {
         Rq rq = (Rq) req.getAttribute("rq");
 
@@ -137,17 +137,17 @@ public class TeamArticleController {
         model.addAttribute("repliesCount", repliesCount);
         model.addAttribute("teamArticle", teamArticle);
 
-        return "usr/article/findTeam_detail";
+        return "usr/teamArticle/findTeam_detail";
     }
 
 
-    @RequestMapping("/usr/article/findTeam_write")
+    @RequestMapping("/usr/teamArticle/findTeam_write")
     public String showWrite(HttpServletRequest req) {
 
-        return "usr/article/findTeam_write";
+        return "usr/teamArticle/findTeam_write";
     }
 
-    @RequestMapping("/usr/article/doWrite")
+    @RequestMapping("/usr/teamArticle/doWrite")
     @ResponseBody
     public String doWrite(HttpServletRequest req, String title, String body, String area) {
         Rq rq = (Rq) req.getAttribute("rq");
@@ -169,11 +169,11 @@ public class TeamArticleController {
         ResultData doWriteRd = teamArticleService.writeArticle(loginedMemberId, title, body, teamId, area);
 
         int newId = (int) doWriteRd.getData1();
-        return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../article/findTeam_detail?id=" + newId);
+        return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../teamArticle/findTeam_detail?id=" + newId);
     }
 
 
-    @RequestMapping("/usr/article/findTeam")
+    @RequestMapping("/usr/teamArticle/findTeam")
     public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "title") String searchKeywordTypeCode,
@@ -234,6 +234,6 @@ public class TeamArticleController {
         model.addAttribute("area", area);
 
 
-        return "usr/article/findTeam";
+        return "usr/teamArticle/findTeam";
     }
 }

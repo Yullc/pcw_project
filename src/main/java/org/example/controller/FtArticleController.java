@@ -90,7 +90,7 @@ public class FtArticleController {
 //                ftarticleService.getArticleHitCount(id), "articleId", id);
 //    }
 
-    @RequestMapping("/usr/home/foot_menu")
+    @RequestMapping("/usr/ftArticle/foot_menu")
     public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "") String searchKeyword,
@@ -108,7 +108,7 @@ public class FtArticleController {
 
         List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(
                 boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate);
-
+        System.out.println("ftArticles 객쳊들"+ftArticles);
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
         // ✅ avgLevelName 설정
@@ -147,12 +147,12 @@ public class FtArticleController {
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
 
-        return "usr/home/foot_menu";
+        return "usr/ftArticle/foot_menu";
     }
 
 
 
-    @RequestMapping("/usr/article/foot_detail")
+    @RequestMapping("/usr/ftArticle/foot_detail")
     public String showFootDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
         FtArticle ftArticle = ftarticleService.getFtArticleById(id);
@@ -196,10 +196,10 @@ public class FtArticleController {
         model.addAttribute("isAlreadyJoined", matchParticipantService.isAlreadyJoined(id, rq.getLoginedMemberId()));
 
 
-        return "usr/article/foot_detail";
+        return "usr/ftArticle/foot_detail";
     }
 
-    @PostMapping("/usr/article/joinMatch")
+    @PostMapping("/usr/ftArticle/joinMatch")
     public String joinMatch(@RequestParam("id") int id, HttpServletRequest req) {
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("joinMatch 메서드 진입");
@@ -216,7 +216,7 @@ public class FtArticleController {
         }
 
         // 4. 다시 상세 페이지로 리다이렉트
-        return "redirect:/usr/article/foot_detail?id=" + id;
+        return "redirect:/usr/ftArticle/foot_detail?id=" + id;
     }
 
 

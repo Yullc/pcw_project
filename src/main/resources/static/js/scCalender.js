@@ -61,7 +61,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // URL 이동
                 const urlParams = new URLSearchParams(window.location.search);
                 urlParams.set("playDate", playDateStr);
-                window.location.href = "/usr/ftArticle/foot_menu?" + urlParams.toString();
+                window.location.href = "/usr/scArticle/foot_menu?" + urlParams.toString();
             });
 
             datesGrid.appendChild(dateDiv);

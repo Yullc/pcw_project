@@ -11,8 +11,15 @@ import lombok.NoArgsConstructor;
 @Builder
 public class ScArticle {
     private int id;
+    private String regDate;
+    private String playDate;
+    private String title;
+    private String body;
     private String area;
-    private String stadiumName;
+    private String stadium;
     private String address;
+    private String avgLevel;
     private String img;
+    private int matchId;
+    private String avgLevelName;
 }
