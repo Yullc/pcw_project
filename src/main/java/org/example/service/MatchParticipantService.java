@@ -25,4 +25,12 @@ public class MatchParticipantService {
     public List<Member> getParticipants(int id) {
         return matchParticipantRepository.getParticipants(id);
     }
+
+    public void scJoin(int matchId, int memberId, String position) {
+        matchParticipantRepository.scJoin(matchId, memberId, position);
+    }
+
+    public void cancelJoin(int matchId, int memberId) {
+        matchParticipantRepository.cancelJoin(matchId,memberId);
+    }
 }

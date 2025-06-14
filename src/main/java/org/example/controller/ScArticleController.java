@@ -200,26 +200,30 @@ public class ScArticleController {
     }
 
     @PostMapping("/usr/scArticle/joinMatch")
-    public String joinMatch(@RequestParam("id") int id, HttpServletRequest req) {
+    public String joinMatch(@RequestParam("id") int id,
+                            @RequestParam("position") String position,
+                            HttpServletRequest req) {
         Rq rq = (Rq) req.getAttribute("rq");
-        System.out.println("joinMatch 메서드 진입");
-
-        ScArticle scArticle = scArticleService.getScArticleById(id);
-        int matchId = scArticle.getId();
-        System.out.println("matchId" + matchId);
-
         int memberId = rq.getLoginedMemberId();
-        System.out.println("memberId" + memberId);
+        System.out.println("scJOinMatch 진입");
+        ScArticle article = scArticleService.getScArticleById(id);
+        int matchId = article.getId();
 
         if (!matchParticipantService.isAlreadyJoined(matchId, memberId)) {
-            matchParticipantService.join(matchId, memberId);
+            matchParticipantService.scJoin(matchId, memberId, position);
         }
-
-        // 4. 다시 상세 페이지로 리다이렉트
+        System.out.println("position"+position);
         return "redirect:/usr/scArticle/soccer_detail?id=" + id;
     }
 
-
-
+    @PostMapping("/usr/scArticle/cancelJoin")
+    public String cancelJoin(@RequestParam("id") int id, HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        int memberId = rq.getLoginedMemberId();
+        ScArticle article = scArticleService.getScArticleById(id);
+        int matchId = article.getId();
+        matchParticipantService.cancelJoin(matchId, memberId);
+        return "redirect:/usr/scArticle/soccer_detail?id=" + id;
+    }
 
 }

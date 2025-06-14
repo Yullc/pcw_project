@@ -41,73 +41,90 @@
   <div class="mt-6">
     <h2 class="text-md font-bold text-green-600 mb-2">참가자 목록</h2>
     <c:forEach var="player" items="${participants}">
-      <form method="post" action="/usr/member/updatePlayerInfo" class="flex flex-wrap items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-between">
+      <form method="post" action="/usr/member/updatePlayerInfo"
+            class="flex flex-wrap items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-between">
 
-        <!-- 숨겨진 값 -->
         <input type="hidden" name="memberId" value="${player.id}" />
         <input type="hidden" name="id" value="${scArticle.id}" />
 
-        <!-- 사용자 정보 -->
+
         <div class="flex items-center gap-2">
           <span class="font-semibold text-green-800">${player.nickName}</span>
           <span class="text-sm">| ${player.rankName}</span>
           <span class="text-sm">| 매너온도: ${player.mannerEmoji}</span>
+          <span class="text-sm">| 포지션: ${player.position}</span>
         </div>
 
-        <!-- 랭크 수정 -->
-        <select name="rankName" class="border border-gray-300 rounded px-2 py-1 text-sm">
-          <option value="루키1">루키1</option>
-          <option value="루키2">루키2</option>
-          <option value="루키3">루키3</option>
-          <option value="아마추어1">아마추어1</option>
-          <option value="아마추어2">아마추어2</option>
-          <option value="아마추어3">아마추어3</option>
-          <option value="세미프로1">세미프로1</option>
-          <option value="세미프로2">세미프로2</option>
-          <option value="세미프로3">세미프로3</option>
-          <option value="프로1">프로1</option>
-          <option value="프로2">프로2</option>
-          <option value="프로3">프로3</option>
-        </select>
+        <c:choose>
 
-        <!-- 매너온도 수정 -->
-        <select name="mannerEmoji" class="border border-gray-300 rounded px-2 py-1 text-sm">
-          <option value="😍">😍</option>
-          <option value="😊">😊</option>
-          <option value="😐">😐</option>
-          <option value="😡">😡</option>
-        </select>
+          <c:when test="${pastMatch}">
+            <select name="rankName" class="border border-gray-300 rounded px-2 py-1 text-sm">
+              <option value="루키1">루키1</option>
+              <option value="루키2">루키2</option>
+              <option value="루키3">루키3</option>
+              <option value="아마추어1">아마추어1</option>
+              <option value="아마추어2">아마추어2</option>
+              <option value="아마추어3">아마추어3</option>
+              <option value="세미프로1">세미프로1</option>
+              <option value="세미프로2">세미프로2</option>
+              <option value="세미프로3">세미프로3</option>
+              <option value="프로1">프로1</option>
+              <option value="프로2">프로2</option>
+              <option value="프로3">프로3</option>
+            </select>
 
-        <!-- 저장 버튼 -->
-        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
-          평가하기
-        </button>
+            <select name="mannerEmoji" class="border border-gray-300 rounded px-2 py-1 text-sm">
+              <option value="😍">😍</option>
+              <option value="😊">😊</option>
+              <option value="😐">😐</option>
+              <option value="😡">😡</option>
+            </select>
+
+            <button type="submit"
+                    class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+              평가하기
+            </button>
+          </c:when>
+
+          <c:otherwise>
+            <select name="position" class="border border-blue-400 rounded px-2 py-1 text-sm">
+              <option value="FW" ${player.position == 'FW' ? 'selected' : ''}>FW</option>
+              <option value="MF" ${player.position == 'MF' ? 'selected' : ''}>MF</option>
+              <option value="DF" ${player.position == 'DF' ? 'selected' : ''}>DF</option>
+            </select>
+
+            <button type="submit"
+                    class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+              포지션 저장
+            </button>
+          </c:otherwise>
+        </c:choose>
       </form>
     </c:forEach>
   </div>
 
 
-
-
   <!-- 참가하기 버튼 -->
   <div class="mt-4 text-center">
     <c:choose>
-      <c:when test="${pastMatch}">
-        <div class="text-gray-400 text-sm">종료된 경기입니다. 참가할 수 없습니다.</div>
-      </c:when>
       <c:when test="${isAlreadyJoined}">
-        <button class="bg-gray-400 text-white px-6 py-2 rounded-full cursor-not-allowed" disabled>
-          ✅ 이미 참가했어요
-        </button>
+        <form action="/usr/scArticle/cancelJoin" method="post">
+          <input type="hidden" name="id" value="${scArticle.id}" />
+          <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full">
+            참가 취소
+          </button>
+        </form>
       </c:when>
       <c:otherwise>
         <form action="/usr/scArticle/joinMatch" method="post">
           <input type="hidden" name="id" value="${scArticle.id}" />
-          <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
+          <input type="hidden" name="position" id="positionInput" value="" />
+          <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full" onclick="return validatePosition();">
             ⚽ 참가하기
           </button>
         </form>
       </c:otherwise>
+
     </c:choose>
   </div>
 

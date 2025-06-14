@@ -64,7 +64,7 @@
     <!-- 오른쪽 메뉴 -->
     <div class="flex items-center gap-6 whitespace-nowrap">
       <a href="/usr/ftArticle/foot_menu" class="text-sm font-bold text-black border-b-2 hover:text-red-600">풋살하기</a>
-      <a href="/usr/scArticle/soccer_menu" class="text-sm font-bold text-black border-b-2 border-green-600">축구풋살하기</a>
+      <a href="/usr/scArticle/soccer_menu" class="text-sm font-bold text-black border-b-2 border-green-600">축구하기</a>
       <a href="/usr/mercenaryArticle/findMercenary" class="text-sm text-black hover:text-red-600">용병 구하기</a>
       <a href="/usr/teamArticle/findTeam" class="text-sm text-black hover:text-red-600">팀 구하기</a>
       <!-- 로그아웃 버튼 추가 -->
@@ -128,7 +128,7 @@
       <!-- 달력용 CSS 링크 -->
       <link rel="stylesheet" href="/css/calender.css">
 
-      <link rel="stylesheet" href="/css/calender.css">
+      <link rel="stylesheet" href="/css/scCalender.css">
 
       <!-- ========== 달력 컴포넌트 삽입 ========== -->
       <div class="calendar-container">
@@ -163,7 +163,7 @@
 
 
     </aside>
-    <script src="/js/calender.js"></script>
+    <script src="/js/scCalender.js"></script>
 
     <main class="scrollWrapper flex-1 overflow-x-auto p-5">
       <div class="px-[100px]">

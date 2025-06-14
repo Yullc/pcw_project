@@ -10,6 +10,11 @@
         VALUES (#{matchId}, #{memberId})
     </insert>
 
+    <insert id="scJoin">
+        INSERT INTO match_participant
+            ( matchId, memberId, position)
+        VALUES (#{matchId}, #{memberId}, #{position})
+    </insert>
 
     <select id="isAlreadyJoined" resultType="int">
         SELECT COUNT(*) FROM match_participant
@@ -24,5 +29,21 @@
         WHERE fa.id = #{id}
     </select>
 
+    <delete id="cancelJoin">
+        DELETE FROM match_participant
+        WHERE matchId = #{matchId}
+          AND memberId = #{memberId}
+    </delete>
+    <update id="updatePosition">
+        UPDATE match_participant
+        SET position = #{position}
+        WHERE matchId = #{id}
+          AND memberId = #{memberId}
+    </update>
 
+
+    <!--    SELECT m.*, mp.position-->
+<!--    FROM member m-->
+<!--    JOIN match_participant mp ON m.id = mp.memberId-->
+<!--    WHERE mp.matchId = #{matchId}-->
 </mapper>

@@ -241,7 +241,6 @@ public class MemberController {
                                    @RequestParam("id") int id,
                                    @RequestParam String rankName,
                                    @RequestParam String mannerEmoji,
-
                                    HttpServletRequest req) {
 
         Rq rq = (Rq) req.getAttribute("rq");

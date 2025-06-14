@@ -14,4 +14,5 @@ public class MatchParticipant {
     private int id;
     private int matchId;
     private int memberId;
+    private String position;
 }
