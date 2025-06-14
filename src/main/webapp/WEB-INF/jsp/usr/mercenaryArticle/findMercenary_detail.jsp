@@ -28,7 +28,7 @@
                 📍 <span class="font-semibold">지역</span>: ${mercenaryArticle.area}
             </div>
             <div>
-                🎖️ <span class="font-semibold">팀 레벨</span>: ${mercenaryArticle.avgLevelName}
+                🎖️ <span class="font-semibold">레벨</span>: ${mercenaryArticle.avgLevelName}
             </div>
         </div>
 

@@ -166,31 +166,28 @@ public class MercenaryArticleController {
     public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,
                            @RequestParam(defaultValue = "title") String searchKeywordTypeCode,
-                           @RequestParam(defaultValue = "") String searchKeyword,  @RequestParam(defaultValue = "") String avgLevel,
+                           @RequestParam(defaultValue = "") String searchKeyword,
+                           @RequestParam(defaultValue = "") String avgLevel,
                            @RequestParam(defaultValue = "") String area) throws IOException {
 
         Rq rq = (Rq) req.getAttribute("rq");
-        System.out.println("팀구하기 리스트 진입");
+        System.out.println("용병 구하기 리스트 진입");
 
-        int boardId =4;
-
-        int articlesCount = mercenaryArticleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
+        int boardId = 4;
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
-        // 한 페이지에 글 10개씩
-        // 글 20 -> 2page
-        // 글 25 -> 3page
+
         int itemsInAPage = 10;
 
-        int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
-
+        // DB에서 가져온 전체 리스트 (DB 쿼리에 area 조건이 아직 반영 안 된 것으로 보임)
         List<MercenaryArticle> mercenaryArticles = mercenaryArticleService.getForPrintArticles(
                 boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
-        // ✅ teamRank → avgLevelName 으로 변환
+
+        // 등급명 변환
         for (MercenaryArticle t : mercenaryArticles) {
             try {
                 if (t.getTeamRank() != null && !t.getTeamRank().isEmpty()) {
-                    int level = Integer.parseInt(t.getTeamRank()); // 숫자로 저장된 경우
+                    int level = Integer.parseInt(t.getTeamRank());
                     t.setAvgLevelName(RankUtil.getRankName(level));
                 } else {
                     t.setAvgLevelName("미정");
@@ -200,17 +197,21 @@ public class MercenaryArticleController {
             }
         }
 
-// ✅ 필터링
-        if (!avgLevel.isEmpty()) {
-            List<MercenaryArticle> filteredList = new ArrayList<>();
-            for (MercenaryArticle t : mercenaryArticles) {
-                if (t.getAvgLevelName() != null && t.getAvgLevelName().startsWith(avgLevel)) {
-                    filteredList.add(t);
-                }
+        // ✅ 필터링: avgLevel과 area 모두 반영
+        List<MercenaryArticle> filteredList = new ArrayList<>();
+        for (MercenaryArticle t : mercenaryArticles) {
+            boolean matchLevel = avgLevel.isEmpty() || (t.getAvgLevelName() != null && t.getAvgLevelName().startsWith(avgLevel));
+            boolean matchArea = area.isEmpty() || (t.getArea() != null && t.getArea().equals(area));
+
+            if (matchLevel && matchArea) {
+                filteredList.add(t);
             }
-            mercenaryArticles = filteredList;
         }
-        System.out.println(mercenaryArticles);
+
+        mercenaryArticles = filteredList;
+        int articlesCount = mercenaryArticles.size(); // 필터링 후 개수 계산
+        int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
+
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("articlesCount", articlesCount);
@@ -222,7 +223,7 @@ public class MercenaryArticleController {
         model.addAttribute("avgLevel", avgLevel);
         model.addAttribute("area", area);
 
-
         return "usr/mercenaryArticle/findMercenary";
     }
+
 }

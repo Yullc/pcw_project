@@ -163,6 +163,7 @@ public class TeamArticleController {
         int loginedMemberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(loginedMemberId); // 닉네임을 얻기 위함
         Team team = teamService.getTeamByLeaderNickName(member.getNickName());
+
         int teamId = team.getId();
 
         ResultData doWriteRd = teamArticleService.writeArticle(loginedMemberId, title, body, teamId, area);

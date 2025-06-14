@@ -86,6 +86,13 @@
       <div>
         <h2 class="font-bold mb-2">지역</h2>
         <div class="flex flex-wrap gap-2">
+          <!-- 전체 지역 -->
+          <a href="/usr/home/foot_menu?area=&avgLevel=${avgLevel}&playDate=${playDate}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty area ? 'bg-green-500 text-white' : ''}">
+            전체
+          </a>
+
+          <!-- 지역 리스트 -->
           <c:forEach var="region" items="${['서울','경기','강원','인천','대전','세종','충북','충남','대구','경북','경남','부산','광주','전북','울산','전남','제주']}">
             <a href="/usr/home/foot_menu?area=${region}&avgLevel=${avgLevel}&playDate=${playDate}"
                class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${region == area ? 'bg-green-500 text-white' : ''}">
@@ -99,7 +106,14 @@
       <div>
         <h2 class="font-bold mb-2">레벨</h2>
         <div class="flex flex-wrap gap-2">
-          <c:forEach var="levelOption" items="${['루키','아마추어','세미프로','프로']}">
+          <!-- 전체 레벨 -->
+          <a href="/usr/home/foot_menu?area=${area}&avgLevel=&playDate=${playDate}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty avgLevel ? 'bg-green-500 text-white' : ''}">
+            전체
+          </a>
+
+          <!-- 레벨 리스트 -->
+          <c:forEach var="levelOption" items="${['아마추어','루키','세미프로','프로']}">
             <a href="/usr/home/foot_menu?area=${area}&avgLevel=${levelOption}&playDate=${playDate}"
                class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${levelOption == avgLevel ? 'bg-green-500 text-white' : ''}">
                 ${levelOption}
@@ -107,6 +121,7 @@
           </c:forEach>
         </div>
       </div>
+
 
 
 

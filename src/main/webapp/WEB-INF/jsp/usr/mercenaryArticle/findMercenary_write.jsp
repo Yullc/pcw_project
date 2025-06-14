@@ -52,6 +52,16 @@
       </select>
     </div>
 
+<%--    <div class="mb-4">--%>
+<%--      <label class="block mb-2 font-semibold">레벨</label>--%>
+<%--      <select name="avgLevelName" class="w-full border border-green-500 rounded px-4 py-2 bg-white text-green-700">--%>
+<%--        <option value="">-- 선택하세요 --</option>--%>
+<%--        <option value="rookie">루키</option>--%>
+<%--        <option value="amateur">아마추어</option>--%>
+<%--        <option value="semi-pro">세미프로</option>--%>
+<%--        <option value="pro">프로</option>--%>
+<%--      </select>--%>
+<%--    </div>--%>
     <!-- 내용 (Toast UI 에디터) -->
     <div class="mb-6">
       <label class="block mb-2 font-semibold">내용</label>
