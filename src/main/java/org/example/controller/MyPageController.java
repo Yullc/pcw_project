@@ -54,7 +54,7 @@ public class MyPageController {
             System.out.println("▶ 최근경기 img: " + game.getImg());
         }
         for (ScArticle scGame : recentSoccerGames) {
-            System.out.println("▶ 최근경기 img: " + scGame.getImg());
+            System.out.println("▶ 축구 !!!최근경기 img: " + scGame.getImg());
         }
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());
