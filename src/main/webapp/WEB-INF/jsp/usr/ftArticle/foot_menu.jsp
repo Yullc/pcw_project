@@ -191,7 +191,7 @@
               <div class="p-2 text-sm flex flex-col justify-between flex-1">
                 <div class="space-y-1">
 
-                  <div>${ftArticle.area}</div>
+                  <div>${ftArticle.stadium}</div>
                   <div>${ftArticle.playDate}</div>
                   <div class="text-xs text-gray-500">${ftArticle.address}</div>
                 </div>

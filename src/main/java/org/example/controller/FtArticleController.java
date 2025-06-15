@@ -227,6 +227,15 @@ public class FtArticleController {
         return "redirect:/usr/ftArticle/foot_detail?id=" + id;
     }
 
+    @PostMapping("/usr/ftArticle/cancelJoin")
+    public String cancelJoin(@RequestParam("id") int id, HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        int memberId = rq.getLoginedMemberId();
+        FtArticle article = ftarticleService.getFtArticleById(id);
+        int matchId = article.getId();
+        matchParticipantService.cancelJoin(matchId, memberId);
+        return "redirect:/usr/ftArticle/foot_detail?id=" + id;
+    }
 
 
 

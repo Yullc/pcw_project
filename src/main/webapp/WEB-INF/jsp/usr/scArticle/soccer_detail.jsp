@@ -118,6 +118,8 @@
           <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-start">
             <span class="font-semibold text-green-800">${player.nickName}</span>
             <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
+            <span class="text-sm text-gray-500">| 랭크: ${player.rankName}</span>
+            <span class="text-sm text-gray-500">| 매너: ${player.mannerEmoji}</span>
           </div>
         </c:otherwise>
       </c:choose>
@@ -134,15 +136,12 @@
 
       <c:when test="${isAlreadyJoined}">
         <div class="flex flex-col items-center gap-2">
-          <button class="bg-gray-400 text-white px-6 py-2 rounded-full cursor-not-allowed" disabled>
-            ✅ 이미 참가했어요
-          </button>
 
           <!-- 참가 취소 버튼 -->
           <form action="/usr/scArticle/cancelJoin" method="post" onsubmit="return confirm('정말 참가를 취소하시겠습니까?')">
             <input type="hidden" name="id" value="${scArticle.id}" />
             <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full">
-              ❌ 참가 취소하기
+              참가 취소하기
             </button>
           </form>
         </div>
