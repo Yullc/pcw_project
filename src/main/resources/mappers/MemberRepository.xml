@@ -89,7 +89,6 @@
             updateDate = NOW()
         WHERE id = #{memberId}
     </update>
-
     <select id="getMemberByNickname" parameterType="string" resultType="org.example.vo.Member">
         SELECT * FROM member WHERE nickName = #{nickName}
     </select>

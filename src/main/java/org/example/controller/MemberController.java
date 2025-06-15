@@ -245,11 +245,22 @@ public class MemberController {
                                    @RequestParam String mannerEmoji,
                                    RedirectAttributes redirectAttrs) {
 
+        System.out.println("✅ updatePlayerInfo 진입");
+        System.out.println(" - memberId: " + memberId);
+        System.out.println(" - id (matchId): " + id);
+        System.out.println(" - boardId: " + boardId);
+        System.out.println(" - rankName: " + rankName);
+        System.out.println(" - mannerEmoji: " + mannerEmoji);
+
         // 매너 & 랭크 변환
         int rank = RankUtil.getNameToRank(rankName);
         float manner = MannerUtil.getTemperatureFromEmoji(mannerEmoji);
 
-        memberService.updateRankAndManner(memberId, rank, manner);
+        System.out.println("🛠 변환된 rank: " + rank);
+        System.out.println("🛠 변환된 manner: " + manner);
+
+        int updatedRows = memberService.updateRankAndManner(memberId, rank, manner);
+        System.out.println("📦 DB 업데이트 결과 (영향받은 row 수): " + updatedRows);
 
         // 리다이렉트 파라미터 전달
         redirectAttrs.addAttribute("id", id);
@@ -263,6 +274,7 @@ public class MemberController {
             redirectUrl = "/usr/home/main";
         }
 
+        System.out.println("🔁 최종 리다이렉트 주소: " + redirectUrl + "?id=" + id);
         return "redirect:" + redirectUrl;
     }
 

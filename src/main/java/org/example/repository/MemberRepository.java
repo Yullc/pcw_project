@@ -2,6 +2,7 @@ package org.example.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.example.vo.Member;
 
 @Mapper
@@ -23,7 +24,10 @@ public interface MemberRepository {
 
     public  void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
 
-    public int updateRankAndManner(int memberId, int rank, float manner);
+    public   int updateRankAndManner(@Param("memberId") int memberId,
+                                     @Param("rank") int rank,
+                                     @Param("manner") float manner);
+
 
     public Member getMemberByNickname(String nickName);
 }

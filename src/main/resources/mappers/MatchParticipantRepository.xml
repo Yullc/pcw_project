@@ -21,11 +21,17 @@
     </select>
 
     <select id="getParticipants" resultType="org.example.vo.Member">
-        SELECT mp.position, m.nickName, m.rank, m.manner
+        SELECT
+        m.id AS id,
+        mp.position,
+        m.nickName,
+        m.rank,
+        m.manner
         FROM match_participant mp
-                 JOIN member m ON mp.memberId = m.id
+        JOIN member m ON mp.memberId = m.id
         WHERE mp.matchId = #{matchId}
     </select>
+
 
     <delete id="cancelJoin">
         DELETE FROM match_participant

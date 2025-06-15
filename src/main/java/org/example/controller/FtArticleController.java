@@ -165,6 +165,10 @@ public class FtArticleController {
         }
 
         List<Member> participants = matchParticipantService.getParticipants(id);
+        for (Member m : participants) {
+            System.out.println("참가자: " + m.getNickName() + " / id=" + m.getId());
+        }
+
         int totalRank = 0;
 
         for (Member m : participants) {
