@@ -168,7 +168,7 @@
         document.getElementById("circle-" + pos).style.backgroundColor = "white";
       });
       document.getElementById("circle-" + input.value).style.backgroundColor =
-              input.value === "FW" ? "black" : input.value === "MF" ? "green" : "blue";
+              input.value === "FW" ? "red" : input.value === "MF" ? "green" : "blue";
       document.getElementById("selectedPosition").value = input.value;
     }
 

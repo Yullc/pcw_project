@@ -101,22 +101,24 @@
                 </form>
             </c:when>
             <c:otherwise>
-        <c:choose>
-            <c:when test="${pastMatch}">
-                <div class="text-gray-400 text-sm">종료된 경기입니다. 참가할 수 없습니다.</div>
-            </c:when>
-            <c:when test="${isAlreadyJoined}">
-                <button class="bg-gray-400 text-white px-6 py-2 rounded-full cursor-not-allowed" disabled>
-                    ✅ 이미 참가했어요
-                </button>
-            </c:when>
-            <c:otherwise>
-                <form action="/usr/ftArticle/joinMatch" method="post">
-                    <input type="hidden" name="id" value="${ftArticle.id}" />
-                    <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
-                        ⚽ 참가하기
-                    </button>
-                </form>
+                <c:choose>
+                    <c:when test="${pastMatch}">
+                        <div class="text-gray-400 text-sm">종료된 경기입니다. 참가할 수 없습니다.</div>
+                    </c:when>
+                    <c:when test="${isAlreadyJoined}">
+                        <button class="bg-gray-400 text-white px-6 py-2 rounded-full cursor-not-allowed" disabled>
+                            ✅ 이미 참가했어요
+                        </button>
+                    </c:when>
+                    <c:otherwise>
+                        <form action="/usr/ftArticle/joinMatch" method="post">
+                            <input type="hidden" name="id" value="${ftArticle.id}" />
+                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
+                                ⚽ 참가하기
+                            </button>
+                        </form>
+                    </c:otherwise>
+                </c:choose>
             </c:otherwise>
         </c:choose>
     </div>

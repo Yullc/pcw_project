@@ -6,10 +6,7 @@ import org.example.service.MessageService;
 import org.example.service.MyPageService;
 import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
-import org.example.vo.FtArticle;
-import org.example.vo.Member;
-import org.example.vo.Message;
-import org.example.vo.Rq;
+import org.example.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,7 +28,7 @@ public class MyPageController {
     @RequestMapping("/usr/home/myPage")
     public String showMyPage(HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
-
+        System.out.println("마이페이지 진입");
         if (rq == null || rq.getLoginedMemberId() == 0) {
             return "redirect:/usr/home/main";
         }
@@ -51,10 +48,14 @@ public class MyPageController {
 
         //  최근 경기 목록 가져오기
         List<FtArticle> recentGames = myPageService.getRecentGamesByMemberId(memberId);
+        List<ScArticle>  recentSoccerGames = myPageService.getRecentSoccerGamesByMemberId(memberId);
+
         for (FtArticle game : recentGames) {
             System.out.println("▶ 최근경기 img: " + game.getImg());
         }
-
+        for (ScArticle scGame : recentSoccerGames) {
+            System.out.println("▶ 최근경기 img: " + scGame.getImg());
+        }
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("nickName", member.getNickName());
@@ -62,7 +63,7 @@ public class MyPageController {
         model.addAttribute("rank", rankName);
         model.addAttribute("intro", member.getIntro());
         model.addAttribute("recentGames", recentGames);
-
+        model.addAttribute("recentSoccerGames", recentSoccerGames);
         //  manner 온도와 이모지도 모델에 추가
         model.addAttribute("manner", member.getManner());
         model.addAttribute("mannerEmoji", member.getMannerEmoji());

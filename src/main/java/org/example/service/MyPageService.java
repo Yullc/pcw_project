@@ -3,6 +3,7 @@ package org.example.service;
 import org.example.repository.MemberRepository;
 import org.example.repository.MyPageRepository;
 import org.example.vo.FtArticle;
+import org.example.vo.ScArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +22,10 @@ public class MyPageService {
     }
     public List<FtArticle> getRecentGamesByMemberId(int memberId) {
         return myPageRepository.getRecentGamesByMemberId(memberId);
+    }
+
+    public List<ScArticle> getRecentSoccerGamesByMemberId(int memberId) {
+        return myPageRepository.getRecentSoccerGamesByMemberId(memberId);
     }
 
 //    // (예: 최근 경기 불러오는 메서드도 같이 있을 수 있음)

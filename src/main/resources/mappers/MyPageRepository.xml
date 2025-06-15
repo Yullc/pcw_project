@@ -12,9 +12,22 @@
         INNER JOIN match_participant mp ON fa.id = mp.matchId
         INNER JOIN football_stadium fs ON fa.id=fs.id
         WHERE mp.memberId = #{memberId}
-        AND fa.playDate &lt;  NOW()
+        AND mp.type ='풋살'
+        AND fa.playDate &lt; NOW()
         ORDER BY fa.playDate DESC
         LIMIT 3;
+    </select>
+
+    <select id="getRecentSoccerGamesByMemberId" resultType="org.example.vo.ScArticle">
+        SELECT sa.*, ss.img
+        FROM scArticle sa
+        INNER JOIN match_participant mp ON sa.id = mp.matchId
+        INNER JOIN soccer_stadium ss ON sa.id = ss.id
+        WHERE mp.memberId = #{memberId}
+        AND mp.type = '축구'
+        AND sa.playDate &lt; NOW()
+        ORDER BY sa.playDate DESC
+        LIMIT 3
     </select>
 
 

@@ -47,10 +47,10 @@
 
       <!-- 최근 경기 -->
       <div>
-        <h2 class="text-md font-bold text-green-600">최근 참가한 경기</h2>
+        <h2 class="text-md font-bold text-green-600">최근 풋살 경기</h2>
         <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
           <c:forEach var="game" items="${recentGames}">
-            <a href="/usr/article/foot_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+            <a href="/usr/ftArticle/foot_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
               <img src="${game.img}" alt="경기장 이미지" class="w-full h-28 object-cover rounded-t-lg" />
               <div class="p-2 text-sm">
                 <div class="font-semibold">${game.stadium}</div>
@@ -64,7 +64,24 @@
           <div class="text-sm text-gray-400">참가한 경기가 없습니다.</div>
         </c:if>
       </div>
-
+      <div class="mb-6">
+        <h2 class="text-md font-bold text-green-600"> 최근 축구 경기</h2>
+        <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
+          <c:forEach var="game" items="${recentSoccerGames}">
+            <a href="/usr/scArticle/soccer_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
+              <img src="${game.img}" alt="경기장 이미지" class="w-full h-28 object-cover rounded-t-lg" />
+              <div class="p-2 text-sm">
+                <div class="font-semibold">${game.stadium}</div>
+                <div class="text-gray-500">${game.playDate}</div>
+                <div class="text-gray-700">${game.title}</div>
+              </div>
+            </a>
+          </c:forEach>
+        </div>
+        <c:if test="${empty recentSoccerGames}">
+          <div class="text-sm text-gray-400">참가한 축구 경기가 없습니다.</div>
+        </c:if>
+      </div>
       <!-- 팀/레벨 -->
       <div class="flex gap-4">
         <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">팀: ${teamNm}</div>
