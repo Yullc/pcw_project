@@ -213,6 +213,7 @@ public class ScArticleController {
             matchParticipantService.scJoin(matchId, memberId, position);
         }
         System.out.println("position"+position);
+
         return "redirect:/usr/scArticle/soccer_detail?id=" + id;
     }
 

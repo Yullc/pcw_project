@@ -92,6 +92,16 @@
     <!-- 참가하기 버튼 -->
     <div class="mt-4 text-center">
         <c:choose>
+            <c:when test="${isAlreadyJoined}">
+                <form action="/usr/fsArticle/cancelJoin" method="post">
+                    <input type="hidden" name="id" value="${ftcArticle.id}" />
+                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full">
+                        참가 취소
+                    </button>
+                </form>
+            </c:when>
+            <c:otherwise>
+        <c:choose>
             <c:when test="${pastMatch}">
                 <div class="text-gray-400 text-sm">종료된 경기입니다. 참가할 수 없습니다.</div>
             </c:when>
