@@ -96,18 +96,19 @@ public class ScArticleController {
                            @RequestParam(defaultValue = "") String searchKeyword,
                            @RequestParam(defaultValue = "") String area,
                            @RequestParam(defaultValue = "") String avgLevel,
-                           @RequestParam(defaultValue = "") String playDate) {
+                           @RequestParam(defaultValue = "") String playDate,
+                           @RequestParam(defaultValue = "") String code) {
 
         Rq rq = (Rq) req.getAttribute("rq");
         int itemsInAPage = 16;
         int boardId = 2;
         String searchKeywordTypeCode = "stadiumName";
         System.out.println("scController");
-        int totalCount = scArticleService.getScArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, "", playDate);
+        int totalCount = scArticleService.getScArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, "", playDate,code);
         int pagesCount = (int) Math.ceil(totalCount / (double) itemsInAPage);
 
         List<ScArticle> scArticles = scArticleService.getForPrintScArticles(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate);
+                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate,code);
         System.out.println("scArticles 객쳊들"+scArticles);
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
@@ -146,7 +147,7 @@ public class ScArticleController {
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
-
+        model.addAttribute("code", code);
         return "usr/scArticle/soccer_menu";
     }
 

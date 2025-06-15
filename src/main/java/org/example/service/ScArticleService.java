@@ -45,7 +45,7 @@ public class ScArticleService {
 //        return ftArticleRepository.getFtArticles();
 //    }
 
-    public List<ScArticle> getForPrintScArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel,String playDate) {
+    public List<ScArticle> getForPrintScArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel,String playDate, String code) {
         // SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 0, 10;
         // --> 1page
         // SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 10, 10;
@@ -54,11 +54,11 @@ public class ScArticleService {
         int limitFrom = (page - 1) * itemsInAPage;
         int limitTake = itemsInAPage;
 
-        return scArticleRepository.getForPrintScArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
+        return scArticleRepository.getForPrintScArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate, code);
     }
 
-    public int getScArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate) {
-        return scArticleRepository.getScArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
+    public int getScArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate,String code) {
+        return scArticleRepository.getScArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate,code);
     }
 
     public int getScArticleMatch(int id) {

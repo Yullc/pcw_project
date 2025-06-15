@@ -82,6 +82,21 @@
   <div class="flex flex-1 overflow-hidden">
 
     <aside class="w-56 p-5 border-r border-gray-300 space-y-6 overflow-y-auto">
+      <div>
+        <h2 class="font-bold mb-2">모집 구분</h2>
+        <div class="flex flex-wrap gap-2">
+
+          <a href="/usr/scArticle/soccer_menu?code=개인&area=${area}&avgLevel=${avgLevel}&playDate=${playDate}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${code == '개인' ? 'bg-green-500 text-white' : ''}">
+            개인
+          </a>
+          <a href="/usr/scArticle/soccer_menu?code=팀&area=${area}&avgLevel=${avgLevel}&playDate=${playDate}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${code == '팀' ? 'bg-green-500 text-white' : ''}">
+            팀
+          </a>
+        </div>
+      </div>
+
       <!-- 지역 필터 -->
       <div>
         <h2 class="font-bold mb-2">지역</h2>
@@ -176,7 +191,12 @@
                 <div>${scArticle.area}</div>
                 <div>${scArticle.playDate}</div>
                 <div class="text-xs text-gray-500">${scArticle.address}</div>
-                <div class="text-xs text-gray-500">${scArticle.avgLevelName}</div>
+                <div class="flex justify-between items-center text-xs mt-2">
+                  <span class="text-gray-500">${scArticle.avgLevelName}</span>
+                  <span class="bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">
+                      ${scArticle.code}
+                  </span>
+                </div>
               </div>
             </a>
           </c:forEach>

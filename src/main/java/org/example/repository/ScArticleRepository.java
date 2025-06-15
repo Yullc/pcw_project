@@ -11,9 +11,9 @@ import java.util.List;
 @Mapper
 public interface ScArticleRepository {
 
-    public List<ScArticle> getForPrintScArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate);
+    public List<ScArticle> getForPrintScArticles(int boardId, int limitFrom, int limitTake, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate,String code);
 
-    public int getScArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate);
+    public int getScArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate,String code);
 
     public ScArticle getScArticleById(int id);
 

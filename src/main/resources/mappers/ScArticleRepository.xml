@@ -20,6 +20,9 @@
         <if test="area != ''">
             AND f.area = #{area}
         </if>
+        <if test="code != null and code != ''">
+            AND A.code = #{code}
+        </if>
         <if test="avgLevel != null and avgLevel != ''">
             AND A.avgLevel = #{avgLevel}
         </if>
@@ -42,6 +45,9 @@
         </if>
         <if test="area != ''">
             AND f.area = #{area}
+        </if>
+        <if test="code != null and code != ''">
+            AND A.code = #{code}
         </if>
         <if test="avgLevel != null and avgLevel != ''">
             AND A.avgLevel = #{avgLevel}
