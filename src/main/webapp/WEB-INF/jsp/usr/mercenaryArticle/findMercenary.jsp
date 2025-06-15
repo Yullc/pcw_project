@@ -102,7 +102,8 @@
                     <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
                         <div>${mercenary.teamName}</div>
                         <div>${mercenary.extra__writer}</div>
-                        <div>${mercenary.avgLevelName}</div>
+                        <div>${mercenary.area}</div>
+
                     </div>
                 </div>
             </c:forEach>

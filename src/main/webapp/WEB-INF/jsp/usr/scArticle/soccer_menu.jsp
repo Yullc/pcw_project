@@ -63,7 +63,7 @@
 
     <!-- 오른쪽 메뉴 -->
     <div class="flex items-center gap-6 whitespace-nowrap">
-      <a href="/usr/ftArticle/foot_menu" class="text-sm font-bold text-black border-b-2 hover:text-red-600">풋살하기</a>
+      <a href="/usr/ftArticle/foot_menu" class="text-sm  text-black hover:text-red-600">풋살하기</a>
       <a href="/usr/scArticle/soccer_menu" class="text-sm font-bold text-black border-b-2 border-green-600">축구하기</a>
       <a href="/usr/mercenaryArticle/findMercenary" class="text-sm text-black hover:text-red-600">용병 구하기</a>
       <a href="/usr/teamArticle/findTeam" class="text-sm text-black hover:text-red-600">팀 구하기</a>

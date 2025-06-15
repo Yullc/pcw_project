@@ -50,7 +50,7 @@
 
 
                         <input type="hidden" name="memberId" value="${player.id}" />
-                        <input type="hidden" name="id" value="${scArticle.id}" />
+                        <input type="hidden" name="id" value="${ftArticle.id}" />
                         <input type="hidden" name="boardId" value="${boardId}" />
 
 
@@ -58,7 +58,7 @@
                             <span class="font-semibold text-green-800">${player.nickName}</span>
                             <span class="text-sm">| ${player.rankName}</span>
                             <span class="text-sm">| 매너온도: ${player.mannerEmoji}</span>
-                            <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
+
                         </div>
 
 

@@ -179,7 +179,7 @@ public class MercenaryArticleController {
 
         int itemsInAPage = 10;
 
-        // DB에서 가져온 전체 리스트 (DB 쿼리에 area 조건이 아직 반영 안 된 것으로 보임)
+
         List<MercenaryArticle> mercenaryArticles = mercenaryArticleService.getForPrintArticles(
                 boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
 
