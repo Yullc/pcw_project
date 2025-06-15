@@ -73,6 +73,7 @@
 
             <input type="hidden" name="memberId" value="${player.id}" />
             <input type="hidden" name="id" value="${scArticle.id}" />
+            <input type="hidden" name="boardId" value="${boardId}" />
 
 
             <div class="flex items-center gap-2">

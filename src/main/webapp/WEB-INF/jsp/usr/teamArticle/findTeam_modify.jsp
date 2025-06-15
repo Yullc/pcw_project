@@ -14,7 +14,7 @@
 <div class="max-w-4xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-2xl">
     <h1 class="text-2xl font-bold mb-6 text-center text-green-700">팀 구하기 글 수정</h1>
 
-    <form onsubmit="ArticleModify__submit(this); return false;" action="/usr/article/doModify" method="POST">
+    <form onsubmit="ArticleModify__submit(this); return false;" action="/usr/teamArticle/doModify" method="POST">
         <input type="hidden" name="id" value="${teamArticle.id}" />
         <input type="hidden" name="body" id="body" />
 

@@ -96,18 +96,18 @@ public class FtArticleController {
                            @RequestParam(defaultValue = "") String searchKeyword,
                            @RequestParam(defaultValue = "") String area,
                            @RequestParam(defaultValue = "") String avgLevel,
-                           @RequestParam(defaultValue = "") String playDate) {
+                           @RequestParam(defaultValue = "") String playDate,
+                           @RequestParam(defaultValue = "") String code) {
 
         Rq rq = (Rq) req.getAttribute("rq");
         int itemsInAPage = 16;
         int boardId = 1;
         String searchKeywordTypeCode = "stadiumName";
 
-        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, "", playDate);
+        int totalCount = ftarticleService.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, "", playDate,code);
         int pagesCount = (int) Math.ceil(totalCount / (double) itemsInAPage);
 
-        List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate);
+        List<FtArticle> ftArticles = ftarticleService.getForPrintFtArticles(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area, "", playDate, code);
         System.out.println("ftArticles 객쳊들"+ftArticles);
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
@@ -136,6 +136,7 @@ public class FtArticleController {
 
             ftArticles = filteredList;
         }
+
         System.out.println(member.getProfileImg());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("ftArticles", ftArticles);
@@ -146,9 +147,11 @@ public class FtArticleController {
         model.addAttribute("pagesCount", pagesCount);
         model.addAttribute("totalCount", totalCount);
         model.addAttribute("page", page);
+        model.addAttribute("code", code);
 
         return "usr/ftArticle/foot_menu";
     }
+
 
 
 
@@ -188,6 +191,7 @@ public class FtArticleController {
         String area = ftArticle.getArea();
         LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
         List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
+        model.addAttribute("boardId", 1); // 1 = 풋살 게시판
 
         model.addAttribute("ftArticle", ftArticle);
         model.addAttribute("weatherList", weatherList);

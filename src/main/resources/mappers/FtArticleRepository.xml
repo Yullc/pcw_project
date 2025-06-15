@@ -9,7 +9,7 @@
         SELECT COUNT(*)
         FROM ftArticle AS A
         INNER JOIN football_stadium AS f ON A.fsid = f.id
-        WHERE 1
+        WHERE 1 = 1
         <if test="boardId != 0">
             AND A.boardId = #{boardId}
         </if>
@@ -19,20 +19,23 @@
         <if test="area != ''">
             AND f.area = #{area}
         </if>
+        <if test="code != null and code != ''">
+            AND A.code = #{code}
+        </if>
         <if test="avgLevel != null and avgLevel != ''">
             AND A.avgLevel = #{avgLevel}
         </if>
         <if test="playDate != null and playDate != ''">
             AND DATE(A.playDate) = #{playDate}
         </if>
-
     </select>
+
 
     <select id="getForPrintFtArticles" resultType="org.example.vo.FtArticle">
         SELECT A.*, f.stadiumName, f.area, f.address, f.img
-        FROM FtArticle AS A
+        FROM ftArticle AS A
         INNER JOIN football_stadium AS f ON A.fsid = f.id
-        WHERE 1
+        WHERE 1 = 1
         <if test="boardId != 0">
             AND A.boardId = #{boardId}
         </if>
@@ -42,13 +45,15 @@
         <if test="area != ''">
             AND f.area = #{area}
         </if>
+        <if test="code != null and code != ''">
+            AND A.code = #{code}
+        </if>
         <if test="avgLevel != null and avgLevel != ''">
             AND A.avgLevel = #{avgLevel}
         </if>
         <if test="playDate != null and playDate != ''">
             AND DATE(A.playDate) = #{playDate}
         </if>
-
         ORDER BY A.id DESC
         <if test="limitFrom >= 0">
             LIMIT #{limitFrom}, #{limitTake}

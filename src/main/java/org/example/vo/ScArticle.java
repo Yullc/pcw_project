@@ -22,4 +22,5 @@ public class ScArticle {
     private String img;
     private int matchId;
     private String avgLevelName;
+    private String code;
 }

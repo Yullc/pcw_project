@@ -194,6 +194,7 @@ public class ScArticleController {
         model.addAttribute("participants", participants);
         model.addAttribute("pastMatch", pastMatch);
         model.addAttribute("isAlreadyJoined", matchParticipantService.isAlreadyJoined(id, rq.getLoginedMemberId()));
+        model.addAttribute("boardId", 2);
 
 
         return "usr/scArticle/soccer_detail";

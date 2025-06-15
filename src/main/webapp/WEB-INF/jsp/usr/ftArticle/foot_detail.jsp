@@ -46,7 +46,7 @@
                 <!-- 숨겨진 값 -->
                 <input type="hidden" name="memberId" value="${player.id}" />
                 <input type="hidden" name="id" value="${ftArticle.id}" />
-
+                <input type="hidden" name="boardId" value="${boardId}" />
                 <!-- 사용자 정보 -->
                 <div class="flex items-center gap-2">
                     <span class="font-semibold text-green-800">${player.nickName}</span>

@@ -12,15 +12,6 @@ public class MainController {
         return "/usr/home/main";
     }
 
-
-
-
-    @RequestMapping("/usr/home/APITest")
-    public String showAPITest() {
-        return "/usr/home/APITest";
-    }
-
-
     @RequestMapping("/")
     public String showMain2() {
         return "redirect:/usr/home/main";

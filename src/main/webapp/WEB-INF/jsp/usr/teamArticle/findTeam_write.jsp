@@ -31,7 +31,7 @@
 <div class="max-w-4xl mx-auto mt-10 p-8 bg-white rounded-2xl shadow-2xl">
     <h1 class="text-2xl font-bold mb-6 text-center text-green-700">팀 구하기 글쓰기</h1>
 
-    <form onsubmit="ArticleWrite__submit(this); return false;" action="../article/doWrite" method="POST">
+    <form onsubmit="ArticleWrite__submit(this); return false;" action="../teamArticle/doWrite" method="POST">
         <input type="hidden" name="body" />
 
         <div class="mb-4">

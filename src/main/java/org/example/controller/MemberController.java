@@ -20,6 +20,7 @@ import org.example.vo.ResultData;
 import org.example.vo.Rq;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -239,29 +240,31 @@ public class MemberController {
     @PostMapping("/usr/member/updatePlayerInfo")
     public String updatePlayerInfo(@RequestParam int memberId,
                                    @RequestParam("id") int id,
+                                   @RequestParam int boardId,
                                    @RequestParam String rankName,
                                    @RequestParam String mannerEmoji,
-                                   HttpServletRequest req) {
+                                   RedirectAttributes redirectAttrs) {
 
-        Rq rq = (Rq) req.getAttribute("rq");
-        System.out.println("updatePlayerInfo 진입");
-        System.out.println("넘어온 memberId = " + memberId);
-        System.out.println("넘어온 id (matchId용) = " + id);
-
-        // 랭크/매너 변환
+        // 매너 & 랭크 변환
         int rank = RankUtil.getNameToRank(rankName);
         float manner = MannerUtil.getTemperatureFromEmoji(mannerEmoji);
-        System.out.println("변환된 rank = " + rank);
-        System.out.println("변환된 manner = " + manner);
-
-
 
         memberService.updateRankAndManner(memberId, rank, manner);
 
+        // 리다이렉트 파라미터 전달
+        redirectAttrs.addAttribute("id", id);
 
-        return "redirect:/usr/article/foot_detail?id=" + id;
+        String redirectUrl;
+        if (boardId == 1) {
+            redirectUrl = "/usr/ftArticle/foot_detail";
+        } else if (boardId == 2) {
+            redirectUrl = "/usr/scArticle/soccer_detail";
+        } else {
+            redirectUrl = "/usr/home/main";
+        }
+
+        return "redirect:" + redirectUrl;
     }
-
 
 
 }

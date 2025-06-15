@@ -41,7 +41,7 @@ public class ReplyController {
 
         int id = (int) writeReplyRd.getData1();
 
-        return Ut.jsReplace(writeReplyRd.getResultCode(), writeReplyRd.getMsg(), "../article/findTeam_detail?id=" + relId);
+        return Ut.jsReplace(writeReplyRd.getResultCode(), writeReplyRd.getMsg(), "../teamArticle/findTeam_detail?id=" + relId);
     }
 
     @RequestMapping("/usr/reply/doModify")
@@ -98,7 +98,7 @@ public class ReplyController {
         return Ut.jsReplace(
                 userCanDeleteRd.getResultCode(),
                 userCanDeleteRd.getMsg(),
-                "../article/findTeam_detail?id=" + teamArticleId
+                "../teamArticle/findTeam_detail?id=" + teamArticleId
         );
     }
 

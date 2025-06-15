@@ -6,12 +6,6 @@ import org.example.vo.FtArticle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import org.example.repository.MemberRepository;
-import org.example.util.Ut;
-import org.example.vo.Member;
-import org.example.vo.ResultData;
-
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -43,7 +37,7 @@ public class FtArticleService {
 //        return ftArticleRepository.getFtArticles();
 //    }
 
-    public List<FtArticle> getForPrintFtArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel,String playDate) {
+    public List<FtArticle> getForPrintFtArticles(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel,String playDate, String code) {
         // SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 0, 10;
         // --> 1page
         // SELECT * FROM article WHERE boardId = 1 ORDER BY id DESC LIMIT 10, 10;
@@ -52,11 +46,11 @@ public class FtArticleService {
         int limitFrom = (page - 1) * itemsInAPage;
         int limitTake = itemsInAPage;
 
-        return ftArticleRepository.getForPrintFtArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
+        return ftArticleRepository.getForPrintFtArticles(boardId, limitFrom, limitTake, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate, code);
     }
 
-    public int getFtArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate) {
-        return ftArticleRepository.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate);
+    public int getFtArticleCount(int boardId, String searchKeywordTypeCode, String searchKeyword, String area, String avgLevel, String playDate, String code) {
+        return ftArticleRepository.getFtArticleCount(boardId, searchKeywordTypeCode, searchKeyword, area, avgLevel, playDate, code);
     }
 
     public int getFtArticleMatch(int id) {

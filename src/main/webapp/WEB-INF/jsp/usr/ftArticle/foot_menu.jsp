@@ -83,7 +83,7 @@
 
     <aside class="w-56 p-5 border-r border-gray-300 space-y-6 overflow-y-auto">
 
-      <!-- 🆕 개인/팀 필터 -->
+
       <div>
         <h2 class="font-bold mb-2">모집 구분</h2>
         <div class="flex flex-wrap gap-2">
@@ -183,14 +183,26 @@
       <div class="px-[100px]">
         <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
           <c:forEach var="ftArticle" items="${ftArticles}">
-            <a href="/usr/ftArticle/foot_detail?id=${ftArticle.id}" class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 hover:shadow-lg transition">
+            <a href="/usr/ftArticle/foot_detail?id=${ftArticle.id}"
+               class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 min-h-[260px] hover:shadow-lg transition">
+
               <img src="${ftArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
-              <div class="p-2 text-sm">
-                <div class="font-semibold">${ftArticle.stadium}</div>
-                <div>${ftArticle.area}</div>
-                <div>${ftArticle.playDate}</div>
-                <div class="text-xs text-gray-500">${ftArticle.address}</div>
-                <div class="text-xs text-gray-500">${ftArticle.avgLevelName}</div>
+
+              <div class="p-2 text-sm flex flex-col justify-between flex-1">
+                <div class="space-y-1">
+
+                  <div>${ftArticle.area}</div>
+                  <div>${ftArticle.playDate}</div>
+                  <div class="text-xs text-gray-500">${ftArticle.address}</div>
+                </div>
+
+                <!-- 레벨 + 모집 구분 -->
+                <div class="flex justify-between items-center text-xs mt-2">
+                  <span class="text-gray-500">${ftArticle.avgLevelName}</span>
+                  <span class="bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">
+                      ${ftArticle.code}
+                  </span>
+                </div>
               </div>
             </a>
           </c:forEach>
