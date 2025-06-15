@@ -82,19 +82,33 @@
   <div class="flex flex-1 overflow-hidden">
 
     <aside class="w-56 p-5 border-r border-gray-300 space-y-6 overflow-y-auto">
+
+      <!-- 🆕 개인/팀 필터 -->
+      <div>
+        <h2 class="font-bold mb-2">모집 구분</h2>
+        <div class="flex flex-wrap gap-2">
+
+          <a href="/usr/ftArticle/foot_menu?code=개인&area=${area}&avgLevel=${avgLevel}&playDate=${playDate}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${code == '개인' ? 'bg-green-500 text-white' : ''}">
+            개인
+          </a>
+          <a href="/usr/ftArticle/foot_menu?code=팀&area=${area}&avgLevel=${avgLevel}&playDate=${playDate}"
+             class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${code == '팀' ? 'bg-green-500 text-white' : ''}">
+            팀
+          </a>
+        </div>
+      </div>
+
       <!-- 지역 필터 -->
       <div>
         <h2 class="font-bold mb-2">지역</h2>
         <div class="flex flex-wrap gap-2">
-          <!-- 전체 지역 -->
-          <a href="/usr/ftArticle/foot_menu?area=&avgLevel=${avgLevel}&playDate=${playDate}"
+          <a href="/usr/ftArticle/foot_menu?code=${code}&area=&avgLevel=${avgLevel}&playDate=${playDate}"
              class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty area ? 'bg-green-500 text-white' : ''}">
             전체
           </a>
-
-          <!-- 지역 리스트 -->
           <c:forEach var="region" items="${['서울','경기','강원','인천','대전','세종','충북','충남','대구','경북','경남','부산','광주','전북','울산','전남','제주']}">
-            <a href="/usr/ftArticle/foot_menu?area=${region}&avgLevel=${avgLevel}&playDate=${playDate}"
+            <a href="/usr/ftArticle/foot_menu?code=${code}&area=${region}&avgLevel=${avgLevel}&playDate=${playDate}"
                class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${region == area ? 'bg-green-500 text-white' : ''}">
                 ${region}
             </a>

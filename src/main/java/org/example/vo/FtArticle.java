@@ -22,6 +22,6 @@ public class FtArticle {
     private String img;
     private int matchId;
     private String avgLevelName;
-
+    private String code;
 
 }
