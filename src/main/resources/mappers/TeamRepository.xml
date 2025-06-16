@@ -12,4 +12,20 @@
         LIMIT 1
     </select>
 
+    <insert id="registerTeam">
+        INSERT INTO team
+        SET regDate = NOW(),
+        updateDate = NOW(),
+        teamName = #{param1},
+            area = #{param2},
+            teamLeader = #{param3},
+            intro = #{param4},
+            teamRank = #{param5}
+    </insert>
+
+
+    <select id="getLastInsertId" resultType="int">
+        SELECT LAST_INSERT_ID()
+    </select>
+
 </mapper>

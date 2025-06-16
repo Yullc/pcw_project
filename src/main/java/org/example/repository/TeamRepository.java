@@ -7,4 +7,8 @@ import org.example.vo.Team;
 public interface TeamRepository {
 
     Team getTeamByLeaderNickName(String nickName);
+
+    void registerTeam(String teamName, String area, String teamLeader, String introk, int leaderRank);
+
+    int getLastInsertId();
 }

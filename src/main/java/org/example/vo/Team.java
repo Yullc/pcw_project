@@ -17,4 +17,5 @@ public class Team {
     private String teamRank;
     private String area;
     private String teamLeader;
+    private String intro;
 }

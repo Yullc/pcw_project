@@ -81,8 +81,15 @@
                     </c:forEach>
                 </div>
             </div>
-        </aside>
+            <!-- ✅ 팀 등록 버튼 -->
+            <div class="pt-6 border-t border-gray-300">
+                <a href="/usr/teamArticle/teamRegister"
+                   class="block text-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full transition">
+                    ✏️ 팀 등록하기
+                </a>
+            </div>
 
+        </aside>
 
         <!-- 팀 리스트 -->
         <section class="flex-1 p-28">

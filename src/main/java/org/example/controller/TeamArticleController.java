@@ -9,6 +9,7 @@ import org.example.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -171,6 +172,65 @@ public class TeamArticleController {
         int newId = (int) doWriteRd.getData1();
         return Ut.jsReplace(doWriteRd.getResultCode(), doWriteRd.getMsg(), "../teamArticle/findTeam_detail?id=" + newId);
     }
+    @RequestMapping("/usr/teamArticle/teamRegister")
+    public String showRegister(HttpServletRequest req) {
+
+        return "usr/teamArticle/teamRegister";
+    }
+    @RequestMapping("/usr/teamArticle/doRegister")
+    @ResponseBody
+    public String doRegister(HttpServletRequest req, String teamName, String area, String teamLeader, String intro) {
+        Rq rq = (Rq) req.getAttribute("rq");
+
+        if (Ut.isEmptyOrNull(teamName)) {
+            return Ut.jsHistoryBack("F-1", "팀 이름을 입력해주세요.");
+        }
+
+        if (Ut.isEmptyOrNull(area)) {
+            return Ut.jsHistoryBack("F-2", "지역을 선택해주세요.");
+        }
+
+        if (Ut.isEmptyOrNull(teamLeader)) {
+            return Ut.jsHistoryBack("F-3", "팀 리더를 입력해주세요.");
+        }
+        Member member = memberService.getMemberById(rq.getLoginedMemberId());
+        int leaderRank = member.getRank();
+        // 팀 등록
+        ResultData doRegisterRd = teamService.registerTeam(teamName, area, teamLeader, intro,leaderRank);
+        int teamId = (int) doRegisterRd.getData1();
+
+
+
+        return Ut.jsReplace(doRegisterRd.getResultCode(), doRegisterRd.getMsg(), "/usr/teamArticle/findTeam");
+    }
+//    @RequestMapping("/usr/teamArticle/findTeam_detail")
+//    public String showTeamDetail(@RequestParam("id") int teamId, Model model) {
+//        // 팀 정보
+//        Team team = teamService.getTeamById(teamId);
+//        model.addAttribute("team", team);
+//
+//        // 팀원 정보
+//        List<Member> participants = teamMemberService.getMembersByTeamId(teamId);
+//        model.addAttribute("participants", participants);
+//
+//        // 평균 랭크 계산
+//        int total = 0;
+//        for (Member m : participants) {
+//            total += m.getRank(); // DB에서 가져온 숫자 랭크
+//            m.setRankName(RankUtil.getRankName(m.getRank())); // 각 멤버도 세팅
+//        }
+//
+//        String avgLevelName = "없음";
+//        if (!participants.isEmpty()) {
+//            float avg = (float) total / participants.size();
+//            int rounded = Math.round(avg); // 반올림
+//            avgLevelName = RankUtil.getRankName(rounded);
+//        }
+//
+//        model.addAttribute("avgLevelName", avgLevelName);
+//
+//        return "usr/teamArticle/findTeam_detail";
+//    }
 
 
     @RequestMapping("/usr/teamArticle/findTeam")
