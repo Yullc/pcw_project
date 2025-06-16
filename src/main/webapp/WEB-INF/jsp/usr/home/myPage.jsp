@@ -43,20 +43,11 @@
     </div>
 
     <!-- 우측: 최근 경기 및 정보 -->
-    <!-- 우측: 최근 경기 및 정보 -->
     <div class="w-2/3 space-y-6">
 
-      <!-- ✅ 드롭다운: 풋살/축구 -->
+      <!-- 최근 경기 -->
       <div>
-        <label for="matchType" class="text-md font-bold text-green-700 mr-2">최근 경기</label>
-        <select id="matchType" onchange="toggleMatchList()" class="border border-gray-300 rounded px-2 py-1 text-sm">
-          <option value="futsal">풋살</option>
-          <option value="football">축구</option>
-        </select>
-      </div>
-
-      <!-- ✅ 풋살 경기 -->
-      <div id="futsalMatches">
+        <h2 class="text-md font-bold text-green-600">최근 풋살 경기</h2>
         <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
           <c:forEach var="game" items="${recentGames}">
             <a href="/usr/ftArticle/foot_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
@@ -70,12 +61,11 @@
           </c:forEach>
         </div>
         <c:if test="${empty recentGames}">
-          <div class="text-sm text-gray-400">참가한 풋살 경기가 없습니다.</div>
+          <div class="text-sm text-gray-400">참가한 경기가 없습니다.</div>
         </c:if>
       </div>
-
-      <!-- ✅ 축구 경기 -->
-      <div id="footballMatches" class="hidden">
+      <div class="mb-6">
+        <h2 class="text-md font-bold text-green-600"> 최근 축구 경기</h2>
         <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
           <c:forEach var="game" items="${recentSoccerGames}">
             <a href="/usr/scArticle/soccer_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
@@ -92,41 +82,27 @@
           <div class="text-sm text-gray-400">참가한 축구 경기가 없습니다.</div>
         </c:if>
       </div>
-
-      <!-- ✅ 팀/레벨 -->
-      <div class="flex gap-4 items-center">
-        <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold whitespace-nowrap">팀: ${teamNm}</div>
-        <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold whitespace-nowrap">레벨: ${rank}</div>
+      <!-- 팀/레벨 -->
+      <div class="flex gap-4">
+        <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">팀: ${teamNm}</div>
+        <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">레벨: ${rank}</div>
       </div>
 
-      <!-- ✅ 자기소개 -->
+      <!-- 자기소개 -->
       <div>
         <div class="font-bold mb-1">자기소개</div>
-        <textarea class="w-full h-24 border rounded p-2 text-sm" readonly>${intro}</textarea>
+        <textarea class="w-full h-24 border rounded p-2" readonly>${intro}</textarea>
       </div>
 
-      <!-- ✅ 수정 버튼 -->
+      <!-- 수정 버튼 -->
       <div class="text-right">
         <a href="/usr/member/modify?id=${id}" class="bg-green-600 hover:bg-green-500 text-white font-semibold py-2 px-4 rounded-full">
           회원정보 수정
         </a>
       </div>
     </div>
-
-    <!-- ✅ JS 스크립트 -->
-    <script>
-      function toggleMatchList() {
-        const selected = document.getElementById("matchType").value;
-        document.getElementById("futsalMatches").classList.add("hidden");
-        document.getElementById("footballMatches").classList.add("hidden");
-
-        if (selected === "futsal") {
-          document.getElementById("futsalMatches").classList.remove("hidden");
-        } else {
-          document.getElementById("footballMatches").classList.remove("hidden");
-        }
-      }
-    </script>
+  </div>
+</div>
 
 
 <!-- 쪽지 작성 모달 -->
