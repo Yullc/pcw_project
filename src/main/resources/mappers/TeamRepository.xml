@@ -27,5 +27,47 @@
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID()
     </select>
+    <select id="getArticleCount" resultType="int">
+        SELECT COUNT(*)
+        FROM teamArticle
+        WHERE boardId = #{boardId}
+        <if test="searchKeyword != null and searchKeyword != ''">
+            <choose>
+                <when test="searchKeywordTypeCode == 'teamName'">
+                    AND teamName LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchKeywordTypeCode == 'teamLeader'">
+                    AND teamLeader LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <!-- 다른 검색 키워드 타입이 있다면 추가 가능 -->
+                <otherwise>
+                    AND (teamName LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR teamLeader LIKE CONCAT('%', #{searchKeyword}, '%'))
+                </otherwise>
+            </choose>
+        </if>
+    </select>
+
+    <select id="getAllTeams" resultType="org.example.vo.Team">
+        SELECT *
+        FROM team
+        WHERE 1
+        <if test="param5 != ''">
+            <choose>
+                <when test="param4 == 'teamName'">
+                    AND teamName LIKE CONCAT('%', #{param5}, '%')
+                </when>
+                <when test="param4 == 'teamLeader'">
+                    AND teamLeader LIKE CONCAT('%', #{param5}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="param6 != ''">
+            AND area = #{param6}
+        </if>
+        ORDER BY id DESC
+        LIMIT #{param3}, #{param2}  <!-- param3 = limitFrom, param2 = limitTake -->
+    </select>
+
 
 </mapper>

@@ -312,15 +312,15 @@ public class TeamArticleController {
         int articlesCount = teamArticleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
-
+        System.out.println("프롷필 이미지 가져오기"+member.getProfileImg());
         int itemsInAPage = 10;
         int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 
-        List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(
+        List<Team> teams = teamService.getAllTeams(
                 boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
 
         // ✅ teamRank → avgLevelName
-        for (TeamArticle t : teamArticles) {
+        for (Team t : teams) {
             try {
                 if (t.getTeamRank() != null && !t.getTeamRank().isEmpty()) {
                     int level = Integer.parseInt(t.getTeamRank());
@@ -335,13 +335,13 @@ public class TeamArticleController {
 
         // ✅ 필터링
         if (!avgLevel.isEmpty()) {
-            List<TeamArticle> filteredList = new ArrayList<>();
-            for (TeamArticle t : teamArticles) {
+            List<Team> filteredList = new ArrayList<>();
+            for (Team t : teams) {
                 if (t.getAvgLevelName() != null && t.getAvgLevelName().startsWith(avgLevel)) {
                     filteredList.add(t);
                 }
             }
-            teamArticles = filteredList;
+            teams = filteredList;
         }
 
         model.addAttribute("profileImg", member.getProfileImg());
@@ -349,7 +349,7 @@ public class TeamArticleController {
         model.addAttribute("articlesCount", articlesCount);
         model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
         model.addAttribute("searchKeyword", searchKeyword);
-        model.addAttribute("teamArticles", teamArticles);
+        model.addAttribute("teams", teams);
         model.addAttribute("boardId", boardId);
         model.addAttribute("page", page);
         model.addAttribute("avgLevel", avgLevel);

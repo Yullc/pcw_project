@@ -100,28 +100,29 @@
 
         <!-- 팀 리스트 -->
         <section class="flex-1 p-28">
-            <c:forEach var="team" items="${teamArticles}">
+            팀 목록 페이지
+            <c:forEach var="team" items="${teams}">
                 <div class="border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md">
                     <div class="flex items-center gap-4">
                         <div class="w-2 h-6 bg-green-500 rounded-r"></div>
                         <div>
                             <div class="font-bold text-lg">
-                                <a href="/usr/teamArticle/findTeam_detail?id=${team.id}" class="hover:underline hover:text-green-600">
-                                        ${team.title}
+                                <a href="/usr/teamArticle/teamDetail?id=${team.id}" class="hover:underline hover:text-green-600">
+                                        ${team.teamName}
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
                         <c:choose>
-                            <c:when test="${rq.loginedMember.nickName == team.extra__writer}">
+                            <c:when test="${rq.loginedMember.nickName == team.teamLeader}">
                                 <a href="/usr/home/myPage" class="hover:text-green-600 hover:underline">
-                                        ${team.extra__writer}
+                                        ${team.teamLeader}
                                 </a>
                             </c:when>
                             <c:otherwise>
-                                <a href="/usr/home/yourPage?nickName=${team.extra__writer}" class="hover:text-green-600 hover:underline">
-                                        ${team.extra__writer}
+                                <a href="/usr/home/yourPage?nickName=${team.teamLeader}" class="hover:text-green-600 hover:underline">
+                                        ${team.teamLeader}
                                 </a>
                             </c:otherwise>
                         </c:choose>
@@ -130,12 +131,6 @@
                     </div>
                 </div>
             </c:forEach>
-            <div class="text-right mb-4">
-                <a href="/usr/teamArticle/findTeam_write"
-                   class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full shadow-md">
-                    ✏ 글쓰기
-                </a>
-            </div>
             <!-- ✅ 페이지네이션 -->
             <c:set var="groupSize" value="5" />
             <fmt:parseNumber value="${(page - 1) div groupSize}" integerOnly="true" var="currentGroup" />
@@ -148,19 +143,19 @@
 
             <div class="mt-6 flex justify-center space-x-2">
                 <c:if test="${groupStart > 1}">
-                    <a href="/usr/teamArticle/findTeam?page=${groupStart - 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?page=${groupStart - 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
                        class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">&lt;</a>
                 </c:if>
 
                 <c:forEach begin="${groupStart}" end="${groupEnd}" var="i">
-                    <a href="/usr/teamArticle/findTeam?page=${i}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?page=${i}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
                        class="px-3 py-1 border rounded-full ${i == page ? 'bg-green-600 text-white' : 'bg-white text-gray-800 hover:bg-gray-200'}">
                             ${i}
                     </a>
                 </c:forEach>
 
                 <c:if test="${groupEnd < pagesCount}">
-                    <a href="/usr/teamArticle/findTeam?page=${groupEnd + 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?page=${groupEnd + 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
                        class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">&gt;</a>
                 </c:if>
             </div>

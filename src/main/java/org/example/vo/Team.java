@@ -18,4 +18,6 @@ public class Team {
     private String area;
     private String teamLeader;
     private String intro;
+    private String avgLevelName;
+
 }
