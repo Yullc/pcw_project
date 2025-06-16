@@ -100,8 +100,19 @@
                         </div>
                     </div>
                     <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
-                        <div>${mercenary.teamName}</div>
-                        <div>${mercenary.extra__writer}</div>
+                        <c:choose>
+                            <c:when test="${rq.loginedMember.nickName == mercenary.extra__writer}">
+                                <a href="/usr/home/myPage" class="hover:text-green-600 hover:underline">
+                                        ${mercenary.extra__writer}
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/usr/home/yourPage?nickName=${mercenary.extra__writer}" class="hover:text-green-600 hover:underline">
+                                        ${mercenary.extra__writer}
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+
                         <div>${mercenary.area}</div>
 
                     </div>

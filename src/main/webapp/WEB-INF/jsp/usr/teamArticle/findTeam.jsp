@@ -99,8 +99,19 @@
                         </div>
                     </div>
                     <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
-                        <div>${team.teamName}</div>
-                        <div>${team.extra__writer}</div>
+                        <c:choose>
+                            <c:when test="${rq.loginedMember.nickName == team.extra__writer}">
+                                <a href="/usr/home/myPage" class="hover:text-green-600 hover:underline">
+                                        ${team.extra__writer}
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="/usr/home/yourPage?nickName=${team.extra__writer}" class="hover:text-green-600 hover:underline">
+                                        ${team.extra__writer}
+                                </a>
+                            </c:otherwise>
+                        </c:choose>
+                        
                         <div>${team.avgLevelName}</div>
                     </div>
                 </div>

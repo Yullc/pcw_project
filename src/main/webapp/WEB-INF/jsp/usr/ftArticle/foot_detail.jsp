@@ -55,7 +55,20 @@
 
 
                         <div class="flex items-center gap-2">
-                            <span class="font-semibold text-green-800">${player.nickName}</span>
+                            <c:choose>
+                                <c:when test="${rq.loginedMember.nickName == player.nickName}">
+                                    <a href="/usr/home/myPage" class="font-semibold text-green-800 hover:underline">
+                                            ${player.nickName}
+                                    </a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="/usr/home/yourPage?nickName=${player.nickName}" class="font-semibold text-green-800 hover:underline">
+                                            ${player.nickName}
+                                    </a>
+                                </c:otherwise>
+                            </c:choose>
+
+
                             <span class="text-sm">| ${player.rankName}</span>
                             <span class="text-sm">| 매너온도: ${player.mannerEmoji}</span>
 
