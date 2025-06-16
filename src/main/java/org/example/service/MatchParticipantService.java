@@ -2,6 +2,7 @@ package org.example.service;
 
 import lombok.RequiredArgsConstructor;
 import org.example.repository.MatchParticipantRepository;
+import org.example.vo.Article;
 import org.example.vo.Member;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,5 +33,9 @@ public class MatchParticipantService {
 
     public void cancelJoin(int matchId, int memberId) {
         matchParticipantRepository.cancelJoin(matchId,memberId);
+    }
+
+    public Article getNextMatchForMember(int memberId) {
+        return matchParticipantRepository.getNextMatchForMember(memberId);
     }
 }

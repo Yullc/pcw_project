@@ -46,4 +46,26 @@
           AND memberId = #{memberId}
     </update>
 
+    <select id="getNextMatchForMember" resultType="org.example.vo.Article">
+        (
+            SELECT fa.id, fa.title, fa.playDate, fs.img, fs.stadiumName AS stadium, '풋살' AS type
+            FROM ftArticle fa
+                     JOIN match_participant mp ON fa.id = mp.matchId
+                     JOIN football_stadium fs ON fa.fsId = fs.id
+            WHERE mp.memberId = #{memberId}
+              AND fa.playDate > NOW()
+        )
+        UNION
+        (
+            SELECT sa.id, sa.title, sa.playDate, ss.img, ss.stadiumName AS stadium, '축구' AS type
+            FROM scArticle sa
+                     JOIN match_participant mp ON sa.id = mp.matchId
+                     JOIN soccer_stadium ss ON sa.ssId = ss.id
+            WHERE mp.memberId = #{memberId}
+              AND sa.playDate > NOW()
+        )
+        ORDER BY playDate ASC
+            LIMIT 1
+    </select>
+
 </mapper>

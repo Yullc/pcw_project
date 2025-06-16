@@ -1,6 +1,7 @@
 package org.example.controller;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.example.service.MatchParticipantService;
 import org.example.service.MemberService;
 import org.example.service.MessageService;
 import org.example.service.MyPageService;
@@ -24,6 +25,9 @@ public class MyPageController {
 
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private MatchParticipantService matchParticipantService;
+
 
     @RequestMapping("/usr/home/myPage")
     public String showMyPage(HttpServletRequest req, Model model) {
@@ -49,6 +53,8 @@ public class MyPageController {
         //  최근 경기 목록 가져오기
         List<FtArticle> recentGames = myPageService.getRecentGamesByMemberId(memberId);
         List<ScArticle>  recentSoccerGames = myPageService.getRecentSoccerGamesByMemberId(memberId);
+        // 다음경기 가져오기
+        Article nextMatch = matchParticipantService.getNextMatchForMember(memberId);
 
         for (FtArticle game : recentGames) {
             System.out.println("▶ 최근경기 img: " + game.getImg());
@@ -71,7 +77,7 @@ public class MyPageController {
         List<Message> sentMessages = messageService.getSentMessages(rq.getLoginedMemberId());
         model.addAttribute("receivedMessages", receivedMessages);
         model.addAttribute("sentMessages", sentMessages);
-
+        model.addAttribute("nextMatch", nextMatch);
 
 
         return "usr/home/myPage";

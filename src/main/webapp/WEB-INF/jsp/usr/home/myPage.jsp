@@ -40,6 +40,27 @@
         <a href="#" onclick="toggleModal('inboxModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">📥 받은 쪽지함</a>
         <a href="#" onclick="toggleModal('outboxModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">📤 보낸 쪽지함</a>
       </div>
+      <!-- 다음 경기-->
+      <div class="w-full mt-6">
+        <h3 class="text-sm font-bold text-green-700 mb-2">🗓️ 나의 다음 경기</h3>
+        <c:choose>
+          <c:when test="${not empty nextMatch}">
+            <a href="${nextMatch.type == '풋살' ? '/usr/ftArticle/foot_detail?id=' : '/usr/scArticle/soccer_detail?id='}${nextMatch.id}"
+               class="w-48 block bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden">
+              <img src="${nextMatch.img}" alt="경기장 이미지" class="w-full h-28 object-cover" />
+              <div class="p-2 text-sm">
+                <div class="font-semibold truncate">${nextMatch.stadium}</div>
+                <div class="text-gray-500 text-xs">${nextMatch.playDate}</div>
+                <div class="text-gray-700 text-sm truncate">${nextMatch.title}</div>
+              </div>
+            </a>
+          </c:when>
+          <c:otherwise>
+            <div class="text-sm text-gray-400 text-center mt-2">다가오는 경기가 없습니다.</div>
+          </c:otherwise>
+        </c:choose>
+      </div>
+
     </div>
 
     <!-- 우측: 최근 경기 및 정보 -->
@@ -47,7 +68,7 @@
 
       <!-- 최근 경기 -->
       <div>
-        <h2 class="text-md font-bold text-green-600">최근 풋살 경기</h2>
+        <h2 class="text-md font-bold text-green-700">최근 풋살 경기</h2>
         <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
           <c:forEach var="game" items="${recentGames}">
             <a href="/usr/ftArticle/foot_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
@@ -65,7 +86,7 @@
         </c:if>
       </div>
       <div class="mb-6">
-        <h2 class="text-md font-bold text-green-600"> 최근 축구 경기</h2>
+        <h2 class="text-md font-bold text-green-700"> 최근 축구 경기</h2>
         <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
           <c:forEach var="game" items="${recentSoccerGames}">
             <a href="/usr/scArticle/soccer_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">

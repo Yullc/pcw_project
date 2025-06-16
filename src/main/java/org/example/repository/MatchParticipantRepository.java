@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.example.vo.Article;
 import org.example.vo.Member;
 
 import java.util.List;
@@ -18,4 +19,6 @@ public interface MatchParticipantRepository {
     List<Member> getParticipants(int id);
 
     void cancelJoin(int matchId, int memberId);
+
+    Article getNextMatchForMember(int memberId);
 }
