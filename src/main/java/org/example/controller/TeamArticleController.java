@@ -296,4 +296,66 @@ public class TeamArticleController {
 
         return "usr/teamArticle/findTeam";
     }
+
+    @RequestMapping("/usr/teamArticle/teamList")
+    public String showTeamList(HttpServletRequest req, Model model,
+                               @RequestParam(defaultValue = "1") int page,
+                               @RequestParam(defaultValue = "teamName") String searchKeywordTypeCode,
+                               @RequestParam(defaultValue = "") String searchKeyword,
+                               @RequestParam(defaultValue = "") String avgLevel,
+                               @RequestParam(defaultValue = "") String area) throws IOException {
+
+        Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("팀 목록 진입");
+
+        int boardId = 5;
+        int articlesCount = teamArticleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
+        int memberId = rq.getLoginedMemberId();
+        Member member = memberService.getMemberById(memberId);
+
+        int itemsInAPage = 10;
+        int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
+
+        List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(
+                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
+
+        // ✅ teamRank → avgLevelName
+        for (TeamArticle t : teamArticles) {
+            try {
+                if (t.getTeamRank() != null && !t.getTeamRank().isEmpty()) {
+                    int level = Integer.parseInt(t.getTeamRank());
+                    t.setAvgLevelName(RankUtil.getRankName(level));
+                } else {
+                    t.setAvgLevelName("미정");
+                }
+            } catch (NumberFormatException e) {
+                t.setAvgLevelName("미정");
+            }
+        }
+
+        // ✅ 필터링
+        if (!avgLevel.isEmpty()) {
+            List<TeamArticle> filteredList = new ArrayList<>();
+            for (TeamArticle t : teamArticles) {
+                if (t.getAvgLevelName() != null && t.getAvgLevelName().startsWith(avgLevel)) {
+                    filteredList.add(t);
+                }
+            }
+            teamArticles = filteredList;
+        }
+
+        model.addAttribute("profileImg", member.getProfileImg());
+        model.addAttribute("pagesCount", pagesCount);
+        model.addAttribute("articlesCount", articlesCount);
+        model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
+        model.addAttribute("searchKeyword", searchKeyword);
+        model.addAttribute("teamArticles", teamArticles);
+        model.addAttribute("boardId", boardId);
+        model.addAttribute("page", page);
+        model.addAttribute("avgLevel", avgLevel);
+        model.addAttribute("area", area);
+
+        return "usr/teamArticle/teamList";
+    }
+
 }
