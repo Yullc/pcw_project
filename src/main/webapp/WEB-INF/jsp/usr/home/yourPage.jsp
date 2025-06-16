@@ -17,7 +17,7 @@
 
         <!-- 좌측: 프로필 -->
         <div class="w-1/3 border rounded-xl p-6 flex flex-col items-center gap-3">
-            <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover border-4 border-green-200" alt="프로필 이미지" />
+            <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover border-4 " alt="프로필 이미지" />
             <div class="text-xl font-semibold">${nickName}</div>
             <div class="text-red-500 text-lg">❤️</div>
             <div class="text-3xl">${mannerEmoji}</div>
