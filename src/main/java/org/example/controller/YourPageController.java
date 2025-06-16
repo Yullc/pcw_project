@@ -37,6 +37,7 @@ public class YourPageController {
             return "redirect:/usr/home/main";
         }
         Member member = memberService.getMemberByNickname(nickName);
+        int targetMemberId = member.getId();
         if (member == null) {
             return Ut.jsHistoryBack("F-1", Ut.f("'%s' 닉네임을 가진 회원은 존재하지 않습니다.", nickName));
         }
@@ -52,8 +53,8 @@ public class YourPageController {
         String rankName = RankUtil.getRankName(member.getRank());
 
         //  최근 경기 목록 가져오기
-        List<FtArticle> recentGames = myPageService.getRecentGamesByMemberId(memberId);
-        List<ScArticle>  recentSoccerGames = myPageService.getRecentSoccerGamesByMemberId(memberId);
+        List<FtArticle> recentGames = myPageService.getRecentGamesByMemberId(targetMemberId);
+        List<ScArticle>  recentSoccerGames = myPageService.getRecentSoccerGamesByMemberId(targetMemberId);
 
         for (FtArticle game : recentGames) {
             System.out.println("▶ 그사람 최근경기 img: " + game.getImg());
