@@ -27,7 +27,10 @@ CREATE TABLE `member` (
                           `delStatus` TINYINT(1) UNSIGNED NOT NULL DEFAULT 0,
                           `delDate` DATETIME NULL,
                           `manner` FLOAT NULL DEFAULT '36.0',
-                          `teamNm` CHAR(20) NULL
+                          `teamNm` CHAR(20) NULL,
+                          teamId INT NOT NULL DEFAULT '0',
+                          profileImg VARCHAR(1000),
+                          intro VARCHAR(1000)
 );
 
 INSERT INTO `member`
@@ -125,9 +128,10 @@ CREATE TABLE `team` (
                         `teamName`	CHAR(20)	NOT NULL,
                         `teamRank`	INT	NOT NULL,
                         `area` CHAR(20) NOT NULL,
-                        teamLeader CHAR(20) NOT NULL
+                        teamLeader CHAR(20) NOT NULL,
+                        intro	TEXT
 );
-
+DROP TABLE team;
 CREATE TABLE soccer_stadium (
                                 id INT AUTO_INCREMENT PRIMARY KEY,
                                 `area` VARCHAR(50),
@@ -186,6 +190,25 @@ CREATE TABLE reply (
                        relId INT(10) NOT NULL COMMENT '관련 데이터 번호',
                        `body` TEXT NOT NULL
 );
+
+CREATE TABLE reactionPoint (
+                               id INT PRIMARY KEY AUTO_INCREMENT,
+                               regDate DATETIME NOT NULL,
+                               updateDate DATETIME NOT NULL,
+                               fromMemberId INT NOT NULL,
+                               toMemberId INT NOT NULL,
+                               UNIQUE KEY uniq_like (fromMemberId, toMemberId)
+);
+ALTER TABLE reactionPoint
+    ADD COLUMN memberId INT NOT NULL;
+
+ALTER TABLE `member`
+    ADD COLUMN `goodReactionPoint` INT DEFAULT 0;
+
+ALTER TABLE reactionPoint ADD toMemberId INT ;
+DROP TABLE reactionPoint;
+ALTER TABLE reactionPoint DROP COLUMN relId;
+SELECT * FROM member_like;
 SELECT * FROM mercenaryArticle;
 SELECT * FROM teamArticle;
 SELECT * FROM `member`;
@@ -373,12 +396,11 @@ DROP TABLE match_participant;
 SELECT * FROM board;
 UPDATE ftArticle SET playDate = '2024-06-01 15:00:00' WHERE id = 45;
 UPDATE ftArticle SET playDate = '2024-06-01 15:00:00' WHERE id = 50;
-UPDATE ftArticle SET playDate = '2024-06-02 15:00:00' WHERE id = 51;
+UPDATE ftArticle SET playDate = '2025-06-017 12:20:00' WHERE id = 51;
 
 INSERT INTO match_participant (matchId, memberId, `position`, `type`)
 VALUES
-    (45, 1,'','풋살'),
-    (50, 1,'','풋살'),
+
     (51, 1,'','풋살');
 
 UPDATE ftArticle
@@ -400,21 +422,22 @@ SELECT * FROM team;
 DROP TABLE `teamArticle`;
 SELECT id, title, BODY FROM teamArticle WHERE id = 25;
 
-UPDATE football_stadium
-SET img = '/img/default_sta.jpg'
-WHERE img IS NULL;
+UPDATE `member`
+SET profileImg = '/img/profile.jpg'
+WHERE profileImg = '/img/progile.jpg';
 
 DROP TABLE `teamArticle`;
 SELECT * FROM board;
+
 UPDATE `member`
-SET teamId = '2'
-WHERE id = 2;
+SET phoneNumber = 0103331541
+WHERE id = 9;
 
 UPDATE ftArticle
 SET `code` = '팀'
 WHERE `code` IS NULL;
 
-
+SELECT * FROM board;
 UPDATE `member` SET manner = 36.5;
 SELECT * FROM soccer_stadium;
 ALTER TABLE `ftArticle`
@@ -513,3 +536,24 @@ WHERE mp.memberId = 2
 ORDER BY sa.playDate DESC
     LIMIT 3;
 
+SELECT m.phoneNumber, matches.stadium
+FROM match_participant mp
+         INNER JOIN MEMBER m ON mp.memberId = m.id
+         INNER JOIN (
+    SELECT id, playDate, stadium
+    FROM ftArticle
+    WHERE playDate BETWEEN DATE_ADD(NOW(), INTERVAL 59 MINUTE)
+              AND DATE_ADD(NOW(), INTERVAL 61 MINUTE)
+    UNION
+    SELECT id, playDate, stadium
+    FROM scArticle
+    WHERE playDate BETWEEN DATE_ADD(NOW(), INTERVAL 59 MINUTE)
+              AND DATE_ADD(NOW(), INTERVAL 61 MINUTE)
+) AS matches ON mp.matchId = matches.id
+WHERE mp.type IN ('풋살', '축구');
+
+
+INSERT INTO `member`
+SET regDate = NOW(),
+updateDate = NOW(),
+`l` = '축구게시판';
