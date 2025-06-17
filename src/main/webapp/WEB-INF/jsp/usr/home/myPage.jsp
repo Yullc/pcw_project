@@ -20,7 +20,35 @@
     <div class="w-1/3 border rounded-xl p-6 flex flex-col items-center gap-3">
       <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover" />
       <div class="text-xl font-semibold">${nickName}</div>
-      <div class="text-red-500 text-lg">❤️</div>
+
+
+      <!-- 좋아요 버튼 -->
+      <button id="likeBtn" data-to-id="${member.id}" class="text-red-500">
+        ❤️ <span id="likeCount">${likeCount}</span>
+      </button>
+
+      <script>
+        document.querySelector("#likeBtn").addEventListener("click", function () {
+          const toId = this.dataset.toId;
+
+          fetch("/usr/member/toggleLike", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded"
+            },
+            body: new URLSearchParams({ toMemberId: toId })
+          })
+                  .then(res => res.json())
+                  .then(data => {
+                    if (data.resultCode === "S-1") {
+                      document.getElementById("likeCount").textContent = data.data.likeCount;
+                      this.textContent = (data.data.liked ? "❤️ " : "🤍 ") + data.data.likeCount;
+                    }
+                  });
+        });
+      </script>
+
+
       <div class="text-3xl">${mannerEmoji}</div>
 
       <!-- 쪽지 버튼 -->

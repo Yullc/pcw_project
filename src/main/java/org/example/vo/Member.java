@@ -35,6 +35,6 @@ public class Member {
     private String intro;
     private String rankName;
     private String mannerEmoji;
-
+    private int goodReactionPoint;
     private String position;
 }

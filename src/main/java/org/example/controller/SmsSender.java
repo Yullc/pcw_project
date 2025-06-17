@@ -6,8 +6,8 @@ import org.json.JSONObject;
 public class SmsSender {
 
     public static void main(String[] args) throws Exception {
-        String apiKey = "NCS6ITJXZZZ04JOW";       // 쿨에스엠에스에서 발급 받은 API Key
-        String apiSecret = "NF5SVSLIW0V05UDTZ3C1MGSL28LRTSGC"; // API Secret
+        String apiKey = "";       // 쿨에스엠에스에서 발급 받은 API Key
+        String apiSecret = ""; // API Secret
 
         OkHttpClient client = new OkHttpClient();
 

@@ -70,4 +70,6 @@ public class MemberService {
         System.out.println("getMemberByNickname 서비스 진입");
         return memberRepository.getMemberByNickname(nickName);
     }
+
+
 }

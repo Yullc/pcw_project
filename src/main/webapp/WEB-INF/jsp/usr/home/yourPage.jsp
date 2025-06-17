@@ -19,7 +19,40 @@
         <div class="w-1/3 border rounded-xl p-6 flex flex-col items-center gap-3">
             <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover border-4 " alt="프로필 이미지" />
             <div class="text-xl font-semibold">${nickName}</div>
-            <div class="text-red-500 text-lg">❤️</div>
+
+            <c:if test="${rq.loginedMember.nickName ne nickName}">
+                <button id="likeButton" class="btn btn-outline btn-success" onclick="doGoodReaction(${id})">
+                    👍 좋아요
+                    <span class="likeCount">${likeCount}</span>
+                </button>
+            </c:if>
+
+            <script>
+                function doGoodReaction(toMemberId) {
+                    $.ajax({
+                        url: '/usr/reactionPoint/doGoodReaction',
+                        type: 'POST',
+                        data: {
+                            toMemberId: toMemberId
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if (data.resultCode === 'S-1') {
+                                const btn = $('#likeButton');
+                                btn.toggleClass('btn-outline');
+                                $('.likeCount').text(data.goodRP);
+                            } else {
+                                alert(data.msg);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            alert("좋아요 처리 중 오류 발생: " + status);
+                        }
+                    });
+                }
+            </script>
+
+
             <div class="text-3xl">${mannerEmoji}</div>
         </div>
 

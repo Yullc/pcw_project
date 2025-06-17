@@ -93,6 +93,29 @@
         SELECT * FROM member WHERE nickName = #{nickName}
     </select>
 
+    <select id="existsLike" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM member_like WHERE fromMemberId = #{fromId} AND toMemberId = #{toId}
+        )
+    </select>
 
+    <insert id="insertLike">
+        INSERT INTO member_like (fromMemberId, toMemberId) VALUES (#{fromId}, #{toId})
+    </insert>
+
+    <delete id="deleteLike">
+        DELETE FROM member_like WHERE fromMemberId = #{fromId} AND toMemberId = #{toId}
+    </delete>
+
+    <select id="getLikeCount" resultType="int">
+        SELECT COUNT(*) FROM member_like WHERE toMemberId = #{toId}
+    </select>
+
+    <select id="hasLiked" resultType="int">
+        SELECT COUNT(*)
+        FROM member_like
+        WHERE fromMemberId = #{fromMemberId}
+          AND toMemberId = #{toMemberId}
+    </select>
 
 </mapper>

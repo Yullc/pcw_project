@@ -34,12 +34,14 @@
             </select>
         </div>
 
-        <!-- 팀 리더 -->
+        <!-- 팀 리더 표시용 -->
         <div>
             <label class="block mb-1 font-semibold text-gray-700">팀 리더</label>
-            <input type="text" name="teamLeader" required
-                   class="w-full border border-gray-300 rounded px-4 py-2 focus:outline-none focus:ring focus:border-green-400" />
+            <div class="border border-gray-300 rounded px-4 py-2 bg-gray-100">
+                ${rq.loginedMember.nickName}
+            </div>
         </div>
+
 
         <!-- 팀 소개 (intro) -->
         <div>

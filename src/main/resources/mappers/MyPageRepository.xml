@@ -30,5 +30,26 @@
         LIMIT 3
     </select>
 
+    <select id="getGoodRP">
+        SELECT goodReactionPoint
+        FROM `member`
+        WHERE id = #{relId}
+    </select>
+
+    <update id="increaseGoodReactionPoint" parameterType="int">
+        UPDATE
+            article
+        SET
+            goodReactionPoint = goodReactionPoint + 1
+        WHERE id = #{relId}
+    </update>
+
+    <update id="decreaseGoodReactionPoint" parameterType="int">
+        UPDATE
+            article
+        SET goodReactionPoint = goodReactionPoint - 1
+        WHERE id =
+              #{relId}
+    </update>
 
 </mapper>

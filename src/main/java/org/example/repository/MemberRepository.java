@@ -30,4 +30,7 @@ public interface MemberRepository {
 
 
     public Member getMemberByNickname(String nickName);
+
+
+
 }

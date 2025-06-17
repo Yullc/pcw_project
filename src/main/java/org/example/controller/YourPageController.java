@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.example.service.MemberService;
 import org.example.service.MessageService;
 import org.example.service.MyPageService;
+import org.example.service.ReactionPointService;
 import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.util.Ut;
@@ -27,7 +28,8 @@ public class YourPageController {
     @Autowired
     private MessageService messageService;
 
-
+    @Autowired
+    private ReactionPointService reactionPointService;
 
     @RequestMapping("/usr/home/yourPage")
     public String showYourPage(@RequestParam("nickName") String nickName, HttpServletRequest req, Model model) {
@@ -62,6 +64,12 @@ public class YourPageController {
         for (ScArticle scGame : recentSoccerGames) {
             System.out.println("▶ 그 사람 축구 !!!최근경기 img: " + scGame.getImg());
         }
+        int loginedMemberId = rq.getLoginedMemberId();
+        int goodRP = myPageService.getGoodRP(targetMemberId);
+        boolean liked = reactionPointService.hasLiked(loginedMemberId, targetMemberId);
+
+        model.addAttribute("likeCount", goodRP);
+        model.addAttribute("liked", liked);
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("nickName", member.getNickName());

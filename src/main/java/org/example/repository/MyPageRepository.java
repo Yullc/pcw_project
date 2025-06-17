@@ -13,4 +13,10 @@ public interface MyPageRepository {
     List<FtArticle> getRecentGamesByMemberId(int memberId);
 
     List<ScArticle> getRecentSoccerGamesByMemberId(int memberId);
+
+    int getGoodRP(int relId);
+
+    int increaseGoodReactionPoint(int toMemberId);
+
+    int decreaseGoodReactionPoint(int toMemberId);
 }
