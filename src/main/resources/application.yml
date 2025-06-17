@@ -21,3 +21,8 @@ logging:
   level:
     org.mybatis: DEBUG
     org.example.repository: DEBUG
+
+solapi:
+  api-key:
+  api-secret:
+  from-number: 01033894452
