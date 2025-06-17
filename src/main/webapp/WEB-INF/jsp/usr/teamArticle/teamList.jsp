@@ -131,34 +131,48 @@
                     </div>
                 </div>
             </c:forEach>
-            <!-- ✅ 페이지네이션 -->
-            <c:set var="groupSize" value="5" />
-            <fmt:parseNumber value="${(page - 1) div groupSize}" integerOnly="true" var="currentGroup" />
-            <fmt:parseNumber value="${currentGroup * groupSize + 1}" integerOnly="true" var="groupStart" />
-            <fmt:parseNumber value="${groupStart + groupSize - 1}" integerOnly="true" var="groupEnd" />
-
             <c:if test="${pagesCount > 1}">
-            <div class="mt-6 flex justify-center space-x-2">
+            <!-- ✅ 페이지 그룹 설정 -->
+                <c:set var="groupSize" value="5" />
+                <fmt:parseNumber value="${(page - 1) / groupSize}" integerOnly="true" var="currentGroup" />
+                <fmt:parseNumber value="${currentGroup * groupSize + 1}" integerOnly="true" var="groupStart" />
+                <fmt:parseNumber value="${groupStart + groupSize - 1}" integerOnly="true" var="groupEnd" />
 
+            <c:if test="${groupEnd > pagesCount}">
+                <c:set var="groupEnd" value="${pagesCount}" />
+            </c:if>
+
+            <!-- ✅ 페이지 번호 영역 -->
+            <div class="mt-6 flex justify-center space-x-2">
+                <!-- 이전 그룹 이동 버튼 -->
                 <c:if test="${groupStart > 1}">
-                    <a href="/usr/teamArticle/teamList?page=${groupStart - 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
+                    <a href="?page=${groupStart - 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
                        class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">&lt;</a>
                 </c:if>
 
+                <!-- 페이지 번호들 -->
                 <c:forEach begin="${groupStart}" end="${groupEnd}" var="i">
-                    <a href="/usr/teamArticle/teamList?page=${i}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
+                    <a href="?page=${i}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
                        class="px-3 py-1 border rounded-full ${i == page ? 'bg-green-600 text-white' : 'bg-white text-gray-800 hover:bg-gray-200'}">
                             ${i}
                     </a>
                 </c:forEach>
 
+                <!-- 다음 그룹 이동 버튼 -->
                 <c:if test="${groupEnd < pagesCount}">
-                    <a href="/usr/teamArticle/teamList?page=${groupEnd + 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
+                    <a href="?page=${groupEnd + 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
                        class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">&gt;</a>
                 </c:if>
-
             </div>
             </c:if>
+
+            <!-- ✅ 게시글이 10개 이하일 때: 페이지 1만 표시 -->
+            <c:if test="${pagesCount <= 1}">
+            <div class="mt-6 flex justify-center">
+                <span class="px-3 py-1 border rounded-full bg-green-600 text-white">1</span>
+            </div>
+            </c:if>
+
 
     </div>
         </section>

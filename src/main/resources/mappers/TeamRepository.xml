@@ -48,6 +48,7 @@
         </if>
     </select>
 
+    <!-- ✅ 팀 목록 조회 (페이징 포함) -->
     <select id="getAllTeams" resultType="org.example.vo.Team">
         SELECT *
         FROM team
@@ -61,7 +62,6 @@
                 <when test="searchKeywordTypeCode == 'teamLeader'">
                     AND teamLeader LIKE CONCAT('%', #{searchKeyword}, '%')
                 </when>
-
             </choose>
         </if>
 
@@ -69,16 +69,20 @@
             AND area = #{area}
         </if>
 
-        <if test="avgLevel != ''">
-            AND avgLevel = #{avgLevel}
+        <if test="teamRank != ''">
+            AND teamRank = #{teamRank}
         </if>
+
         ORDER BY id DESC
-        LIMIT #{limitFrom}, #{limitTake}
+        LIMIT #{limitForm}, #{limitTake}
     </select>
 
+    <!-- ✅ 팀 개수 카운트 (페이징용) -->
     <select id="getTeamCount" resultType="int">
-        SELECT COUNT(*) FROM team
+        SELECT COUNT(*)
+        FROM team
         WHERE 1 = 1
+
         <if test="searchKeyword != ''">
             <choose>
                 <when test="searchKeywordTypeCode == 'teamName'">
@@ -88,12 +92,6 @@
                     AND teamLeader LIKE CONCAT('%', #{searchKeyword}, '%')
                 </when>
             </choose>
-        </if>
-        <if test="area != ''">
-            AND area = #{area}
-        </if>
-        <if test="avgLevel != ''">
-            AND teamRank = #{avgLevel}
         </if>
     </select>
 

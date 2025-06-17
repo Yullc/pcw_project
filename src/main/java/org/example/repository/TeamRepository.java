@@ -3,6 +3,7 @@ package org.example.repository;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.example.vo.Team;
+import org.example.vo.TeamArticle;
 
 import java.util.List;
 
@@ -15,17 +16,7 @@ public interface TeamRepository {
 
     int getLastInsertId();
 
-    // TeamRepository.java
-    List<Team> getAllTeams(
-            @Param("boardId") int boardId,
-            @Param("limitTake") int limitTake,
-            @Param("limitFrom") int limitFrom,         // ✅ 추가
-            @Param("searchKeywordTypeCode") String searchKeywordTypeCode,
-            @Param("searchKeyword") String searchKeyword,
-            @Param("avgLevel") String avgLevel,
-            @Param("area") String area
-    );
+    List<Team> getAllTeams(int boardId, int limitTake, int limitForm, String searchKeywordTypeCode, String searchKeyword,  int teamRank,String area);
 
-
-    int getTeamCount(String searchKeywordTypeCode, String searchKeyword, String avgLevel, String area);
+    int getTeamCount(int boardId,String searchKeywordTypeCode, String searchKeyword);
 }

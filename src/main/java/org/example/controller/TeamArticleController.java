@@ -254,8 +254,7 @@ public class TeamArticleController {
 
         int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 
-        List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
+        List<TeamArticle> teamArticles = teamArticleService.getForPrintArticles(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
         // ✅ teamRank → avgLevelName 으로 변환
         for (TeamArticle t : teamArticles) {
             try {
@@ -306,19 +305,17 @@ public class TeamArticleController {
 
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("팀 목록 진입");
-        int boardId =5;
+        int boardId = 5;
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
 
         int itemsInAPage = 10;
-        int totalTeamsCount = teamService.getTeamCount(searchKeywordTypeCode, searchKeyword, avgLevel, area);
-        int pagesCount = (int) Math.ceil(totalTeamsCount / (double) itemsInAPage);
+        int articlesCount = teamService.getTeamCount(boardId, searchKeywordTypeCode, searchKeyword);
+        int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 
-        int limitFrom = (page - 1) * itemsInAPage;
+        List<Team> teams = teamService.getAllTeams(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, 0, area);
 
-        List<Team> teams = teamService.getAllTeams(boardId, itemsInAPage, limitFrom, searchKeywordTypeCode, searchKeyword, avgLevel, area);
-
-
+        // ✅ avgLevelName 설정
         for (Team t : teams) {
             try {
                 if (t.getTeamRank() != null && !t.getTeamRank().isEmpty()) {
@@ -332,18 +329,30 @@ public class TeamArticleController {
             }
         }
 
+        // ✅ avgLevel 필터링 (루키 / 아마추어 / 세미프로 / 프로)
+        if (avgLevel != null && !avgLevel.isEmpty()) {
+            List<Team> filteredList = new ArrayList<>();
+
+            for (Team t : teams) {
+                if (t.getAvgLevelName() != null && t.getAvgLevelName().startsWith(avgLevel)) {
+                    filteredList.add(t);
+                }
+            }
+
+            teams = filteredList;
+        }
+
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("pagesCount", pagesCount);
-        model.addAttribute("articlesCount", totalTeamsCount);
+        model.addAttribute("articlesCount", articlesCount);
         model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
         model.addAttribute("searchKeyword", searchKeyword);
         model.addAttribute("teams", teams);
         model.addAttribute("page", page);
-        model.addAttribute("avgLevel", avgLevel);
+        model.addAttribute("avgLevel", avgLevel); // ✅ avgLevel 그대로 넘김
         model.addAttribute("area", area);
 
         return "usr/teamArticle/teamList";
     }
-
 
 }

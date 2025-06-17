@@ -24,15 +24,16 @@ public class TeamService {
     }
 
 
-    public List<Team> getAllTeams(int boardId, int limitTake, int limitFrom, String searchKeywordTypeCode, String searchKeyword, String avgLevel, String area) {
-        return teamRepository.getAllTeams(boardId, limitTake, limitFrom, searchKeywordTypeCode, searchKeyword, avgLevel, area);
+    public List<Team> getAllTeams(int boardId,int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, int teamRank, String area) {
+        int limitForm = (page - 1) * itemsInAPage;
+        int limitTake = itemsInAPage;
+        return teamRepository.getAllTeams(boardId, limitTake, limitForm, searchKeywordTypeCode, searchKeyword, teamRank, area);
     }
 
 
+    public int getTeamCount(int boardId, String searchKeywordTypeCode, String searchKeyword) {
 
-
-    public int getTeamCount(String searchKeywordTypeCode, String searchKeyword, String avgLevel, String area) {
-        return teamRepository.getTeamCount(searchKeywordTypeCode, searchKeyword, avgLevel, area);
+        return teamRepository.getTeamCount(boardId, searchKeywordTypeCode, searchKeyword);
     }
 
 }
