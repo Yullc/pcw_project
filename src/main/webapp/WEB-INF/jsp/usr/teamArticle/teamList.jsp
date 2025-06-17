@@ -47,14 +47,14 @@
                 <h2 class="font-bold mb-2">지역</h2>
                 <div class="flex flex-wrap gap-2">
                     <!-- 전체 지역 -->
-                    <a href="/usr/teamArticle/findTeam?area=&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?area=&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
                        class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty area ? 'bg-green-500 text-white' : ''}">
                         전체
                     </a>
 
                     <!-- 지역 리스트 -->
                     <c:forEach var="region" items="${['서울','경기','강원','인천','대전','세종','충북','충남','대구','경북','경남','부산','광주','전북','울산','전남','제주']}">
-                        <a href="/usr/teamArticle/findTeam?area=${region}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                        <a href="/usr/teamArticle/teamList?area=${region}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
                            class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${region == area ? 'bg-green-500 text-white' : ''}">
                                 ${region}
                         </a>
@@ -67,14 +67,14 @@
                 <h2 class="font-bold mb-2">레벨</h2>
                 <div class="flex flex-wrap gap-2">
                     <!-- 전체 레벨 -->
-                    <a href="/usr/teamArticle/findTeam?area=${area}&avgLevel=&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?area=${area}&avgLevel=&searchKeyword=${searchKeyword}"
                        class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty avgLevel ? 'bg-green-500 text-white' : ''}">
                         전체
                     </a>
 
                     <!-- 레벨 리스트 -->
                     <c:forEach var="levelOption" items="${['아마추어','루키','세미프로','프로']}">
-                        <a href="/usr/teamArticle/findTeam?area=${area}&avgLevel=${levelOption}&searchKeyword=${searchKeyword}"
+                        <a href="/usr/teamArticle/teamList?area=${area}&avgLevel=${levelOption}&searchKeyword=${searchKeyword}"
                            class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${levelOption == avgLevel ? 'bg-green-500 text-white' : ''}">
                                 ${levelOption}
                         </a>
@@ -137,28 +137,30 @@
             <fmt:parseNumber value="${currentGroup * groupSize + 1}" integerOnly="true" var="groupStart" />
             <fmt:parseNumber value="${groupStart + groupSize - 1}" integerOnly="true" var="groupEnd" />
 
-            <c:if test="${groupEnd > pagesCount}">
-                <c:set var="groupEnd" value="${pagesCount}" />
-            </c:if>
-
+            <c:if test="${pagesCount > 1}">
             <div class="mt-6 flex justify-center space-x-2">
+
                 <c:if test="${groupStart > 1}">
-                    <a href="/usr/teamArticle/teamList?page=${groupStart - 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?page=${groupStart - 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
                        class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">&lt;</a>
                 </c:if>
 
                 <c:forEach begin="${groupStart}" end="${groupEnd}" var="i">
-                    <a href="/usr/teamArticle/teamList?page=${i}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?page=${i}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
                        class="px-3 py-1 border rounded-full ${i == page ? 'bg-green-600 text-white' : 'bg-white text-gray-800 hover:bg-gray-200'}">
                             ${i}
                     </a>
                 </c:forEach>
 
                 <c:if test="${groupEnd < pagesCount}">
-                    <a href="/usr/teamArticle/teamList?page=${groupEnd + 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}"
+                    <a href="/usr/teamArticle/teamList?page=${groupEnd + 1}&area=${area}&avgLevel=${avgLevel}&searchKeyword=${searchKeyword}&searchKeywordTypeCode=${searchKeywordTypeCode}"
                        class="px-3 py-1 border rounded-full bg-white text-gray-800 hover:bg-gray-200">&gt;</a>
                 </c:if>
+
             </div>
+            </c:if>
+
+    </div>
         </section>
     </div>
 </div>

@@ -76,5 +76,26 @@
         LIMIT #{limitFrom}, #{limitTake}
     </select>
 
+    <select id="getTeamCount" resultType="int">
+        SELECT COUNT(*) FROM team
+        WHERE 1 = 1
+        <if test="searchKeyword != ''">
+            <choose>
+                <when test="searchKeywordTypeCode == 'teamName'">
+                    AND teamName LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+                <when test="searchKeywordTypeCode == 'teamLeader'">
+                    AND teamLeader LIKE CONCAT('%', #{searchKeyword}, '%')
+                </when>
+            </choose>
+        </if>
+        <if test="area != ''">
+            AND area = #{area}
+        </if>
+        <if test="avgLevel != ''">
+            AND teamRank = #{avgLevel}
+        </if>
+    </select>
+
 
 </mapper>

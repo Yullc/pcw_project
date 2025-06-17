@@ -19,11 +19,13 @@ public interface TeamRepository {
     List<Team> getAllTeams(
             @Param("boardId") int boardId,
             @Param("limitTake") int limitTake,
-            @Param("limitFrom") int limitFrom,
+            @Param("limitFrom") int limitFrom,         // ✅ 추가
             @Param("searchKeywordTypeCode") String searchKeywordTypeCode,
             @Param("searchKeyword") String searchKeyword,
             @Param("avgLevel") String avgLevel,
             @Param("area") String area
     );
 
+
+    int getTeamCount(String searchKeywordTypeCode, String searchKeyword, String avgLevel, String area);
 }

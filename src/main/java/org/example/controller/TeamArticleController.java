@@ -244,7 +244,6 @@ public class TeamArticleController {
         System.out.println("팀구하기 리스트 진입");
 
         int boardId =3;
-
         int articlesCount = teamArticleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
@@ -307,19 +306,19 @@ public class TeamArticleController {
 
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("팀 목록 진입");
-
-        int boardId = 5;
-        int articlesCount = teamArticleService.getArticleCount(boardId, searchKeywordTypeCode, searchKeyword);
+        int boardId =5;
         int memberId = rq.getLoginedMemberId();
         Member member = memberService.getMemberById(memberId);
-        System.out.println("프롷필 이미지 가져오기"+member.getProfileImg());
+
         int itemsInAPage = 10;
-        int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
+        int totalTeamsCount = teamService.getTeamCount(searchKeywordTypeCode, searchKeyword, avgLevel, area);
+        int pagesCount = (int) Math.ceil(totalTeamsCount / (double) itemsInAPage);
 
-        List<Team> teams = teamService.getAllTeams(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, avgLevel, area); // avgLevel 추가
+        int limitFrom = (page - 1) * itemsInAPage;
+
+        List<Team> teams = teamService.getAllTeams(boardId, itemsInAPage, limitFrom, searchKeywordTypeCode, searchKeyword, avgLevel, area);
 
 
-        // ✅ teamRank → avgLevelName
         for (Team t : teams) {
             try {
                 if (t.getTeamRank() != null && !t.getTeamRank().isEmpty()) {
@@ -333,29 +332,18 @@ public class TeamArticleController {
             }
         }
 
-        // ✅ 필터링
-        if (!avgLevel.isEmpty()) {
-            List<Team> filteredList = new ArrayList<>();
-            for (Team t : teams) {
-                if (t.getAvgLevelName() != null && t.getAvgLevelName().startsWith(avgLevel)) {
-                    filteredList.add(t);
-                }
-            }
-            teams = filteredList;
-        }
-
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("pagesCount", pagesCount);
-        model.addAttribute("articlesCount", articlesCount);
+        model.addAttribute("articlesCount", totalTeamsCount);
         model.addAttribute("searchKeywordTypeCode", searchKeywordTypeCode);
         model.addAttribute("searchKeyword", searchKeyword);
         model.addAttribute("teams", teams);
-        model.addAttribute("boardId", boardId);
         model.addAttribute("page", page);
         model.addAttribute("avgLevel", avgLevel);
         model.addAttribute("area", area);
 
         return "usr/teamArticle/teamList";
     }
+
 
 }
