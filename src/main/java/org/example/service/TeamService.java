@@ -1,6 +1,5 @@
 package org.example.service;
 
-import org.example.repository.TeamArticleRepository;
 import org.example.repository.TeamRepository;
 import org.example.vo.ResultData;
 import org.example.vo.Team;
@@ -25,7 +24,10 @@ public class TeamService {
     }
 
 
-    public List<Team> getAllTeams(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String area) {
-        return teamRepository.getAllTeams(boardId,itemsInAPage,page,searchKeywordTypeCode,searchKeyword,area);
+    public List<Team> getAllTeams(int boardId, int itemsInAPage, int page, String searchKeywordTypeCode, String searchKeyword, String avgLevel, String area) {
+        int limitFrom = (page - 1) * itemsInAPage;
+
+        return teamRepository.getAllTeams(boardId, itemsInAPage, limitFrom, searchKeywordTypeCode, searchKeyword, avgLevel, area);
+
     }
 }

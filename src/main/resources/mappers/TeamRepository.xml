@@ -51,22 +51,29 @@
     <select id="getAllTeams" resultType="org.example.vo.Team">
         SELECT *
         FROM team
-        WHERE 1
-        <if test="param5 != ''">
+        WHERE 1 = 1
+
+        <if test="searchKeyword != ''">
             <choose>
-                <when test="param4 == 'teamName'">
-                    AND teamName LIKE CONCAT('%', #{param5}, '%')
+                <when test="searchKeywordTypeCode == 'teamName'">
+                    AND teamName LIKE CONCAT('%', #{searchKeyword}, '%')
                 </when>
-                <when test="param4 == 'teamLeader'">
-                    AND teamLeader LIKE CONCAT('%', #{param5}, '%')
+                <when test="searchKeywordTypeCode == 'teamLeader'">
+                    AND teamLeader LIKE CONCAT('%', #{searchKeyword}, '%')
                 </when>
+
             </choose>
         </if>
-        <if test="param6 != ''">
-            AND area = #{param6}
+
+        <if test="area != ''">
+            AND area = #{area}
+        </if>
+
+        <if test="avgLevel != ''">
+            AND avgLevel = #{avgLevel}
         </if>
         ORDER BY id DESC
-        LIMIT #{param3}, #{param2}  <!-- param3 = limitFrom, param2 = limitTake -->
+        LIMIT #{limitFrom}, #{limitTake}
     </select>
 
 

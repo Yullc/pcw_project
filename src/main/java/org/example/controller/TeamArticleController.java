@@ -316,8 +316,8 @@ public class TeamArticleController {
         int itemsInAPage = 10;
         int pagesCount = (int) Math.ceil(articlesCount / (double) itemsInAPage);
 
-        List<Team> teams = teamService.getAllTeams(
-                boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, area);
+        List<Team> teams = teamService.getAllTeams(boardId, itemsInAPage, page, searchKeywordTypeCode, searchKeyword, avgLevel, area); // avgLevel 추가
+
 
         // ✅ teamRank → avgLevelName
         for (Team t : teams) {
