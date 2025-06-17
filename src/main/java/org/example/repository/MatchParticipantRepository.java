@@ -5,6 +5,7 @@ import org.example.vo.Article;
 import org.example.vo.Member;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MatchParticipantRepository {
@@ -21,4 +22,6 @@ public interface MatchParticipantRepository {
     void cancelJoin(int matchId, int memberId);
 
     Article getNextMatchForMember(int memberId);
+
+    List<Map<String, Object>> getParticipantsForMatchesInOneHour();
 }

@@ -68,4 +68,23 @@
             LIMIT 1
     </select>
 
+
+    <select id="getParticipantsForMatchesInOneHour" resultType="map">
+        SELECT DISTINCT m.phoneNumber, matches.stadium
+        FROM match_participant mp
+                 INNER JOIN member m ON mp.memberId = m.id
+                 INNER JOIN (
+            SELECT id, playDate, stadium, '풋살' AS type
+            FROM ftArticle
+            WHERE playDate BETWEEN DATE_ADD(NOW(), INTERVAL 59 MINUTE)
+                      AND DATE_ADD(NOW(), INTERVAL 61 MINUTE)
+            UNION
+            SELECT id, playDate, stadium, '축구' AS type
+            FROM scArticle
+            WHERE playDate BETWEEN DATE_ADD(NOW(), INTERVAL 59 MINUTE)
+                      AND DATE_ADD(NOW(), INTERVAL 61 MINUTE)
+        ) AS matches ON mp.matchId = matches.id AND mp.type = matches.type
+        WHERE mp.type IN ('풋살', '축구');
+    </select>
+
 </mapper>

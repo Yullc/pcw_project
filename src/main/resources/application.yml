@@ -23,6 +23,6 @@ logging:
     org.example.repository: DEBUG
 
 solapi:
-  api-key:
-  api-secret:
+  api-key: NCS6ITJXZZZ04JOW
+  api-secret: NF5SVSLIW0V05UDTZ3C1MGSL28LRTSGC
   from-number: 01033894452

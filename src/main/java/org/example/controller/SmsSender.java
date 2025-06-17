@@ -14,7 +14,7 @@ public class SmsSender {
         JSONObject json = new JSONObject();
         json.put("to", "01012345678");        // 수신자 번호
         json.put("from", "01033894452");      // 발신자 번호 (쿨SMS에서 인증된 번호)
-        json.put("text", "✅ 테스트 문자입니다.");
+        json.put("text", "경기가 1시간 뒤에 시작 합니다.");
         json.put("type", "SMS");
 
         RequestBody body = RequestBody.create(

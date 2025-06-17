@@ -33,4 +33,7 @@ public class SmsController {
         model.addAttribute("result", success ? "✅ 전송 성공!" : "❌ 전송 실패!");
         return "smsTest";
     }
+
+
+
 }
