@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.example.vo.Member;
 
+import java.util.List;
+
 @Mapper
 public interface MemberRepository {
 
@@ -22,15 +24,17 @@ public interface MemberRepository {
 
     public void modifyMember(int id, String loginPw, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
 
-    public  void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
+    public void modifyMemberWithoutPw(int loginedMemberId, String email, String area, String phoneNumber, String nickName, String teamNm, String intro);
 
-    public   int updateRankAndManner(@Param("memberId") int memberId,
-                                     @Param("rank") int rank,
-                                     @Param("manner") float manner);
+    public int updateRankAndManner(@Param("memberId") int memberId,
+                                   @Param("rank") int rank,
+                                   @Param("manner") float manner);
 
 
     public Member getMemberByNickname(String nickName);
 
 
+    public List<Member> getMembersByTeamId(@Param("teamId") int teamId);
 
+    public  Member getMemberByNickName(String teamLeader);
 }

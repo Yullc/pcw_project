@@ -47,4 +47,11 @@ public class TeamService {
     public boolean hasTeamName(String teamName) {
         return teamRepository.getTeamCountByName(teamName) > 0;
     }
+
+    public Team getTeamById(int id) {
+        return teamRepository.getTeamById(id);
+    }
+
+    public void requestJoin(int teamId, int memberId, String intro) {
+    }
 }

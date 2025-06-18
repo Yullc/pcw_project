@@ -29,4 +29,8 @@ public class MessageService {
 
         messageRepository.sendMessage(senderId, senderNickname, receiverId, receiverNickname, content);
     }
+
+    public void send(Message msg) {
+        messageRepository.send(msg); // MyBatis 쿼리 호출
+    }
 }

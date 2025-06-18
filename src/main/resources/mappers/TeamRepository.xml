@@ -110,5 +110,10 @@
         </if>
     </select>
 
+    <select id="getTeamById" resultType="org.example.vo.Team">
+        SELECT *
+        FROM team
+        WHERE id = #{id}
+    </select>
 
 </mapper>

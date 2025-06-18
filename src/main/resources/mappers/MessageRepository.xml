@@ -33,4 +33,14 @@
         ORDER BY sendDate DESC
     </select>
 
+    <insert id="send" parameterType="org.example.vo.Message">
+        INSERT INTO message
+        SET senderId = #{senderId},
+            senderNickname = #{senderNickname},
+            receiverId = #{receiverId},
+            receiverNickname = #{receiverNickname},
+            content = #{content},
+            sendDate = NOW()
+    </insert>
+
 </mapper>

@@ -34,6 +34,8 @@ public class TeamArticleController {
     @Autowired
     private TeamService teamService;
     @Autowired
+    private MessageService messageService;
+    @Autowired
     private BoardService boardService;
     @Autowired
     private MemberService memberService;
@@ -372,54 +374,62 @@ public class TeamArticleController {
 
         return "usr/teamArticle/teamList";
     }
+    @RequestMapping("/usr/teamArticle/teamDetail")
+    public String showTeamDetail(@RequestParam("id") int teamId, HttpServletRequest req, Model model) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("팀 상세 페이지 진입, teamId = " + teamId);
 
-//    @RequestMapping("/usr/teamArticle/teamDetail")
-//    public String showTeamDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
-//        Rq rq = (Rq) req.getAttribute("rq");
-//        System.out.println("detail 들어옴");
-//
-//        List<Member> participants = matchParticipantService.getParticipants(id);
-//        for (Member m : participants) {
-//            System.out.println("참가자: " + m.getNickName() + " / id=" + m.getId());
-//        }
-//
-//        int totalRank = 0;
-//
-//        for (Member m : participants) {
-//            int rank = m.getRank();
-//            m.setRankName(RankUtil.getRankName(rank));
-//            totalRank += rank;
-//
-//            // 매너온도 이모지 설정
-//            String emoji = MannerUtil.getMannerEmoji(m.getManner());
-//            m.setMannerEmoji(emoji);
-//        }
-//
-//        boolean pastMatch = LocalDateTime.now().isAfter(
-//                LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-//        );
-//
-//        if (!participants.isEmpty()) {
-//            double avg = totalRank / (double) participants.size();
-//            ftArticle.setAvgLevelName(RankUtil.getRankName((int) Math.round(avg)));
-//        } else {
-//            ftArticle.setAvgLevelName("미정");
-//        }
-//
-//        String area = ftArticle.getArea();
-//        LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
-//        List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
-//        model.addAttribute("boardId", 1); // 1 = 풋살 게시판
-//
-//        model.addAttribute("ftArticle", ftArticle);
-//        model.addAttribute("weatherList", weatherList);
-//        model.addAttribute("participants", participants);
-//        model.addAttribute("pastMatch", pastMatch);
-//        model.addAttribute("isAlreadyJoined", matchParticipantService.isAlreadyJoined(id, rq.getLoginedMemberId()));
-//
-//
-//        return "usr/ftArticle/foot_detail";
-//    }
+        // 1. 해당 팀 정보 가져오기
+        Team team = teamService.getTeamById(teamId);
+        if (team == null) {
+            return Ut.jsHistoryBack("F-1", "해당 팀이 존재하지 않습니다.");
+        }
+
+        // 2. 팀에 소속된 멤버 목록 조회 (teamNm 기준)
+        List<Member> teamMembers = memberService.getMembersByTeamId(team.getId());
+
+        // 3. 각 멤버의 랭크명, 매너이모지 설정
+        for (Member m : teamMembers) {
+            m.setRankName(RankUtil.getRankName(m.getRank()));
+            m.setMannerEmoji(MannerUtil.getMannerEmoji(m.getManner()));
+        }
+
+        // 4. 모델에 담기
+        model.addAttribute("team", team);
+        System.out.println("team = " + team);
+        model.addAttribute("teamMembers", teamMembers);
+        System.out.println(teamMembers);
+
+        return "usr/teamArticle/teamDetail"; // 팀 명단 보여줄 JSP
+    }
+
+    @PostMapping("/usr/team/joinRequest")
+    public String requestJoinTeam(@RequestParam int teamId,
+                                  @RequestParam String teamLeader,
+                                  @RequestParam String message,
+                                  HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        int senderId = rq.getLoginedMemberId();
+
+        // 1. 팀장 정보 가져오기
+        Member leader = memberService.getMemberByNickName(teamLeader);
+        if (leader == null) {
+            return Ut.jsHistoryBack("F-1", "팀 리더를 찾을 수 없습니다.");
+        }
+
+        // 2. 메시지 객체 생성
+        Message msg = Message.builder()
+                .senderId(senderId)
+                .senderNickname(rq.getLoginedMember().getNickName())
+                .receiverId(leader.getId())
+                .receiverNickname(leader.getNickName())
+                .content("팀 가입 신청 팀 ID: " + teamId + " / 내용: " + message)
+                .build();
+
+        messageService.send(msg);
+        return Ut.jsReplace("S-1", "가입 신청 메시지를 보냈습니다.", "/usr/teamArticle/teamDetail?id=" + teamId);
+    }
+
 
 
 }

@@ -8,6 +8,8 @@ import org.example.util.Ut;
 import org.example.vo.Member;
 import org.example.vo.ResultData;
 
+import java.util.List;
+
 @Service
 public class MemberService {
 
@@ -72,4 +74,12 @@ public class MemberService {
     }
 
 
+    public List<Member> getMembersByTeamId(int teamId) {
+        return memberRepository.getMembersByTeamId(teamId);
+    }
+
+
+    public Member getMemberByNickName(String teamLeader) {
+        return memberRepository.getMemberByNickName(teamLeader);
+    }
 }

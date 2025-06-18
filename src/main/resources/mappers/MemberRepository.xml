@@ -118,4 +118,17 @@
           AND toMemberId = #{toMemberId}
     </select>
 
+    <select id="getMembersByTeamId" parameterType="int" resultType="org.example.vo.Member">
+        SELECT m.*
+        FROM team t
+                 JOIN member m ON t.teamName = m.teamNm
+        WHERE t.id = #{teamId}
+    </select>
+    <select id="getMemberByNickName" resultType="org.example.vo.Member" parameterType="string">
+        SELECT *
+        FROM member
+        WHERE nickName = #{nickName}
+            LIMIT 1
+    </select>
+
 </mapper>

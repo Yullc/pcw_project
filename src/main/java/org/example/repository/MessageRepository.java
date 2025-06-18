@@ -17,4 +17,5 @@ public interface MessageRepository {
 
     public List<Message> getReceivedMessages(int memberId);
 
+    public void send(Message msg);
 }

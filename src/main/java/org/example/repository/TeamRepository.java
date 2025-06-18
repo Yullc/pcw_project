@@ -25,4 +25,6 @@ public interface TeamRepository {
     int getTeamCountByLeader(String teamLeader);
 
     int getTeamCountByName(String teamName);
+
+    Team getTeamById(int id);
 }
