@@ -26,47 +26,54 @@
 
             <c:if test="${rq.loginedMember.nickName ne nickName}">
                 <button id="likeButton" class="btn btn-outline btn-success" onclick="doGoodReaction(${id})">
-                    👍 좋아요
-                    <span class="likeCount">${likeCount}</span>
+                    👍 좋아요 <span class="likeCount">${likeCount}</span>
                 </button>
+
             </c:if>
             <script>
-            function doGoodReaction(toMemberId) {
-                $.ajax({
-                    url: '/usr/reactionPoint/doGoodReaction',
-                    type: 'POST',
-                    data: {
-                        toMemberId: toMemberId
-                    },
-                    dataType: 'json',
-                    success: function(data) {
-                        if (data.resultCode === 'S-1') {
-                            const btn = $('#likeButton');
-                            const likeCountEl = $('.likeCount');
+                function doGoodReaction(toMemberId) {
+                    $.ajax({
+                        url: '/usr/reactionPoint/doGoodReaction',
+                        type: 'POST',
+                        data: {
+                            toMemberId: toMemberId
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            console.log("👍 AJAX 성공");
+                            console.log("전체 응답:", data);
 
-                            // 좋아요 갯수 업데이트
-                            likeCountEl.text(data.goodRP);
+                            const goodRP = data.data1; // ✅ 변경된 포인트
 
-                            // 버튼 상태 업데이트
-                            if (btn.hasClass('btn-outline')) {
-                                btn.removeClass('btn-outline');
-                                btn.addClass('btn-active'); // 선택된 상태로 보이게
-                            } else {
-                                btn.removeClass('btn-active');
-                                btn.addClass('btn-outline'); // 기본 상태
+                            if (goodRP === undefined) {
+                                console.error("❌ 좋아요 수가 응답에 없습니다.");
+                                return;
                             }
 
-                        } else {
-                            alert(data.msg);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        alert("좋아요 처리 중 오류 발생: " + status);
-                    }
-                });
-            }
-        </script>
+                            console.log("좋아요 수:", goodRP);
 
+                            if (data.resultCode === 'S-1') {
+                                const btn = $('#likeButton');
+                                const likeCountEl = $('.likeCount');
+
+                                likeCountEl.text(goodRP); // 좋아요 수 업데이트
+
+                                if (btn.hasClass('btn-outline')) {
+                                    btn.removeClass('btn-outline').addClass('btn-active');
+                                } else {
+                                    btn.removeClass('btn-active').addClass('btn-outline');
+                                }
+                            } else {
+                                alert(data.msg);
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.error("❌ AJAX 오류:", status, error);
+                            alert("좋아요 처리 중 오류 발생: " + status);
+                        }
+                    });
+                }
+            </script>
 
 
             <div class="text-3xl">${mannerEmoji}</div>
