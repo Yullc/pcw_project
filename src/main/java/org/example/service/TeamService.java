@@ -53,5 +53,6 @@ public class TeamService {
     }
 
     public void requestJoin(int teamId, int memberId, String intro) {
+        teamRepository.requestJoin(teamId, memberId, intro);
     }
 }

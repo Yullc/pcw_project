@@ -423,13 +423,27 @@ public class TeamArticleController {
                 .senderNickname(rq.getLoginedMember().getNickName())
                 .receiverId(leader.getId())
                 .receiverNickname(leader.getNickName())
-                .content("팀 가입 신청 팀 ID: " + teamId + " / 내용: " + message)
+                .content(leader.getTeamNm() + "에 지원 합니다!"+"     / 내용: " + message)
+                .teamId(teamId)
                 .build();
 
         messageService.send(msg);
-        return Ut.jsReplace("S-1", "가입 신청 메시지를 보냈습니다.", "/usr/teamArticle/teamDetail?id=" + teamId);
+        return Ut.jsReplace("S-1", "가입 신청 메시지를 보냈습니다.", "/usr/teamArticle/teamResister");
     }
 
+    @PostMapping("/usr/team/handleJoinRequest")
+    public String handleJoinRequest(@RequestParam int teamId,
+                                    @RequestParam int memberId,
+                                    @RequestParam String action) {
+        if (action.equals("accept")) {
+            Team team = teamService.getTeamById(teamId);
+            teamService.updateMemberTeamNm(team.getTeamName(), memberService.getMemberById(memberId).getNickName());
+            // 쪽지 삭제 혹은 상태 업데이트
+            return Ut.jsReplace("S-1", "팀원으로 등록되었습니다.", "/usr/home/yourPage?nickName=" + team.getTeamLeader());
+        } else {
+            return Ut.jsReplace("S-2", "가입 요청을 거절했습니다.", "/usr/message/inbox");
+        }
+    }
 
 
 }

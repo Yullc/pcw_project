@@ -27,4 +27,6 @@ public interface TeamRepository {
     int getTeamCountByName(String teamName);
 
     Team getTeamById(int id);
+
+    void requestJoin(int teamId, int memberId, String intro);
 }

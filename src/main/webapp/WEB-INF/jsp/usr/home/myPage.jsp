@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -158,7 +159,6 @@
     <div class="flex justify-between items-center mb-2 sticky top-0 bg-white z-10">
       <h2 class="text-lg font-bold text-black-600">📥 받은 쪽지함</h2>
       <div class="flex gap-2">
-        <a href="/usr/message/recevied" class="text-sm text-gray-500 hover:text-black border px-2 py-1 rounded">🔄</a>
         <button onclick="toggleModal('inboxModal')" class="text-gray-500 hover:text-black text-lg px-2">✖</button>
       </div>
     </div>
@@ -167,11 +167,25 @@
         <div class="text-sm text-gray-600">보낸 사람: ${msg.senderNickname}</div>
         <div class="text-gray-800">${msg.content}</div>
         <div class="text-xs text-right text-gray-400">${msg.sendDate}</div>
+
+        <!-- 신청 메시지일 경우만 버튼 표시 -->
+        <c:if test="${fn:contains(msg.content, '에 지원 합니다!')}">
+          <form action="/usr/team/handleJoinRequest" method="post" class="flex gap-2 mt-2">
+            <input type="hidden" name="teamId" value="${msg.teamId}" />
+            <input type="hidden" name="memberId" value="${msg.senderId}" />
+
+            <button type="submit" name="action" value="accept" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+              수락
+            </button>
+            <button type="submit" name="action" value="reject" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+              거절
+            </button>
+          </form>
+        </c:if>
       </div>
     </c:forEach>
-    <c:if test="${empty receivedMessages}">
-      <div class="text-center text-gray-400 mt-4">받은 쪽지가 없습니다.</div>
-    </c:if>
+
+
   </div>
 </div>
 

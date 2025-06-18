@@ -92,7 +92,7 @@
         LIMIT #{limitForm}, #{limitTake}
     </select>
 
-    <!-- ✅ 팀 개수 카운트 (페이징용) -->
+
     <select id="getTeamCount" resultType="int">
         SELECT COUNT(*)
         FROM team

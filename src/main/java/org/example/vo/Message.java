@@ -18,4 +18,6 @@ public class Message {
     private String receiverNickname;
     private String content;
     private String sendDate;
+
+    private int teamId;
 }
