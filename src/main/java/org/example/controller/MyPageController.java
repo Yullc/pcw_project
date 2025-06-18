@@ -62,6 +62,9 @@ public class MyPageController {
         for (ScArticle scGame : recentSoccerGames) {
             System.out.println("▶ 축구 !!!최근경기 img: " + scGame.getImg());
         }
+        int loginedMemberId = rq.getLoginedMemberId();
+        int likeCount = myPageService.getGoodRP(loginedMemberId);
+        model.addAttribute("likeCount", likeCount);
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());
         model.addAttribute("nickName", member.getNickName());

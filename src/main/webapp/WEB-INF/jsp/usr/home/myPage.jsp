@@ -21,32 +21,10 @@
       <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover" />
       <div class="text-xl font-semibold">${nickName}</div>
 
-
-      <!-- 좋아요 버튼 -->
-      <button id="likeBtn" data-to-id="${member.id}" class="text-red-500">
-        ❤️ <span id="likeCount">${likeCount}</span>
-      </button>
-
-      <script>
-        document.querySelector("#likeBtn").addEventListener("click", function () {
-          const toId = this.dataset.toId;
-
-          fetch("/usr/member/toggleLike", {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded"
-            },
-            body: new URLSearchParams({ toMemberId: toId })
-          })
-                  .then(res => res.json())
-                  .then(data => {
-                    if (data.resultCode === "S-1") {
-                      document.getElementById("likeCount").textContent = data.data.likeCount;
-                      this.textContent = (data.data.liked ? "❤️ " : "🤍 ") + data.data.likeCount;
-                    }
-                  });
-        });
-      </script>
+      <!-- 받은 좋아요 수만 보여주는 영역 -->
+      <div class="text-gray-700 text-sm mt-2">
+        👍 나의 좋아요 수: <span class="likeCount font-semibold">${likeCount}</span>
+      </div>
 
 
       <div class="text-3xl">${mannerEmoji}</div>
