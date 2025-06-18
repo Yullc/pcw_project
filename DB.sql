@@ -461,8 +461,13 @@ SELECT * FROM `scArticle`;
 SELECT * FROM soccer_stadium ORDER BY id DESC;
 SELECT * FROM match_participant;
 SELECT * FROM teamArticle;
+SELECT * FROM reactionPoint;
 DELETE FROM match_participant
 WHERE matchId = 0;
+
+ALTER TABLE team ADD UNIQUE (teamName);
+ALTER TABLE team ADD UNIQUE (teamLeader);
+
 ALTER TABLE `member` DROP COLUMN teamNm;
 ALTER TABLE match_participant DROP COLUMN positon;
 
@@ -478,12 +483,21 @@ ORDER BY fa.playDate DESC
 INSERT INTO match_participant (matchId, memberId)
 VALUES (1015, 2);
 
+SELECT * FROM team;
 
 SELECT *
 FROM `member`
 
 WHERE nickName = 'test11';
-UPDATE scArticle SET matchId = id;
+
+UPDATE `member` SET RANK = 10 WHERE id = 7;
+
+SELECT m.*
+FROM team t
+         JOIN MEMBER m ON t.teamName = m.teamNm
+WHERE t.id = 3;
+
+SELECT * FROM MEMBER WHERE teamNm = '토트넘';
 
 INSERT INTO ftArticle (regDate, playDate, title, `BODY`, `AREA`, stadium, avgLevel, boardId, fsId, matchId)
 SELECT
@@ -505,15 +519,15 @@ ORDER BY RAND()
     LIMIT 5000;
 
 
-DELETE FROM match_participant
-WHERE id IN (44, 45);
+DELETE FROM team
+WHERE id = '7';
 
 SELECT * FROM match_participant;
 
 DROP TABLE match_participant;
 
-ALTER TABLE team
-    ADD COLUMN `intro` TEXT ;
+ALTER TABLE message
+    ADD COLUMN teamId INT ;
 
 UPDATE match_participant
 SET TYPE = '축구'
@@ -552,8 +566,18 @@ FROM match_participant mp
 ) AS matches ON mp.matchId = matches.id
 WHERE mp.type IN ('풋살', '축구');
 
+ALTER TABLE reactionPoint
+    ADD COLUMN POINT INT DEFAULT 1;
+
+ALTER TABLE reactionPoint
+DROP COLUMN memberId;
 
 INSERT INTO `member`
 SET regDate = NOW(),
 updateDate = NOW(),
 `l` = '축구게시판';
+
+SELECT m.*
+FROM team t
+         JOIN MEMBER m ON t.teamName = m.teamNm
+WHERE t.id = 1;
