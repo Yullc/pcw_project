@@ -12,6 +12,10 @@
         LIMIT 1
     </select>
 
+    <select id="getTeamCountByName" resultType="int" parameterType="string">
+        SELECT COUNT(*) FROM team WHERE teamName = #{teamName}
+    </select>
+
     <insert id="registerTeam">
         INSERT INTO team
         SET regDate = NOW(),

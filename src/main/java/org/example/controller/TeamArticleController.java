@@ -183,9 +183,10 @@ public class TeamArticleController {
     }
     @RequestMapping("/usr/teamArticle/doRegister")
     @ResponseBody
-    public String doRegister(HttpServletRequest req, String teamName, String area, String teamLeader, String intro) {
+    public String doRegister(HttpServletRequest req, String teamName, String area, String teamLeader, String intro,
+                             Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
-
+        System.out.println("팀 등록 진입");
         if (Ut.isEmptyOrNull(teamName)) {
             return Ut.jsHistoryBack("F-1", "팀 이름을 입력해주세요.");
         }
@@ -199,16 +200,20 @@ public class TeamArticleController {
         }
         Member member = memberService.getMemberById(rq.getLoginedMemberId());
         int leaderRank = member.getRank();
+        if (teamService.hasTeam(teamLeader)) {
+            return Ut.jsHistoryBack("F-1", "이미 등록한 팀이 있습니다.");
+        }
+        if (teamService.hasTeamName(teamName)) {
+            return Ut.jsHistoryBack("F-2", "이미 존재하는 팀 이름입니다.");
+        }
         // 팀 등록
         ResultData doRegisterRd = teamService.registerTeam(teamName, area, teamLeader, intro,leaderRank);
         int teamId = (int) doRegisterRd.getData1();
 
-        // ✅ 이미 팀이 있는지 확인
-        if (teamService.hasTeam(teamLeader)) {
-            return Ut.jsHistoryBack("F-1", "이미 등록된 팀이 있습니다.");
-        }
 
-        teamService.registerTeam(teamName, area, teamLeader, intro, leaderRank);
+
+
+
 
         // 팀 리더의 nickName 기준으로 member 테이블의 teamNm 컬럼 업데이트
         teamService.updateMemberTeamNm(teamName, teamLeader);

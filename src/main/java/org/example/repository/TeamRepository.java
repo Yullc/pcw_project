@@ -23,4 +23,6 @@ public interface TeamRepository {
     void updateMemberTeamNmByNickName(String teamName, String teamLeader);
 
     int getTeamCountByLeader(String teamLeader);
+
+    int getTeamCountByName(String teamName);
 }

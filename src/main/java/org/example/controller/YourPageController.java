@@ -43,8 +43,9 @@ public class YourPageController {
         if (member == null) {
             return Ut.jsHistoryBack("F-1", Ut.f("'%s' 닉네임을 가진 회원은 존재하지 않습니다.", nickName));
         }
-        int memberId = rq.getLoginedMemberId();
+        int memberId = member.getId();
         System.out.println("그 사람 memberId: " + memberId);
+        System.out.println("그 사람 닉네임"+member.getNickName());
         //  매너온도 이모지 설정
         String emoji = MannerUtil.getMannerEmoji(member.getManner());
         member.setMannerEmoji(emoji);

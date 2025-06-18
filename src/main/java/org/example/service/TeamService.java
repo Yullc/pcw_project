@@ -44,4 +44,7 @@ public class TeamService {
         return teamRepository.getTeamCountByLeader(teamLeader) > 0;
     }
 
+    public boolean hasTeamName(String teamName) {
+        return teamRepository.getTeamCountByName(teamName) > 0;
+    }
 }

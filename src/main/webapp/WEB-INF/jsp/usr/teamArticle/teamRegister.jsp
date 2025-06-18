@@ -9,6 +9,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 min-h-screen p-10">
+
+
 <div class="max-w-xl mx-auto bg-white p-8 rounded-xl shadow">
 
     <h1 class="text-2xl font-bold text-green-700 mb-6">🏆 팀 등록</h1>
