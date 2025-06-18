@@ -19,4 +19,8 @@ public interface TeamRepository {
     List<Team> getAllTeams(int boardId, int limitTake, int limitForm, String searchKeywordTypeCode, String searchKeyword,  int teamRank,String area);
 
     int getTeamCount(int boardId,String searchKeywordTypeCode, String searchKeyword);
+
+    void updateMemberTeamNmByNickName(String teamName, String teamLeader);
+
+    int getTeamCountByLeader(String teamLeader);
 }

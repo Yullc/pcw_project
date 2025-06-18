@@ -23,6 +23,17 @@
             teamRank = #{param5}
     </insert>
 
+    <update id="updateMemberTeamNmByNickName">
+        UPDATE member
+        SET teamNm = #{teamName}
+        WHERE nickName = #{teamLeader}
+    </update>
+
+    <select id="getTeamCountByLeader" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM team
+        WHERE teamLeader = #{teamLeader}
+    </select>
 
     <select id="getLastInsertId" resultType="int">
         SELECT LAST_INSERT_ID()

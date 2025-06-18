@@ -3,6 +3,7 @@ package org.example.controller;
 import jakarta.servlet.http.HttpServletRequest;
 import org.example.interceptor.BeforeActionInterceptor;
 import org.example.service.*;
+import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.util.Ut;
 import org.example.vo.*;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -199,6 +203,15 @@ public class TeamArticleController {
         ResultData doRegisterRd = teamService.registerTeam(teamName, area, teamLeader, intro,leaderRank);
         int teamId = (int) doRegisterRd.getData1();
 
+        // ✅ 이미 팀이 있는지 확인
+        if (teamService.hasTeam(teamLeader)) {
+            return Ut.jsHistoryBack("F-1", "이미 등록된 팀이 있습니다.");
+        }
+
+        teamService.registerTeam(teamName, area, teamLeader, intro, leaderRank);
+
+        // 팀 리더의 nickName 기준으로 member 테이블의 teamNm 컬럼 업데이트
+        teamService.updateMemberTeamNm(teamName, teamLeader);
 
 
         return Ut.jsReplace(doRegisterRd.getResultCode(), doRegisterRd.getMsg(), "/usr/teamArticle/findTeam");
@@ -354,5 +367,54 @@ public class TeamArticleController {
 
         return "usr/teamArticle/teamList";
     }
+
+//    @RequestMapping("/usr/teamArticle/teamDetail")
+//    public String showTeamDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
+//        Rq rq = (Rq) req.getAttribute("rq");
+//        System.out.println("detail 들어옴");
+//
+//        List<Member> participants = matchParticipantService.getParticipants(id);
+//        for (Member m : participants) {
+//            System.out.println("참가자: " + m.getNickName() + " / id=" + m.getId());
+//        }
+//
+//        int totalRank = 0;
+//
+//        for (Member m : participants) {
+//            int rank = m.getRank();
+//            m.setRankName(RankUtil.getRankName(rank));
+//            totalRank += rank;
+//
+//            // 매너온도 이모지 설정
+//            String emoji = MannerUtil.getMannerEmoji(m.getManner());
+//            m.setMannerEmoji(emoji);
+//        }
+//
+//        boolean pastMatch = LocalDateTime.now().isAfter(
+//                LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+//        );
+//
+//        if (!participants.isEmpty()) {
+//            double avg = totalRank / (double) participants.size();
+//            ftArticle.setAvgLevelName(RankUtil.getRankName((int) Math.round(avg)));
+//        } else {
+//            ftArticle.setAvgLevelName("미정");
+//        }
+//
+//        String area = ftArticle.getArea();
+//        LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
+//        List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
+//        model.addAttribute("boardId", 1); // 1 = 풋살 게시판
+//
+//        model.addAttribute("ftArticle", ftArticle);
+//        model.addAttribute("weatherList", weatherList);
+//        model.addAttribute("participants", participants);
+//        model.addAttribute("pastMatch", pastMatch);
+//        model.addAttribute("isAlreadyJoined", matchParticipantService.isAlreadyJoined(id, rq.getLoginedMemberId()));
+//
+//
+//        return "usr/ftArticle/foot_detail";
+//    }
+
 
 }

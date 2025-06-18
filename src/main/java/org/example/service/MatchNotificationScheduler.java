@@ -16,7 +16,7 @@ public class MatchNotificationScheduler {
     private final SolapiService solapiService;
 
     // ✨ 1분마다 실행되며, 1시간 후에 시작될 경기 참가자에게 문자 전송
-    @Scheduled(cron = "0 * * * * *")  // 매 분마다 실행
+    @Scheduled(cron = "0 0 0 * * *")  // 매 분마다 실행
     public void sendSmsToUpcomingParticipants() {
         List<Map<String, Object>> participantList = matchParticipantRepository.getParticipantsForMatchesInOneHour();
 

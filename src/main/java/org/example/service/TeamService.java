@@ -36,4 +36,12 @@ public class TeamService {
         return teamRepository.getTeamCount(boardId, searchKeywordTypeCode, searchKeyword);
     }
 
+    public void updateMemberTeamNm(String teamName, String teamLeader) {
+        teamRepository.updateMemberTeamNmByNickName(teamName, teamLeader);
+    }
+
+    public boolean hasTeam(String teamLeader) {
+        return teamRepository.getTeamCountByLeader(teamLeader) > 0;
+    }
+
 }

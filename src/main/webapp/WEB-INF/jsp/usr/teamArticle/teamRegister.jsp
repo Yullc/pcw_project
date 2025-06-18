@@ -35,11 +35,14 @@
         </div>
 
         <!-- 팀 리더 표시용 -->
+        <!-- 팀 리더 표시 -->
         <div>
             <label class="block mb-1 font-semibold text-gray-700">팀 리더</label>
             <div class="border border-gray-300 rounded px-4 py-2 bg-gray-100">
                 ${rq.loginedMember.nickName}
             </div>
+            <!-- 백엔드로 넘기기 위한 hidden input -->
+            <input type="hidden" name="teamLeader" value="${rq.loginedMember.nickName}" />
         </div>
 
 

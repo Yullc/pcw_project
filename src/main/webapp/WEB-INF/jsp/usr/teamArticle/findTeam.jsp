@@ -15,7 +15,7 @@
     <header class="flex items-center justify-between p-5 border-b border-gray-300">
         <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">로고</a>
 
-        <form action="/usr/article/findTeam" method="get" class="flex justify-center w-full">
+        <form action="/usr/teamArticle/findTeam" method="get" class="flex justify-center w-full">
             <div class="relative w-64">
                 <input type="text" name="searchKeyword" value="${searchKeyword}" placeholder="검색..."
                        class="w-full pl-4 pr-10 py-2 rounded-full border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-300" />

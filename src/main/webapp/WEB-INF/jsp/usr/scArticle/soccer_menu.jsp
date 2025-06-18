@@ -188,7 +188,7 @@
               <img src="${scArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
               <div class="p-2 text-sm">
                 <div class="font-semibold">${scArticle.stadium}</div>
-                <div>${scArticle.area}</div>
+
                 <div>${scArticle.playDate}</div>
                 <div class="text-xs text-gray-500">${scArticle.address}</div>
                 <div class="flex justify-between items-center text-xs mt-2">
