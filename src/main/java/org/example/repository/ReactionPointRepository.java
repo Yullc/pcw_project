@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface ReactionPointRepository {
     int getReactionCount(int fromMemberId, int toMemberId);
 
-    void insertReactionPoint(int fromMemberId, int toMemberId, int point); // point는 1
+    void insertReactionPoint(int fromMemberId, int toMemberId); // point는 1
 
     void deleteReactionPoint(int fromMemberId, int toMemberId);
 }

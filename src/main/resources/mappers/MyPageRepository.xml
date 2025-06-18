@@ -30,10 +30,10 @@
         LIMIT 3
     </select>
 
-    <select id="getGoodRP">
-        SELECT goodReactionPoint
-        FROM `member`
-        WHERE id = #{relId}
+    <select id="getGoodRP" resultType="int">
+        SELECT COUNT(*)
+        FROM reactionPoint
+        WHERE toMemberId = #{memberId}
     </select>
 
     <update id="increaseGoodReactionPoint" parameterType="int">

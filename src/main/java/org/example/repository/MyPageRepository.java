@@ -14,7 +14,7 @@ public interface MyPageRepository {
 
     List<ScArticle> getRecentSoccerGamesByMemberId(int memberId);
 
-    int getGoodRP(int relId);
+    int getGoodRP(int memberId);
 
     int increaseGoodReactionPoint(int toMemberId);
 

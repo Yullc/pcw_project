@@ -8,22 +8,21 @@
     <select id="getReactionCount" resultType="int">
         SELECT COUNT(*)
         FROM reactionPoint
-        WHERE memberId = #{fromMemberId}
+        WHERE fromMemberId = #{fromMemberId}
           AND toMemberId = #{toMemberId}
     </select>
 
     <insert id="insertReactionPoint">
         INSERT INTO reactionPoint
         SET regDate = NOW(),
-            updateDate = NOW(),
-            memberId = #{fromMemberId},
-            toMemberId = #{toMemberId},
-            point = #{point}
+        updateDate = NOW(),
+        fromMemberId = #{fromMemberId},
+        toMemberId = #{toMemberId}
     </insert>
 
     <delete id="deleteReactionPoint">
         DELETE FROM reactionPoint
-        WHERE memberId = #{fromMemberId}
+        WHERE fromMemberId = #{fromMemberId}
           AND toMemberId = #{toMemberId}
     </delete>
 

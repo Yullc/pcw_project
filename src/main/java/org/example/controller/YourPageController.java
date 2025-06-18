@@ -65,10 +65,11 @@ public class YourPageController {
             System.out.println("▶ 그 사람 축구 !!!최근경기 img: " + scGame.getImg());
         }
         int loginedMemberId = rq.getLoginedMemberId();
-        int goodRP = myPageService.getGoodRP(targetMemberId);
+        int likeCount = myPageService.getGoodRP(targetMemberId);
+        System.out.println("likeCount: " + likeCount);
         boolean liked = reactionPointService.hasLiked(loginedMemberId, targetMemberId);
-
-        model.addAttribute("likeCount", goodRP);
+        System.out.println("liked: " + liked);
+        model.addAttribute("likeCount", likeCount);
         model.addAttribute("liked", liked);
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());

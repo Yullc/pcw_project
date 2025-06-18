@@ -1,5 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<meta name="_csrf" content="${_csrf.token}" />
+<meta name="_csrf_header" content="${_csrf.headerName}" />
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -26,31 +30,43 @@
                     <span class="likeCount">${likeCount}</span>
                 </button>
             </c:if>
-
             <script>
-                function doGoodReaction(toMemberId) {
-                    $.ajax({
-                        url: '/usr/reactionPoint/doGoodReaction',
-                        type: 'POST',
-                        data: {
-                            toMemberId: toMemberId
-                        },
-                        dataType: 'json',
-                        success: function(data) {
-                            if (data.resultCode === 'S-1') {
-                                const btn = $('#likeButton');
-                                btn.toggleClass('btn-outline');
-                                $('.likeCount').text(data.goodRP);
+            function doGoodReaction(toMemberId) {
+                $.ajax({
+                    url: '/usr/reactionPoint/doGoodReaction',
+                    type: 'POST',
+                    data: {
+                        toMemberId: toMemberId
+                    },
+                    dataType: 'json',
+                    success: function(data) {
+                        if (data.resultCode === 'S-1') {
+                            const btn = $('#likeButton');
+                            const likeCountEl = $('.likeCount');
+
+                            // 좋아요 갯수 업데이트
+                            likeCountEl.text(data.goodRP);
+
+                            // 버튼 상태 업데이트
+                            if (btn.hasClass('btn-outline')) {
+                                btn.removeClass('btn-outline');
+                                btn.addClass('btn-active'); // 선택된 상태로 보이게
                             } else {
-                                alert(data.msg);
+                                btn.removeClass('btn-active');
+                                btn.addClass('btn-outline'); // 기본 상태
                             }
-                        },
-                        error: function(xhr, status, error) {
-                            alert("좋아요 처리 중 오류 발생: " + status);
+
+                        } else {
+                            alert(data.msg);
                         }
-                    });
-                }
-            </script>
+                    },
+                    error: function(xhr, status, error) {
+                        alert("좋아요 처리 중 오류 발생: " + status);
+                    }
+                });
+            }
+        </script>
+
 
 
             <div class="text-3xl">${mannerEmoji}</div>

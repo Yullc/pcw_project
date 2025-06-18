@@ -15,7 +15,7 @@ public class ReactionPointService {
     }
 
     public void addLike(int fromMemberId, int toMemberId) {
-        reactionPointRepository.insertReactionPoint(fromMemberId, toMemberId, 1);
+        reactionPointRepository.insertReactionPoint(fromMemberId, toMemberId);
     }
 
     public void deleteLike(int fromMemberId, int toMemberId) {
