@@ -18,6 +18,7 @@
   <div class="flex gap-8">
 
     <!-- 좌측: 프로필 -->
+
     <div class="w-1/3 border rounded-xl p-6 flex flex-col items-center gap-3">
       <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover" />
       <div class="text-xl font-semibold">${nickName}</div>
@@ -42,7 +43,10 @@
           📤 보낸 쪽지함
         </a>
       </div>
-
+      <form action="/usr/home/uploadProfileImg" method="post" enctype="multipart/form-data">
+        <input type="file" name="profileImg" accept="image/*" required />
+        <button type="submit">업로드</button>
+      </form>
       <!-- 다음 경기 -->
       <div class="w-full mt-6">
         <h3 class="text-sm font-bold text-green-700 mb-2">🗓️ 나의 다음 경기</h3>

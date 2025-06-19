@@ -131,4 +131,11 @@
             LIMIT 1
     </select>
 
+    <update id="updateProfileImg">
+        UPDATE member
+        SET profileImg = #{profileImgPath}
+        WHERE id = #{memberId}
+    </update>
+
+
 </mapper>

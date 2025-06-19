@@ -54,6 +54,11 @@ public class MyPageService {
         return myPageRepository.getGoodRP(memberId);
     }
 
+    public void updateProfileImg(int memberId, String profileImgPath) {
+        memberRepository.updateProfileImg(memberId, profileImgPath);
+    }
+
+
 
 //    // (예: 최근 경기 불러오는 메서드도 같이 있을 수 있음)
 //    public List<FtArticle> getRecentGamesByMemberId(int memberId) {

@@ -7,12 +7,18 @@ import org.example.service.MessageService;
 import org.example.service.MyPageService;
 import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
+import org.example.util.Ut;
 import org.example.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.File;
 
+import java.io.IOException;
 import java.util.List;
 @Controller
 public class MyPageController {
@@ -86,6 +92,32 @@ public class MyPageController {
         return "usr/home/myPage";
     }
 
+    @PostMapping("/usr/home/uploadProfileImg")
+    public String uploadProfileImg(HttpServletRequest req, @RequestParam("profileImg") MultipartFile file) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        int memberId = rq.getLoginedMemberId();
+
+        if (file.isEmpty()) {
+            return Ut.jsHistoryBack("F-1", "파일이 비어있습니다.");
+        }
+
+        // 저장 경로 예시
+        String fileName = "profile_" + memberId + ".jpg";
+        String savePath = new File("src/main/resources/static/img/" + fileName).getAbsolutePath();
+
+        try {
+            file.transferTo(new File(savePath));
+        } catch (IOException e) {
+            return Ut.jsHistoryBack("F-2", "파일 저장 중 오류 발생");
+        }
+
+        // DB에 경로 업데이트
+        String relativePath = "/img/" + fileName;
+        myPageService.updateProfileImg(memberId, relativePath);
+        savePath = new File("src/main/resources/static/img/" + fileName).getAbsolutePath();
+
+        return Ut.jsReplace("S-1", "프로필 이미지가 업로드되었습니다.", "/usr/home/myPage");
+    }
 
 
 }

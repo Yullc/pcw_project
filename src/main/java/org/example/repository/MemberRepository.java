@@ -37,4 +37,6 @@ public interface MemberRepository {
     public List<Member> getMembersByTeamId(@Param("teamId") int teamId);
 
     public  Member getMemberByNickName(String teamLeader);
+
+    void updateProfileImg(int memberId, String profileImgPath);
 }

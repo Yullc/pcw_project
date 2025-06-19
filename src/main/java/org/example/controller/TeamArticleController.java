@@ -404,6 +404,7 @@ public class TeamArticleController {
     }
 
     @PostMapping("/usr/team/joinRequest")
+    @ResponseBody
     public String requestJoinTeam(@RequestParam int teamId,
                                   @RequestParam String teamLeader,
                                   @RequestParam String message,
@@ -433,6 +434,7 @@ public class TeamArticleController {
     }
 
     @PostMapping("/usr/team/handleJoinRequest")
+    @ResponseBody
     public String handleJoinRequest(@RequestParam int teamId,
                                     @RequestParam int memberId,
                                     @RequestParam String action) {
@@ -440,7 +442,7 @@ public class TeamArticleController {
             Team team = teamService.getTeamById(teamId);
             teamService.updateMemberTeamNm(team.getTeamName(), memberService.getMemberById(memberId).getNickName());
             // 쪽지 삭제 혹은 상태 업데이트
-            return Ut.jsReplace("S-1", "팀원으로 등록되었습니다.", "/usr/teamArticle/findTeam_detail?id=" + teamId);
+            return Ut.jsReplace("S-1", "팀원으로 등록되었습니다.", "/usr/teamArticle/teamDetail?id=" + teamId);
 
         } else {
             return Ut.jsReplace("S-2", "가입 요청을 거절했습니다.", "/usr/message/inbox");
