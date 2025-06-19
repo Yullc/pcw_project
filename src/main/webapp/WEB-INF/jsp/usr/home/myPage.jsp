@@ -15,62 +15,57 @@
   <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">로고</a>
 
   <!-- 메인 컨테이너 -->
-  <div class="flex gap-8">
+  <!-- 메인 컨테이너 -->
+  <div class="flex flex-col lg:flex-row gap-8">
 
-    <!-- 좌측: 프로필 -->
+    <!-- ✅ 좌측 프로필 영역 -->
+    <div class="w-full lg:w-1/3">
+      <form action="/usr/home/uploadProfileImg" method="post" enctype="multipart/form-data" class="w-full">
+        <div class="border rounded-xl p-6 flex flex-col items-center gap-3 shadow">
+          <input type="file" id="profileImg" name="profileImg" accept="image/*" class="hidden" onchange="this.form.submit()" />
+          <label for="profileImg" class="cursor-pointer">
+            <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover hover:opacity-80 transition" />
+          </label>
+          <label for="profileImg" class="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">이미지 변경</label>
+          <div class="text-xl font-semibold">${nickName}</div>
 
-    <div class="w-1/3 border rounded-xl p-6 flex flex-col items-center gap-3">
-      <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover" />
-      <div class="text-xl font-semibold">${nickName}</div>
+          <!-- 좋아요 / 매너 -->
+          <div class="mt-2 text-sm text-gray-600">👍 나의 좋아요 수: <strong>${likeCount}</strong></div>
+          <div class="text-3xl">${mannerEmoji}</div>
 
-      <!-- 받은 좋아요 수만 보여주는 영역 -->
-      <div class="text-gray-700 text-sm mt-2">
-        👍 나의 좋아요 수: <span class="likeCount font-semibold">${likeCount}</span>
-      </div>
+          <!-- 쪽지 버튼들 -->
+          <div class="flex justify-between w-full text-center mt-4 gap-2">
+            <button onclick="toggleModal('writeModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">✉️ 쪽지</button>
+            <button onclick="toggleModal('inboxModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">📥 받은</button>
+            <button onclick="toggleModal('outboxModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">📤 보낸</button>
+          </div>
 
-
-      <div class="text-3xl">${mannerEmoji}</div>
-
-      <!-- 쪽지 버튼 -->
-      <div class="flex justify-between w-full text-center mt-4">
-        <button onclick="toggleModal('writeModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">
-          ✉️ 쪽지 보내기
-        </button>
-        <a href="#" onclick="toggleModal('inboxModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">
-          📥 받은 쪽지함
-        </a>
-        <a href="#" onclick="toggleModal('outboxModal')" class="text-black-600 hover:text-red-500 font-semibold flex-1">
-          📤 보낸 쪽지함
-        </a>
-      </div>
-      <form action="/usr/home/uploadProfileImg" method="post" enctype="multipart/form-data">
-        <input type="file" name="profileImg" accept="image/*" required />
-        <button type="submit">업로드</button>
+          <!-- 다음 경기 -->
+          <div class="w-full mt-6">
+            <h3 class="text-sm font-bold text-green-700 mb-2">🗓️ 나의 다음 경기</h3>
+            <c:choose>
+              <c:when test="${not empty nextMatch}">
+                <a href="${nextMatch.type == '풋살' ? '/usr/ftArticle/foot_detail?id=' : '/usr/scArticle/soccer_detail?id='}${nextMatch.id}"
+                   class="block bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden">
+                  <img src="${nextMatch.img}" class="w-48 h-28 rounded-t-lg object-cover" />
+                  <div class="p-2 text-sm">
+                    <div class="font-semibold truncate">${nextMatch.stadium}</div>
+                    <div class="text-gray-500 text-xs">${nextMatch.playDate}</div>
+                    <div class="text-gray-700 text-sm truncate">${nextMatch.title}</div>
+                  </div>
+                </a>
+              </c:when>
+              <c:otherwise>
+                <div class="text-sm text-gray-400 text-center mt-2">다가오는 경기가 없습니다.</div>
+              </c:otherwise>
+            </c:choose>
+          </div>
+        </div>
       </form>
-      <!-- 다음 경기 -->
-      <div class="w-full mt-6">
-        <h3 class="text-sm font-bold text-green-700 mb-2">🗓️ 나의 다음 경기</h3>
-        <c:choose>
-          <c:when test="${not empty nextMatch}">
-            <a href="${nextMatch.type == '풋살' ? '/usr/ftArticle/foot_detail?id=' : '/usr/scArticle/soccer_detail?id='}${nextMatch.id}"
-               class="w-48 block bg-white rounded-lg shadow-md hover:shadow-lg transition overflow-hidden">
-              <img src="${nextMatch.img}" alt="경기장 이미지" class="w-full h-28 object-cover" />
-              <div class="p-2 text-sm">
-                <div class="font-semibold truncate">${nextMatch.stadium}</div>
-                <div class="text-gray-500 text-xs">${nextMatch.playDate}</div>
-                <div class="text-gray-700 text-sm truncate">${nextMatch.title}</div>
-              </div>
-            </a>
-          </c:when>
-          <c:otherwise>
-            <div class="text-sm text-gray-400 text-center mt-2">다가오는 경기가 없습니다.</div>
-          </c:otherwise>
-        </c:choose>
-      </div>
     </div>
 
-    <!-- 우측: 최근 경기 및 정보 -->
-    <div class="w-2/3 space-y-6">
+    <!-- ✅ 우측 정보 및 경기 목록 -->
+    <div class="w-full lg:w-2/3 space-y-6">
 
       <!-- 최근 풋살 경기 -->
       <div>
@@ -78,7 +73,7 @@
         <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
           <c:forEach var="game" items="${recentGames}">
             <a href="/usr/ftArticle/foot_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-              <img src="${game.img}" alt="경기장 이미지" class="w-full h-28 object-cover rounded-t-lg" />
+              <img src="${game.img}" class="w-full h-28 object-cover rounded-t-lg" />
               <div class="p-2 text-sm">
                 <div class="font-semibold">${game.stadium}</div>
                 <div class="text-gray-500">${game.playDate}</div>
@@ -93,12 +88,12 @@
       </div>
 
       <!-- 최근 축구 경기 -->
-      <div class="mb-6">
+      <div>
         <h2 class="text-md font-bold text-green-700">최근 축구 경기</h2>
         <div class="flex overflow-x-auto gap-4 mt-2 pb-4">
           <c:forEach var="game" items="${recentSoccerGames}">
             <a href="/usr/scArticle/soccer_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-              <img src="${game.img}" alt="경기장 이미지" class="w-full h-28 object-cover rounded-t-lg" />
+              <img src="${game.img}" class="w-full h-28 object-cover rounded-t-lg" />
               <div class="p-2 text-sm">
                 <div class="font-semibold">${game.stadium}</div>
                 <div class="text-gray-500">${game.playDate}</div>
@@ -112,7 +107,7 @@
         </c:if>
       </div>
 
-      <!-- 팀 / 레벨 -->
+      <!-- 팀/레벨 -->
       <div class="flex gap-4">
         <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">팀: ${teamNm}</div>
         <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">레벨: ${rank}</div>
@@ -130,11 +125,12 @@
           회원정보 수정
         </a>
       </div>
+
     </div>
   </div>
-</div>
 
-<!-- 쪽지 작성 모달 -->
+
+  <!-- 쪽지 작성 모달 -->
 <div id="writeModal" class="fixed inset-0 hidden bg-black bg-opacity-40 flex items-center justify-center z-50">
   <div class="bg-white rounded-lg w-96 p-6">
     <div class="flex justify-between items-center mb-4">
