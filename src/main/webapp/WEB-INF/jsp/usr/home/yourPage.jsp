@@ -12,13 +12,16 @@
 </head>
 <body class="bg-white min-h-screen p-10">
 <div class="px-[150px]">
+    <div class="px-[150px]">
+        <!-- 메인 컨테이너 -->
+        <header class="flex items-center justify-between px-5 border-b border-gray-300 h-24 overflow-hidden">
+            <!-- 왼쪽 로고 -->
+            <a href="/usr/home/main" class="inline-block h-full">
+                <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
+            </a>
+        </header>
 
-    <!-- 헤더 -->
-    <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap mb-6 block">로고</a>
-
-    <!-- 메인 컨테이너 -->
-    <div class="flex gap-8">
-
+        <div class="flex flex-col lg:flex-row gap-8 ml-20">
         <!-- 좌측: 프로필 -->
         <div class="w-1/3 border rounded-xl p-6 flex flex-col items-center gap-3">
             <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover border-4 " alt="프로필 이미지" />

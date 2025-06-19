@@ -8,11 +8,17 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 
+<header class="flex items-center justify-between px-5 border-b border-gray-300 h-24 overflow-hidden">
+    <!-- 왼쪽 로고 -->
+    <a href="/usr/home/main" class="inline-block h-full">
+        <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
+    </a>
+
+
+
+</header>
 <body class="bg-gray-100">
-<!-- 헤더 -->
-<a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">
-    로고
-</a>
+
 
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
     <!-- 경기장 이미지 -->

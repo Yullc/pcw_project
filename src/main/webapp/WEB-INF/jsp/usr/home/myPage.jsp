@@ -4,19 +4,23 @@
 
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
   <title>마이페이지</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body class="bg-white min-h-screen p-10">
 <div class="px-[150px]">
-
-  <!-- 헤더 -->
-  <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">로고</a>
-
   <!-- 메인 컨테이너 -->
-  <!-- 메인 컨테이너 -->
-  <div class="flex flex-col lg:flex-row gap-8">
+  <header class="flex items-center justify-between px-5 border-b border-gray-300 h-20 overflow-hidden">
+    <!-- 왼쪽 로고 -->
+    <a href="/usr/home/main" class="inline-block h-full">
+      <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
+    </a>
+  </header>
+
+  <div class="flex flex-col lg:flex-row gap-8 ml-20">
 
     <!-- ✅ 좌측 프로필 영역 -->
     <div class="w-full lg:w-1/3">
@@ -26,7 +30,7 @@
           <label for="profileImg" class="cursor-pointer">
             <img src="${profileImg}" class="w-32 h-32 rounded-full object-cover hover:opacity-80 transition" />
           </label>
-          <label for="profileImg" class="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">이미지 변경</label>
+          <label for="profileImg" class="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">프로필 변경</label>
           <div class="text-xl font-semibold">${nickName}</div>
 
           <!-- 좋아요 / 매너 -->
@@ -36,8 +40,8 @@
           <!-- 쪽지 버튼들 -->
           <div class="flex justify-between w-full text-center mt-4 gap-2">
             <button onclick="toggleModal('writeModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">✉️ 쪽지</button>
-            <button onclick="toggleModal('inboxModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">📥 받은</button>
-            <button onclick="toggleModal('outboxModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">📤 보낸</button>
+            <button onclick="toggleModal('inboxModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">📥 받은쪽지</button>
+            <button onclick="toggleModal('outboxModal')" class="flex-1 bg-white border px-3 py-1 rounded hover:bg-gray-100">📤 보낸쪽지</button>
           </div>
 
           <!-- 다음 경기 -->

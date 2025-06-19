@@ -497,7 +497,7 @@ FROM team t
          JOIN MEMBER m ON t.teamName = m.teamNm
 WHERE t.id = 3;
 
-SELECT * FROM MEMBER WHERE teamNm = '토트넘';
+SELECT * FROM member WHERE teamNm = '토트넘';
 
 INSERT INTO ftArticle (regDate, playDate, title, `BODY`, `AREA`, stadium, avgLevel, boardId, fsId, matchId)
 SELECT
@@ -522,15 +522,15 @@ ORDER BY RAND()
 DELETE FROM team
 WHERE id = '7';
 
-SELECT * FROM match_participant;
+select * from match_participant;
 
-DROP TABLE match_participant;
+drop table match_participant;
 
 ALTER TABLE message
-    ADD COLUMN teamId INT ;
+    ADD COLUMN teamId int ;
 
 UPDATE match_participant
-SET TYPE = '축구'
+SET type = '축구'
 WHERE id = 16;
 UPDATE match_participant
 SET TYPE = '축구'
@@ -538,7 +538,7 @@ WHERE id = 17;
 UPDATE match_participant
 SET TYPE = '축구'
 WHERE id = 19;
-SELECT * FROM scArticle
+select * from scArticle
 
 SELECT sa.*, ss.img
 FROM scArticle sa
@@ -552,7 +552,7 @@ ORDER BY sa.playDate DESC
 
 SELECT m.phoneNumber, matches.stadium
 FROM match_participant mp
-         INNER JOIN MEMBER m ON mp.memberId = m.id
+         INNER JOIN member m ON mp.memberId = m.id
          INNER JOIN (
     SELECT id, playDate, stadium
     FROM ftArticle
@@ -567,7 +567,7 @@ FROM match_participant mp
 WHERE mp.type IN ('풋살', '축구');
 
 ALTER TABLE reactionPoint
-    ADD COLUMN POINT INT DEFAULT 1;
+    ADD COLUMN point INT DEFAULT 1;
 
 ALTER TABLE reactionPoint
 DROP COLUMN memberId;
@@ -579,5 +579,5 @@ updateDate = NOW(),
 
 SELECT m.*
 FROM team t
-         JOIN MEMBER m ON t.teamName = m.teamNm
+         JOIN member m ON t.teamName = m.teamNm
 WHERE t.id = 1;

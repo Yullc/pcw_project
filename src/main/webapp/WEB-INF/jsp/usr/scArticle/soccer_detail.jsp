@@ -9,28 +9,34 @@
 </head>
 
 <body class="bg-gray-100">
+<div class="px-[150px]">
 <!-- 헤더 -->
-<a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">
-  로고
-</a>
+  <header class="flex items-center justify-start px-30 border-b border-gray-300 h-24 overflow-hidden">
+    <a href="/usr/home/main" class="inline-block h-20 ml-10">
+      <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
+    </a>
+  </header>
 
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
   <!-- 경기장 이미지 -->
   <img src="${scArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
   <!-- 날씨 정보 -->
-  <div class="flex gap-4 bg-green-600 justify-center text-center text-sm mt-2">
+  <div class="flex gap-4 bg-gradient-to-r from-green-700 to-green-500 text-white justify-center text-center text-sm mt-4 rounded-lg py-2 shadow-md">
     <c:forEach var="weather" items="${weatherList}">
-      <div>
-        <div>
+      <div class="flex flex-col items-center mx-1">
+        <div class="font-semibold">
           <fmt:parseDate var="weatherTime" value="${weather.time}" pattern="yyyy-MM-dd HH:mm:ss" />
           <fmt:formatDate value="${weatherTime}" pattern="HH시" />
         </div>
-        <div><img src="${weather.iconUrl}" style="width: 40px;" /></div>
-        <div>${weather.temp}°C</div>
+        <div>
+          <img src="${weather.iconUrl}" alt="날씨" class="w-8 h-8" />
+        </div>
+        <div class="text-xs">${weather.temp}°C</div>
       </div>
     </c:forEach>
   </div>
+
 
   <!-- 평균 레벨 -->
   <div class="text-lg font-semibold text-green-600 mt-4">

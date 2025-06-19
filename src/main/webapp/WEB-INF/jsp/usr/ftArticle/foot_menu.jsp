@@ -36,30 +36,25 @@
 <body class="h-screen flex flex-col">
 <div class="px-[150px]">
 
-  <header class="flex items-center justify-between p-5 border-b border-gray-300">
+  <header class="flex items-center justify-between px-5 border-b border-gray-300 h-24 overflow-hidden">
     <!-- 왼쪽 로고 -->
-    <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">
-      로고
+    <a href="/usr/home/main" class="inline-block h-full">
+      <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
     </a>
 
-
+    <!-- 검색 -->
     <form action="/usr/ftArticle/foot_menu" method="post" class="flex justify-center w-full">
       <div class="relative w-64">
         <input type="text" name="searchKeyword" value="${param.searchKeyword}" placeholder="검색..."
                class="w-full pl-4 pr-10 py-2 rounded-full border border-green-500 focus:outline-none focus:ring-2 focus:ring-green-300" />
-
-        <!-- 제출 버튼 -->
         <button type="submit" class="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500">
           🔍
         </button>
       </div>
-
-      <!-- 선택 필터들도 같이 넘기기 -->
       <input type="hidden" name="area" value="${area}" />
       <input type="hidden" name="avgLevel" value="${avgLevel}" />
       <input type="hidden" name="playDate" value="${playDate}" />
     </form>
-
 
     <!-- 오른쪽 메뉴 -->
     <div class="flex items-center gap-6 whitespace-nowrap">
@@ -67,17 +62,13 @@
       <a href="/usr/scArticle/soccer_menu" class="text-sm text-black hover:text-red-600">축구하기</a>
       <a href="/usr/mercenaryArticle/findMercenary" class="text-sm text-black hover:text-red-600">용병 구하기</a>
       <a href="/usr/teamArticle/findTeam" class="text-sm text-black hover:text-red-600">팀 구하기</a>
-      <!-- 로그아웃 버튼 추가 -->
       <a href="/usr/member/doLogout" class="text-sm text-black hover:text-red-500">로그아웃</a>
-
       <a href="/usr/home/myPage" class="block w-10 h-10">
-        <img src="${profileImg}" alt="profile"
-             class="w-full h-full rounded-full object-cover" />
+        <img src="${profileImg}" alt="profile" class="w-full h-full rounded-full object-cover" />
       </a>
     </div>
-
-
   </header>
+
 
   <div class="flex flex-1 overflow-hidden">
 
