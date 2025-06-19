@@ -22,21 +22,28 @@
   <img src="${scArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
   <!-- 날씨 정보 -->
-  <div class="flex gap-4 bg-gradient-to-r from-green-700 to-green-500 text-white justify-center text-center text-sm mt-4 rounded-lg py-2 shadow-md">
-    <c:forEach var="weather" items="${weatherList}">
-      <div class="flex flex-col items-center mx-1">
-        <div class="font-semibold">
-          <fmt:parseDate var="weatherTime" value="${weather.time}" pattern="yyyy-MM-dd HH:mm:ss" />
-          <fmt:formatDate value="${weatherTime}" pattern="HH시" />
-        </div>
-        <div>
-          <img src="${weather.iconUrl}" alt="날씨" class="w-8 h-8" />
-        </div>
-        <div class="text-xs">${weather.temp}°C</div>
+  <!-- ❌ 날씨 정보 -->
+  <c:choose>
+    <c:when test="${not empty weatherList}">
+      <div class="flex gap-4 bg-green-600 justify-center text-center text-sm mt-2 rounded text-white py-2">
+        <c:forEach var="weather" items="${weatherList}">
+          <div class="w-16">
+            <div>
+              <fmt:parseDate var="weatherTime" value="${weather.time}" pattern="yyyy-MM-dd HH:mm:ss" />
+              <fmt:formatDate value="${weatherTime}" pattern="HH시" />
+            </div>
+            <div><img src="${weather.iconUrl}" style="width: 40px;" /></div>
+            <div>${weather.temp}°C</div>
+          </div>
+        </c:forEach>
       </div>
-    </c:forEach>
-  </div>
-
+    </c:when>
+    <c:otherwise>
+      <div class="text-sm text-gray-500 text-center py-3">
+        날씨 정보는 5일부터 확인 가능합니다.
+      </div>
+    </c:otherwise>
+  </c:choose>
 
   <!-- 평균 레벨 -->
   <div class="text-lg font-semibold text-green-600 mt-4">
