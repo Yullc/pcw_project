@@ -39,4 +39,6 @@ public interface MatchParticipantRepository {
     List<Map<String, Object>> getJoinedTeamList(int matchId);
 
     void teamJoin(int matchId, int memberId, String teamNm);
+
+    void cancelTeamJoin(int matchId, String teamNm);
 }

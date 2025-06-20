@@ -72,4 +72,8 @@ public class MatchParticipantService {
     }
 
 
+    public void cancelTeamJoin(int matchId, String teamNm) {
+        matchParticipantRepository.cancelTeamJoin(matchId, teamNm);
+    }
+
 }

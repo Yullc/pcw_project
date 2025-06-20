@@ -317,6 +317,14 @@ public class FtArticleController {
         return "redirect:/usr/ftArticle/foot_detail?id=" + id;
     }
 
+    @PostMapping("/usr/ftArticle/cancelTeamJoin")
+    public String cancelTeamJoin(@RequestParam("id") int id, HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        int matchId = id;
+        String teamNm = rq.getLoginedMember().getTeamNm();
+        matchParticipantService.cancelTeamJoin(matchId, teamNm);
+        return "redirect:/usr/ftArticle/footTeam_detail?id=" + id;
+    }
 
 
 }

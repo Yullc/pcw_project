@@ -58,9 +58,7 @@
   </c:choose>
 
   <!-- 평균 레벨 -->
-  <div class="text-lg font-semibold text-green-600 mt-4">
-    평균레벨 <span class="text-black">${ftArticle.avgLevelName}</span>
-  </div>
+
 
   <!-- 참가한 팀 목록 -->
   <div class="mt-6">
@@ -77,17 +75,29 @@
   <!-- 팀 참가 신청 버튼 -->
   <div class="mt-4 text-center">
     <c:choose>
+
+      <c:when test="${alreadyJoined}">
+        <form action="/usr/ftArticle/cancelTeamJoin" method="post" onsubmit="return confirm('정말 우리 팀 참가를 취소하시겠습니까?')">
+          <input type="hidden" name="id" value="${ftArticle.id}" />
+          <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full">
+            참가 취소하기
+          </button>
+        </form>
+      </c:when>
+
+
       <c:when test="${pastMatch}">
         <div class="text-gray-400 text-sm">종료된 경기입니다. 참가할 수 없습니다.</div>
       </c:when>
+
+
       <c:when test="${teamCount >= 3}">
         <div class="text-red-500 font-semibold">⚠️ 이미 3개의 팀이 참가하여 신청할 수 없습니다.</div>
       </c:when>
-      <c:when test="${alreadyJoined}">
-        <div class="text-blue-500 font-semibold">✔ 귀하의 팀은 이미 참가 신청을 완료했습니다.</div>
-      </c:when>
+
+    
       <c:otherwise>
-        <form action="/usr/ftArticle/teamJoinMatch" method="post" onsubmit="return confirm('정말 참가 신청 하시겠습니까?')">
+        <form action="/usr/ftArticle/teamJoinMatch" method="post" onsubmit="return confirm('정말 우리 팀으로 참가 신청 하시겠습니까?')">
           <input type="hidden" name="id" value="${ftArticle.id}" />
           <input type="hidden" name="teamNm" value="${myTeamNm}" />
           <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">

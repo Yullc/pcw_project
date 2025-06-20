@@ -154,6 +154,11 @@
             (#{matchId}, #{memberId}, #{teamNm}, '풋살', NOW())
     </insert>
 
+    <delete id="cancelTeamJoin">
+        DELETE FROM match_participant
+        WHERE matchId = #{matchId}
+          AND teamNm = #{teamNm}
+    </delete>
 
 
 </mapper>
