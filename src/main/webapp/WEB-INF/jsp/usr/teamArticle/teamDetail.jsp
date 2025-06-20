@@ -16,15 +16,26 @@
 
 <!-- 팀 가입하기 버튼 -->
 <div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow-md mt-6">
+        <!-- 팀원 리스트 -->
+    <div class="grid grid-cols-1 gap-4">
+        <c:forEach var="member" items="${teamMembers}">
+            <div class="flex items-center gap-4 p-4 rounded-xl border border-green-300 bg-white shadow hover:shadow-md transition">
 
+                <!-- 프로필 이미지 -->
+                <img src="${member.profileImg}" alt="프로필" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
 
-    <c:forEach var="member" items="${teamMembers}">
-        <div class="flex items-center gap-4 bg-green-100 rounded-xl px-5 py-3 mb-2 shadow-sm">
-            <span class="font-semibold text-green-800">${member.nickName}</span>
-            <span class="text-sm">| ${member.rankName}</span>
-            <span class="text-sm">| 매너온도: ${member.mannerEmoji}</span>
-        </div>
-    </c:forEach>
+                <!-- 정보 -->
+                <div>
+                    <div class="text-base font-semibold text-gray-800">${member.nickName}</div>
+                    <div class="text-sm text-gray-600 mt-1">
+                            ${member.rankName} &nbsp;|&nbsp; 😊 매너온도: ${member.mannerEmoji}
+                    </div>
+                </div>
+
+            </div>
+        </c:forEach>
+    </div>
+
 
     <!-- 하단 버튼 영역 -->
     <div class="mt-8 flex justify-between">

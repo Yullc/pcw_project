@@ -9,17 +9,17 @@
   <title>마이페이지</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-
+<header class="bg-white border-b border-gray-300 h-20">
+  <div class="max-w-6xl mx-auto h-full flex items-center px-6">
+    <a href="/usr/home/main">
+      <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
+    </a>
+  </div>
+</header>
 <body class="bg-white min-h-screen p-10">
 <div class="px-[150px]">
   <!-- 메인 컨테이너 -->
-  <header class="bg-white border-b border-gray-300 h-20">
-    <div class="max-w-6xl mx-auto h-full flex items-center px-6">
-      <a href="/usr/home/main">
-        <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
-      </a>
-    </div>
-  </header>
+
 
   <div class="flex flex-col lg:flex-row gap-8 ml-20">
 
