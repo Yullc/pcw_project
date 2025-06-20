@@ -18,18 +18,18 @@
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
   <!-- 경기장 이미지 -->
   <!-- 경기장 이미지 -->
-  <img src="${ftArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
+  <img src="${scArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
   <!-- 경기 정보 카드 -->
   <div class="bg-gray-100 rounded-lg p-4 mb-4 text-sm text-gray-700 space-y-1 shadow">
     <div>
-      <span class="font-semibold text-green-700">경기장: </span>${ftArticle.title}
+      <span class="font-semibold text-green-700">경기장: </span>${scArticle.title}
     </div>
     <div>
-      <span class="font-semibold text-green-700">경기 일시: </span>${ftArticle.playDate}
+      <span class="font-semibold text-green-700">경기 일시: </span>${scArticle.playDate}
     </div>
     <div>
-      <span class="font-semibold text-green-700">주소: </span>${ftArticle.address}
+      <span class="font-semibold text-green-700">주소: </span>${scArticle.address}
     </div>
   </div>
 
@@ -77,8 +77,8 @@
     <c:choose>
 
       <c:when test="${alreadyJoined}">
-        <form action="/usr/ftArticle/cancelTeamJoin" method="post" onsubmit="return confirm('정말 우리 팀 참가를 취소하시겠습니까?')">
-          <input type="hidden" name="id" value="${ftArticle.id}" />
+        <form action="/usr/scArticle/cancelTeamJoin" method="post" onsubmit="return confirm('정말 우리 팀 참가를 취소하시겠습니까?')">
+          <input type="hidden" name="id" value="${scArticle.id}" />
           <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full">
             참가 취소하기
           </button>
@@ -97,8 +97,8 @@
 
 
       <c:otherwise>
-        <form action="/usr/ftArticle/teamJoinMatch" method="post" onsubmit="return confirm('정말 우리 팀으로 참가 신청 하시겠습니까?')">
-          <input type="hidden" name="id" value="${ftArticle.id}" />
+        <form action="/usr/scArticle/teamJoinMatch" method="post" onsubmit="return confirm('정말 우리 팀으로 참가 신청 하시겠습니까?')">
+          <input type="hidden" name="id" value="${scArticle.id}" />
           <input type="hidden" name="teamNm" value="${myTeamNm}" />
           <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
             ⚽ 우리 팀 참가 신청

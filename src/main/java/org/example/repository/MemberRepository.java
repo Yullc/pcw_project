@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.example.vo.Member;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface MemberRepository {
@@ -39,4 +40,6 @@ public interface MemberRepository {
     public  Member getMemberByNickName(String teamLeader);
 
     void updateProfileImg(int memberId, String profileImgPath);
+
+    void updateProfileImgUrl(Map<String, Object> param);
 }

@@ -22,21 +22,85 @@
 
   <div class="flex flex-col lg:flex-row gap-8 ml-20">
 
-    <!-- ✅ 좌측 프로필 영역 -->
+
     <!-- ✅ 좌측 프로필 전체 영역 -->
     <div class="w-full lg:w-1/3 space-y-6">
 
       <!-- ✅ 프로필 업로드 영역 -->
-      <form id="profileForm" action="/usr/home/uploadProfileImg" method="post" enctype="multipart/form-data" class="border rounded-xl p-6 flex flex-col items-center gap-3 shadow">
-        <input type="file" id="profileImg" name="profileImg" accept="image/*" class="hidden" onchange="document.getElementById('profileForm').submit()" />
-        <label for="profileImg" class="cursor-pointer">
-          <img src="${profileImg}?v=<%= System.currentTimeMillis() %>" class="w-32 h-32 rounded-full object-cover" />
+      <form id="profileForm"
+            enctype="multipart/form-data"
+            class="border rounded-xl p-6 flex flex-col items-center gap-3 shadow relative">
+
+        <!-- 실제 파일 선택 인풋 (숨김) -->
+        <input type="file" id="profileImg" name="profileImg" accept="image/*"
+               class="hidden"
+               onchange="handleProfileUpload(this)" />
+
+        <!-- 이미지 클릭시 업로드 트리거 -->
+        <label for="profileImg" class="cursor-pointer group">
+          <img id="profilePreview"
+                src="${profileImg}?v=<%= System.currentTimeMillis() %>"
+                class="w-32 h-32 rounded-full object-cover transition duration-300 group-hover:opacity-70" />
+
         </label>
-        <label for="profileImg" class="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition">프로필 변경</label>
+
+        <!-- 텍스트 버튼 (이미지 업로드 트리거) -->
+        <label for="profileImg"
+               class="text-sm bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600 transition cursor-pointer">
+          프로필 변경
+        </label>
+
+        <!-- 사용자 정보 -->
         <div class="text-xl font-semibold">${nickName}</div>
-        <div class="mt-2 text-sm text-gray-600">👍 나의 좋아요 수: <strong>${likeCount}</strong></div>
+        <div class="mt-2 text-sm text-gray-600">
+          👍 나의 좋아요 수: <strong>${likeCount}</strong>
+        </div>
         <div class="text-3xl">${mannerEmoji}</div>
+
+        <!-- 업로드 중 표시 -->
+        <div id="loadingSpinner" class="hidden absolute top-3 right-3 text-sm text-gray-400 animate-pulse">
+          업로드 중...
+        </div>
       </form>
+
+      <script>
+        async function handleProfileUpload(input) {
+          const file = input.files[0];
+          if (!file) return;
+
+          const formData = new FormData();
+          formData.append("file", file);
+
+          const spinner = document.getElementById("loadingSpinner");
+          const preview = document.getElementById("profilePreview");
+
+          spinner.classList.remove("hidden");
+
+          try {
+            const res = await fetch("/usr/home/uploadProfileImg", {
+              method: "POST",
+              body: formData
+            });
+
+            const result = await res.text();
+
+            if (!res.ok || result.startsWith("업로드 실패")) {
+              alert("이미지 업로드 실패: " + result);
+              return;
+            }
+
+            // ✅ 프로필 이미지 갱신 (캐시 방지용 timestamp 포함)
+            preview.src = result + "?v=" + new Date().getTime();
+
+          } catch (err) {
+            alert("오류 발생: " + err.message);
+          } finally {
+            spinner.classList.add("hidden");
+          }
+        }
+      </script>
+
+
 
       <!-- ✅ 쪽지 버튼 영역 -->
       <!-- ✅ 쪽지 버튼 영역 (가로 정렬) -->

@@ -131,11 +131,11 @@
             LIMIT 1
     </select>
 
-    <update id="updateProfileImg">
+    <update id="updateProfileImgUrl" parameterType="map">
         UPDATE member
-        SET profileImg = #{profileImgPath}
-        WHERE id = #{memberId}
+        SET profileImg = #{profileImgUrl},
+            updateDate = NOW()
+        WHERE id = #{id}
     </update>
-
 
 </mapper>

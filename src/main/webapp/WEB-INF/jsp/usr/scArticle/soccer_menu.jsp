@@ -184,13 +184,27 @@
       <div class="px-[100px]">
         <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
           <c:forEach var="scArticle" items="${scArticles}">
-            <a href="/usr/scArticle/soccer_detail?id=${scArticle.id}" class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 hover:shadow-lg transition">
-              <img src="${scArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
-              <div class="p-2 text-sm">
-                <div class="font-semibold">${scArticle.stadium}</div>
+          <c:choose>
+          <c:when test="${scArticle.code eq '팀'}">
+          <a href="/usr/scArticle/soccerTeam_detail?id=${scArticle.id}"
+             class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 min-h-[260px] hover:shadow-lg transition">
+            </c:when>
+            <c:otherwise>
+            <a href="/usr/scArticle/soccer_detail?id=${scArticle.id}"
+               class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 min-h-[260px] hover:shadow-lg transition">
+              </c:otherwise>
+              </c:choose>
 
-                <div>${scArticle.playDate}</div>
-                <div class="text-xs text-gray-500">${scArticle.address}</div>
+              <img src="${scArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
+
+              <div class="p-2 text-sm flex flex-col justify-between flex-1">
+                <div class="space-y-1">
+                  <div>${scArticle.stadium}</div>
+                  <div>${scArticle.playDate}</div>
+                  <div class="text-xs text-gray-500">${scArticle.address}</div>
+                </div>
+
+                <!-- 레벨 + 모집 구분 -->
                 <div class="flex justify-between items-center text-xs mt-2">
                   <span class="text-gray-500">${scArticle.avgLevelName}</span>
                   <span class="bg-green-100 text-green-700 font-bold px-2 py-0.5 rounded-full">
@@ -199,11 +213,11 @@
                 </div>
               </div>
             </a>
-          </c:forEach>
+            </c:forEach>
 
-          <c:if test="${empty scArticles}">
+            <c:if test="${empty scArticle}">
             <div class="text-gray-500 text-center col-span-4 row-span-4">경기장 정보가 없습니다.</div>
-          </c:if>
+            </c:if>
         </div>
       </div>
     </main>

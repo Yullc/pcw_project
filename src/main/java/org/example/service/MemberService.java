@@ -8,7 +8,9 @@ import org.example.util.Ut;
 import org.example.vo.Member;
 import org.example.vo.ResultData;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class MemberService {
@@ -81,5 +83,12 @@ public class MemberService {
 
     public Member getMemberByNickName(String teamLeader) {
         return memberRepository.getMemberByNickName(teamLeader);
+    }
+
+    public void updateProfileImg(int memberId, String imageUrl) {
+        Map<String, Object> param = new HashMap<>();
+        param.put("id", memberId);
+        param.put("profileImgUrl", imageUrl);
+        memberRepository.updateProfileImgUrl(param);
     }
 }
