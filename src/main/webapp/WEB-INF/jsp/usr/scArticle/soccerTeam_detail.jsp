@@ -8,11 +8,12 @@
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
-<header class="flex items-center justify-between px-5 border-b border-gray-300 h-24 overflow-hidden">
-  <!-- 왼쪽 로고 -->
-  <a href="/usr/home/main" class="inline-block h-full">
-    <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
-  </a>
+<header class="bg-white border-b border-gray-300 h-20">
+  <div class="max-w-6xl mx-auto h-full flex items-center px-6">
+    <a href="/usr/home/main">
+      <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
+    </a>
+  </div>
 </header>
 
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">

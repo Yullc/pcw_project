@@ -13,11 +13,12 @@
 <body class="bg-white min-h-screen p-10">
 <div class="px-[150px]">
   <!-- 메인 컨테이너 -->
-  <header class="flex items-center justify-between px-5 border-b border-gray-300 h-20 overflow-hidden">
-    <!-- 왼쪽 로고 -->
-    <a href="/usr/home/main" class="inline-block h-full">
-      <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
-    </a>
+  <header class="bg-white border-b border-gray-300 h-20">
+    <div class="max-w-6xl mx-auto h-full flex items-center px-6">
+      <a href="/usr/home/main">
+        <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
+      </a>
+    </div>
   </header>
 
   <div class="flex flex-col lg:flex-row gap-8 ml-20">
@@ -39,8 +40,8 @@
         <!-- 이미지 클릭시 업로드 트리거 -->
         <label for="profileImg" class="cursor-pointer group">
           <img id="profilePreview"
-                src="${profileImg}?v=<%= System.currentTimeMillis() %>"
-                class="w-32 h-32 rounded-full object-cover transition duration-300 group-hover:opacity-70" />
+               src="${profileImg}?v=<%= System.currentTimeMillis() %>"
+               class="w-32 h-32 rounded-full object-cover transition duration-300 group-hover:opacity-70" />
 
         </label>
 

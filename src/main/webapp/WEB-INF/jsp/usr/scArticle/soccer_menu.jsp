@@ -215,7 +215,7 @@
             </a>
             </c:forEach>
 
-            <c:if test="${empty scArticle}">
+            <c:if test="${empty scArticles}">
             <div class="text-gray-500 text-center col-span-4 row-span-4">경기장 정보가 없습니다.</div>
             </c:if>
         </div>

@@ -11,10 +11,12 @@
 <body class="bg-gray-100">
 <div class="px-[150px]">
 <!-- 헤더 -->
-  <header class="flex items-center justify-start px-30 border-b border-gray-300 h-24 overflow-hidden">
-    <a href="/usr/home/main" class="inline-block h-20 ml-10">
-      <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
-    </a>
+  <header class="bg-white border-b border-gray-300 h-20">
+    <div class="max-w-6xl mx-auto h-full flex items-center px-6">
+      <a href="/usr/home/main">
+        <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
+      </a>
+    </div>
   </header>
 
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
