@@ -22,8 +22,12 @@
 
         <div class="flex flex-col md:flex-row justify-between items-start md:items-center text-sm text-gray-600 gap-2 border-t pt-4">
             <div>
-                👤 <span class="font-semibold">작성자</span>: ${teamArticle.extra__writer}
+                👤 작성자 <a href="/usr/home/yourPage?nickName=${teamArticle.extra__writer}" class="font-semibold hover:underline">
+                ${teamArticle.extra__writer}
+            </a>
             </div>
+
+
             <div>
                 📍 <span class="font-semibold">지역</span>: ${teamArticle.area}
             </div>

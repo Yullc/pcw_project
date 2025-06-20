@@ -26,7 +26,9 @@
 
                 <!-- 정보 -->
                 <div>
-                    <div class="text-base font-semibold text-gray-800">${member.nickName}</div>
+                    <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">
+                            ${member.nickName}
+                    </a>
                     <div class="text-sm text-gray-600 mt-1">
                             ${member.rankName} &nbsp;|&nbsp; 😊 매너온도: ${member.mannerEmoji}
                     </div>
