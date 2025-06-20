@@ -27,6 +27,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class FtArticleController {
@@ -53,8 +54,6 @@ public class FtArticleController {
 
     @Autowired
     private MatchParticipantService matchParticipantService;
-
-
 
     public FtArticleController(BeforeActionInterceptor beforeActionInterceptor) {
         this.beforeActionInterceptor = beforeActionInterceptor;
@@ -206,6 +205,63 @@ public class FtArticleController {
 
         return "usr/ftArticle/foot_detail";
     }
+    @RequestMapping("/usr/ftArticle/footTeam_detail")
+    public String showFootTeamDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        FtArticle ftArticle = ftarticleService.getFtArticleById(id);
+        System.out.println("[footTeam_detail] 진입");
+
+        if (ftArticle == null) {
+            return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
+        }
+
+
+
+        boolean pastMatch = LocalDateTime.now().isAfter(
+                LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        );
+
+
+
+        String area = ftArticle.getArea();
+        LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
+        List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
+
+        int teamCount = matchParticipantService.getJoinedTeamCount(id);
+
+
+        String myTeamNm = rq.getLoginedMember().getTeamNm();
+
+        System.out.println("myTeamNm"+myTeamNm);
+
+        boolean alreadyJoined = matchParticipantService.isTeamAlreadyJoined(id, myTeamNm);
+
+        List<Map<String, Object>> joinedTeams = matchParticipantService.getJoinedTeamList(id);
+
+// 평균 랭크 이름 추가 변환 (예: 3.4 → 아마추어1)
+        for (Map<String, Object> team : joinedTeams) {
+            int avgRank = ((Number) team.get("avgRank")).intValue();
+            team.put("avgRankName", RankUtil.getRankName(avgRank));
+        }
+        System.out.println("joinedTeams: " + joinedTeams);
+        model.addAttribute("joinedTeams", joinedTeams); // 기존에 participants 쓰고 있으니 그대로 활용
+
+        model.addAttribute("teamCount", teamCount);
+        model.addAttribute("alreadyJoined", alreadyJoined);
+        model.addAttribute("myTeamNm", myTeamNm);
+
+        model.addAttribute("boardId", 1);
+        model.addAttribute("ftArticle", ftArticle);
+        model.addAttribute("weatherList", weatherList);
+
+        model.addAttribute("pastMatch", pastMatch);
+        model.addAttribute("teamCount", teamCount);
+        model.addAttribute("alreadyJoined", alreadyJoined);
+
+        return "usr/ftArticle/footTeam_detail";
+    }
+
+
 
     @PostMapping("/usr/ftArticle/joinMatch")
     public String joinMatch(@RequestParam("id") int id, HttpServletRequest req) {
@@ -226,6 +282,30 @@ public class FtArticleController {
         // 4. 다시 상세 페이지로 리다이렉트
         return "redirect:/usr/ftArticle/foot_detail?id=" + id;
     }
+
+    @PostMapping("/usr/ftArticle/teamJoinMatch")
+    public String teamJoinMatch(@RequestParam("id") int id, HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        System.out.println("teamJoinMatch 메서드 진입");
+
+        FtArticle article = ftarticleService.getFtArticleById(id);
+        int matchId = article.getId();
+        String teamNm = rq.getLoginedMember().getTeamNm();
+        int memberId = rq.getLoginedMemberId();
+        // 팀 이름이 없으면 참가 불가
+        if (teamNm == null || teamNm.isBlank()) {
+            return Ut.jsHistoryBack("F-1", "소속된 팀이 없습니다. 팀 먼저 가입해주세요.");
+        }
+
+        // 이미 참가한 팀인지 확인
+        if (!matchParticipantService.isTeamAlreadyJoined(matchId, teamNm)) {
+            matchParticipantService.teamJoin(matchId, memberId, teamNm);
+        }
+
+        return "redirect:/usr/ftArticle/footTeam_detail?id=" + id;
+    }
+
+
 
     @PostMapping("/usr/ftArticle/cancelJoin")
     public String cancelJoin(@RequestParam("id") int id, HttpServletRequest req) {

@@ -3,6 +3,7 @@ package org.example.repository;
 import org.apache.ibatis.annotations.Mapper;
 import org.example.vo.Article;
 import org.example.vo.Member;
+import org.example.vo.Team;
 
 import java.util.List;
 import java.util.Map;
@@ -24,4 +25,18 @@ public interface MatchParticipantRepository {
     Article getNextMatchForMember(int memberId);
 
     List<Map<String, Object>> getParticipantsForMatchesInOneHour();
+
+    void joinTeam(int matchId, int teamId);
+
+    int isTeamAlreadyJoined(int matchId, int myTeamNm);
+
+    int getJoinedTeamCount(int matchId);
+
+    List<Team> getJoinedTeams(int matchId);
+
+    int getTeamJoinCount(int matchId, String teamNm);
+
+    List<Map<String, Object>> getJoinedTeamList(int matchId);
+
+    void teamJoin(int matchId, int memberId, String teamNm);
 }

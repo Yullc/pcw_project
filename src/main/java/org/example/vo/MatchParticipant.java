@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -15,4 +17,6 @@ public class MatchParticipant {
     private int matchId;
     private int memberId;
     private String position;
+    private String teamId;
+    private String regDate;
 }

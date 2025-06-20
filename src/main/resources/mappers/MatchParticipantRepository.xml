@@ -87,4 +87,73 @@
         WHERE mp.type IN ('풋살', '축구');
     </select>
 
+    <!-- ✅ 팀 참가 신청 -->
+    <insert id="joinByTeam">
+        INSERT INTO match_participant
+        SET regDate = NOW(),
+        matchId = #{matchId},
+            teamId = #{teamId},
+            type = #{type}
+    </insert>
+
+
+    <!-- ✅ 팀이 이미 참가했는지 확인 -->
+    <select id="isTeamAlreadyJoined" resultType="int">
+        SELECT COUNT(*) FROM match_participant
+        WHERE matchId = #{matchId}
+          AND teamId = #{teamId}
+    </select>
+
+
+    <!-- ✅ 매치에 신청한 팀 수 -->
+    <select id="getJoinedTeamCount" resultType="int">
+        SELECT COUNT(*)
+        FROM match_participant
+        WHERE matchId = #{matchId}
+    </select>
+
+
+    <!-- ✅ 매치에 참가한 팀 정보 가져오기 -->
+    <select id="getJoinedTeams" resultType="org.example.vo.Team">
+        SELECT t.*
+        FROM match_participant mp
+                 INNER JOIN team t ON mp.teamId = t.id
+        WHERE mp.matchId = #{matchId}
+    </select>
+
+    <select id="getTeamJoinCount" parameterType="map" resultType="int">
+        SELECT COUNT(*)
+        FROM match_participant mp
+                 JOIN member m ON mp.memberId = m.id
+        WHERE mp.matchId = #{matchId}
+          AND m.teamNm = #{teamNm}
+    </select>
+
+    <select id="getJoinedTeamList" parameterType="int" resultType="map">
+        SELECT
+            m.teamNm ,
+            t.teamLeader ,
+            ROUND(AVG(m.rank)) AS avgRank
+        FROM
+            match_participant mp
+                JOIN
+            member m ON mp.memberId = m.id
+                JOIN
+            team t ON m.teamNm = t.teamName
+        WHERE
+            mp.matchId = #{matchId}
+          AND m.teamNm IS NOT NULL
+        GROUP BY
+            m.teamNm, t.teamLeader
+    </select>
+
+    <insert id="teamJoin">
+        INSERT INTO match_participant
+            (matchId, memberId, teamNm, type, regDate)
+        VALUES
+            (#{matchId}, #{memberId}, #{teamNm}, '풋살', NOW())
+    </insert>
+
+
+
 </mapper>

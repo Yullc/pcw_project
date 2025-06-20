@@ -174,14 +174,21 @@
       <div class="px-[100px]">
         <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
           <c:forEach var="ftArticle" items="${ftArticles}">
+          <c:choose>
+          <c:when test="${ftArticle.code eq '팀'}">
+          <a href="/usr/ftArticle/footTeam_detail?id=${ftArticle.id}"
+             class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 min-h-[260px] hover:shadow-lg transition">
+            </c:when>
+            <c:otherwise>
             <a href="/usr/ftArticle/foot_detail?id=${ftArticle.id}"
                class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 min-h-[260px] hover:shadow-lg transition">
+              </c:otherwise>
+              </c:choose>
 
               <img src="${ftArticle.img}" alt="경기장" class="w-full h-32 object-cover" />
 
               <div class="p-2 text-sm flex flex-col justify-between flex-1">
                 <div class="space-y-1">
-
                   <div>${ftArticle.stadium}</div>
                   <div>${ftArticle.playDate}</div>
                   <div class="text-xs text-gray-500">${ftArticle.address}</div>
@@ -196,14 +203,15 @@
                 </div>
               </div>
             </a>
-          </c:forEach>
+            </c:forEach>
 
-          <c:if test="${empty ftArticles}">
+            <c:if test="${empty ftArticles}">
             <div class="text-gray-500 text-center col-span-4 row-span-4">경기장 정보가 없습니다.</div>
-          </c:if>
+            </c:if>
         </div>
       </div>
     </main>
+
 
 
   </div>
