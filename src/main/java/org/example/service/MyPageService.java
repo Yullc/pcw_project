@@ -60,14 +60,5 @@ public class MyPageService {
 
 
 
-//    // (예: 최근 경기 불러오는 메서드도 같이 있을 수 있음)
-//    public List<FtArticle> getRecentGamesByMemberId(int memberId) {
-//        return myPageRepository.findRecentGames(memberId, 3);
-//    }
-//
-//    public double getMannerTemperature(int memberId) {
-//        // TODO: 임시 값. 나중에 계산 로직으로 바꿔도 됨
-//        return 36.5;
-//    }
 }
 

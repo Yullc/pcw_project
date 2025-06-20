@@ -19,8 +19,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
+
 @Controller
 public class MyPageController {
 
@@ -100,26 +103,54 @@ public class MyPageController {
         int memberId = rq.getLoginedMemberId();
 
         if (file.isEmpty()) {
+            System.out.println("[업로드 실패] 빈 파일입니다.");
             return Ut.jsHistoryBack("F-1", "파일이 비어있습니다.");
         }
 
-        // 저장 경로 예시
-        String fileName = "profile_" + memberId + ".jpg";
-        String savePath = new File("src/main/resources/static/img/" + fileName).getAbsolutePath();
+        // UUID + 파일명 구성
+        String uuid = UUID.randomUUID().toString().substring(0, 8);
+        String fileName = "profile_" + memberId + "_" + uuid + ".jpg";
+        String relativePath = "/img/" + fileName;
+        String savePath = new File("src/main/resources/static" + relativePath).getAbsolutePath();
+
+        // 로그로 추적할 주요 정보
+        System.out.println("=====================================");
+        System.out.println("▶ 회원 ID: " + memberId);
+        System.out.println("▶ 생성 파일명: " + fileName);
+        System.out.println("▶ 절대 저장경로: " + savePath);
+        System.out.println("▶ 브라우저 접근경로: http://localhost:8080" + relativePath);
+        System.out.println("=====================================");
 
         try {
+            // 기존 파일 삭제
+            File folder = new File("src/main/resources/static/img");
+            File[] oldFiles = folder.listFiles((dir, name) -> name.startsWith("profile_" + memberId + "_"));
+            if (oldFiles != null) {
+                for (File oldFile : oldFiles) {
+                    if (oldFile.delete()) {
+                        System.out.println("✔ 기존 파일 삭제: " + oldFile.getName());
+                    } else {
+                        System.out.println("⚠ 기존 파일 삭제 실패: " + oldFile.getName());
+                    }
+                }
+            }
+
+            // 새 파일 저장
             file.transferTo(new File(savePath));
+            System.out.println("✔ 새 프로필 이미지 저장 완료");
+
+            // DB 업데이트
+            myPageService.updateProfileImg(memberId, relativePath);
+            System.out.println("✔ DB 경로 저장 완료: " + relativePath);
+
+            return Ut.jsReplace("S-1", "프로필 이미지가 업로드되었습니다.", "/usr/home/myPage");
+
         } catch (IOException e) {
+            System.out.println("❌ [에러] 파일 저장 중 오류: " + e.getMessage());
             return Ut.jsHistoryBack("F-2", "파일 저장 중 오류 발생");
         }
-
-        // DB에 경로 업데이트
-        String relativePath = "/img/" + fileName;
-        myPageService.updateProfileImg(memberId, relativePath);
-        savePath = new File("src/main/resources/static/img/" + fileName).getAbsolutePath();
-
-        return Ut.jsReplace("S-1", "프로필 이미지가 업로드되었습니다.", "/usr/home/myPage");
     }
+
 
 
 }

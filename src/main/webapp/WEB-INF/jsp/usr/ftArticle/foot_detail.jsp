@@ -17,7 +17,22 @@
 
 <div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
     <!-- 경기장 이미지 -->
+    <!-- 경기장 이미지 -->
     <img src="${ftArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
+
+    <!-- 경기 정보 카드 -->
+    <div class="bg-gray-100 rounded-lg p-4 mb-4 text-sm text-gray-700 space-y-1 shadow">
+        <div>
+            <span class="font-semibold text-green-700">경기장: </span>${ftArticle.title}
+        </div>
+        <div>
+            <span class="font-semibold text-green-700">경기 일시: </span>${ftArticle.playDate}
+        </div>
+        <div>
+            <span class="font-semibold text-green-700">주소: </span>${ftArticle.address}
+        </div>
+    </div>
+
 
     <!-- ❌ 날씨 정보 -->
     <c:choose>
