@@ -22,7 +22,7 @@
   <img src="${ftArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
   <!-- 경기 정보 카드 -->
-  <div class="bg-gray-100 rounded-lg p-4 mb-4 text-sm text-gray-700 space-y-1 shadow">
+  <div class="bg-gray-200 rounded-lg p-4 mb-4 font-semibold text-black-700 space-y-1 shadow">
     <div>
       <span class="font-semibold text-green-700">경기장: </span>${ftArticle.title}
     </div>
@@ -38,7 +38,7 @@
   <!-- ❌ 날씨 정보 -->
   <c:choose>
     <c:when test="${not empty weatherList}">
-      <div class="flex gap-4 bg-green-600 justify-center text-center text-sm mt-2 rounded text-white py-2">
+      <div class="flex gap-4 bg-gray-400 justify-center text-center text-sm mt-2 rounded text-white py-2">
         <c:forEach var="weather" items="${weatherList}">
           <div class="w-16">
             <div>

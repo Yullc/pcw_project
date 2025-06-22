@@ -97,11 +97,13 @@
             resultType="org.example.vo.MercenaryArticle">
         SELECT
             A.*,
-            M.nickname AS extra__writer
+            M.nickname AS extra__writer,
+            M.rank AS rankName
         FROM mercenaryArticle AS A
                  INNER JOIN `member` AS M ON A.memberId = M.id
         WHERE A.id = #{id}
     </select>
+
 
     <select id="getArticleById" parameterType="int"
             resultType="org.example.vo.MercenaryArticle">

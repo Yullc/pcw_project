@@ -64,24 +64,7 @@
             </div>
 
             <!-- ✅ 레벨 필터링 -->
-            <div>
-                <h2 class="font-bold mb-2">레벨</h2>
-                <div class="flex flex-wrap gap-2">
-                    <!-- 전체 버튼 -->
-                    <a href="/usr/mercenaryArticle/findMercenary?area=${area}&avgLevel=&searchKeyword=${searchKeyword}"
-                       class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${empty avgLevel ? 'bg-green-500 text-white' : ''}">
-                        전체
-                    </a>
 
-                    <!-- 각 레벨 버튼 -->
-                    <c:forEach var="levelOption" items="${['아마추어','루키','세미프로','프로']}">
-                        <a href="/usr/mercenaryArticle/findMercenary?area=${area}&avgLevel=${levelOption}&searchKeyword=${searchKeyword}"
-                           class="border border-gray-300 px-3 py-1 rounded-full hover:bg-green-200 ${levelOption == avgLevel ? 'bg-green-500 text-white' : ''}">
-                                ${levelOption}
-                        </a>
-                    </c:forEach>
-                </div>
-            </div>
 
         </aside>
 
@@ -89,6 +72,9 @@
 
     <!-- 용병 구하기 리스트 -->
         <section class="flex-1 p-28">
+            <div class="text-center text-2xl font-bold text-black mb-6">
+                용병을 구해보세요.
+            </div>
             <c:forEach var="mercenary" items="${mercenaryArticles}">
                 <div class="border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md">
                     <div class="flex items-center gap-4">
