@@ -12,9 +12,11 @@
 <div class="px-[150px]">
 
     <!-- 상단 헤더 -->
-    <header class="flex items-center justify-between p-5 border-b border-gray-300">
-        <a href="/usr/home/main" class="text-2xl font-bold text-green-700 whitespace-nowrap">로고</a>
-
+    <header class="flex items-center justify-between px-5 border-b border-gray-300 h-24 overflow-hidden">
+        <!-- 왼쪽 로고 -->
+        <a href="/usr/home/main" class="inline-block h-full">
+            <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
+        </a>
         <form action="/usr/teamArticle/teamList" method="get" class="flex justify-center w-full">
             <div class="relative w-64">
                 <input type="text" name="searchKeyword" value="${searchKeyword}" placeholder="검색..."
