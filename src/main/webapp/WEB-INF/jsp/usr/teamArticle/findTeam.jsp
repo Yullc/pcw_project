@@ -103,7 +103,7 @@
         <!-- 팀 리스트 -->
         <section class="flex-1 p-28">
             <div class="text-center text-2xl font-bold text-black mb-6">
-                팀 구하기 페이지
+                팀을 구해보세요.
             </div>
             <c:forEach var="team" items="${teamArticles}">
                 <div class="border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md">
@@ -130,7 +130,7 @@
                                 </a>
                             </c:otherwise>
                         </c:choose>
-
+                        <div>${team.area}</div>
                         <div>${team.avgLevelName}</div>
                     </div>
                 </div>
