@@ -142,7 +142,7 @@
 
     <!-- 주의사항 -->
     <div class="mt-8 text-sm text-gray-700">
-        <h3 class="font-bold mb-2">뫣8치 진행 방식</h3>
+        <h3 class="font-bold mb-2">매치 진행 방식</h3>
         <ul class="list-disc ml-6 space-y-1">
             <li>맵은 기본 사이드라인에서 킥인</li>
             <li>고르키퍼에 대한 백패스는 손으로 잡으면 안 되요</li>
