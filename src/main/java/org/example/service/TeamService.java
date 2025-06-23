@@ -66,4 +66,8 @@ public class TeamService {
     public ScArticle getRecentScArticleByTeamId(int teamId) {
         return teamRepository.getRecentScArticleByTeamId(teamId);
     }
+
+    public int getTeamIdByName(String teamNm) {
+        return teamRepository.getTeamIdByName(teamNm);
+    }
 }

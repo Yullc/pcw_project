@@ -67,8 +67,8 @@ public class MatchParticipantService {
         return matchParticipantRepository.getJoinedTeamList(matchId);
     }
 
-    public void teamJoin(int matchId, int memberId, String teamNm) {
-        matchParticipantRepository.teamJoin(matchId, memberId, teamNm);
+    public void teamJoin(int matchId, int memberId, int teamId, String teamNm) {
+        matchParticipantRepository.teamJoin(matchId, memberId, teamId, teamNm);
     }
 
 
@@ -76,4 +76,7 @@ public class MatchParticipantService {
         matchParticipantRepository.cancelTeamJoin(matchId, teamNm);
     }
 
+    public void teamScJoin(int matchId, int memberId, int teamId, String teamNm) {
+        matchParticipantRepository.teamScJoin(matchId, memberId, teamId, teamNm);
+    }
 }

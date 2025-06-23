@@ -116,7 +116,7 @@
         WHERE id = #{id}
     </select>
 
-    <select id="getRecentFtArticleByTeamId" parameterType="int" resultType="FtArticle">
+    <select id="getRecentFtArticleByTeamId" parameterType="int" resultType="org.example.vo.FtArticle">
         SELECT fa.*
         FROM ftArticle fa
                  INNER JOIN match_participant mp ON fa.id = mp.matchId
@@ -126,7 +126,7 @@
             LIMIT 3
     </select>
 
-    <select id="getRecentScArticleByTeamId" parameterType="int" resultType="ScArticle">
+    <select id="getRecentScArticleByTeamId" parameterType="int" resultType="org.example.vo.ScArticle">
         SELECT sa.*
         FROM scArticle sa
                  INNER JOIN match_participant mp ON sa.id = mp.matchId
@@ -157,6 +157,14 @@
         ORDER BY playDate ASC
             LIMIT 1
     </select>
-
-
+    <select id="getTeamByName" parameterType="string" resultType="org.example.vo.Team">
+        SELECT *
+        FROM team
+        WHERE teamName = #{teamName}
+    </select>
+    <select id="getTeamIdByName" parameterType="string" resultType="int">
+        SELECT id
+        FROM team
+        WHERE teamName = #{teamNm}
+    </select>
 </mapper>

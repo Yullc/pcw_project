@@ -405,7 +405,7 @@ public class TeamArticleController {
         model.addAttribute("team", team);
         model.addAttribute("teamMembers", teamMembers);
         model.addAttribute("ftRecentMatch", ftRecentMatch);
-        model.addAttribute("ftRecentMatch", ftRecentMatch);
+        model.addAttribute("scRecentMatch", scRecentMatch);
         model.addAttribute("nextGame", nextGame);
 
         return "usr/teamArticle/teamDetail";

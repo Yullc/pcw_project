@@ -45,6 +45,9 @@ public class ScArticleController {
 
     @Autowired
     private BoardService boardService;
+    @Autowired
+    private TeamService teamService;
+
 
     @Autowired
     private ReactionPointService reactionPointService;
@@ -289,10 +292,10 @@ public class ScArticleController {
         if (teamNm == null || teamNm.isBlank()) {
             return Ut.jsHistoryBack("F-1", "소속된 팀이 없습니다. 팀 먼저 가입해주세요.");
         }
-
+        int teamId = teamService.getTeamIdByName(teamNm);
         // 이미 참가한 팀인지 확인
-        if (!matchParticipantService.isTeamAlreadyJoined(matchId, teamNm)) {
-            matchParticipantService.teamJoin(matchId, memberId, teamNm);
+        if (!matchParticipantService.isTeamAlreadyJoined(matchId,  teamNm)) {
+            matchParticipantService.teamScJoin(matchId, memberId,  teamId, teamNm);
         }
 
         return "redirect:/usr/scArticle/soccerTeam_detail?id=" + id;

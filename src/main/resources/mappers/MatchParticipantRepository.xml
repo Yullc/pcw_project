@@ -149,9 +149,16 @@
 
     <insert id="teamJoin">
         INSERT INTO match_participant
-            (matchId, memberId, teamNm, type, regDate)
+            (matchId, memberId, teamId, teamNm, type, regDate)
         VALUES
-            (#{matchId}, #{memberId}, #{teamNm}, '풋살', NOW())
+            (#{matchId}, #{memberId}, #{teamId},#{teamNm}, '풋살', NOW())
+    </insert>
+
+    <insert id="teamScJoin">
+        INSERT INTO match_participant
+            (matchId, memberId, teamId, teamNm, type, regDate)
+        VALUES
+            (#{matchId}, #{memberId}, #{teamId},#{teamNm}, '축구', NOW())
     </insert>
 
     <delete id="cancelTeamJoin">

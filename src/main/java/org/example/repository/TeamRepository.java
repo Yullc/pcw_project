@@ -29,11 +29,11 @@ public interface TeamRepository {
 
     void requestJoin(int teamId, int memberId, String intro);
 
-
-
     Article getNextMatchForTeam(int teamId);
 
     FtArticle getRecentFtArticleByTeamId(int teamId);
 
     ScArticle getRecentScArticleByTeamId(int teamId);
+
+    int getTeamIdByName(String teamNm);
 }

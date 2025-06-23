@@ -54,6 +54,8 @@ public class FtArticleController {
 
     @Autowired
     private MatchParticipantService matchParticipantService;
+    @Autowired
+    private TeamService teamService;
 
     public FtArticleController(BeforeActionInterceptor beforeActionInterceptor) {
         this.beforeActionInterceptor = beforeActionInterceptor;
@@ -290,16 +292,19 @@ public class FtArticleController {
 
         FtArticle article = ftarticleService.getFtArticleById(id);
         int matchId = article.getId();
+
         String teamNm = rq.getLoginedMember().getTeamNm();
         int memberId = rq.getLoginedMemberId();
+
         // 팀 이름이 없으면 참가 불가
         if (teamNm == null || teamNm.isBlank()) {
             return Ut.jsHistoryBack("F-1", "소속된 팀이 없습니다. 팀 먼저 가입해주세요.");
         }
 
+        int teamId = teamService.getTeamIdByName(teamNm);
         // 이미 참가한 팀인지 확인
         if (!matchParticipantService.isTeamAlreadyJoined(matchId, teamNm)) {
-            matchParticipantService.teamJoin(matchId, memberId, teamNm);
+            matchParticipantService.teamJoin(matchId, memberId, teamId, teamNm);
         }
 
         return "redirect:/usr/ftArticle/footTeam_detail?id=" + id;

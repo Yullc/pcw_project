@@ -185,5 +185,11 @@
                 DESC
     </select>
 
+    <select id="getTeamByName" parameterType="string" resultType="org.example.vo.Team">
+        SELECT *
+        FROM team
+        WHERE teamName = #{teamName}
+    </select>
+
 
 </mapper>
