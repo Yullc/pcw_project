@@ -1,8 +1,7 @@
 package org.example.service;
 
 import org.example.repository.TeamRepository;
-import org.example.vo.ResultData;
-import org.example.vo.Team;
+import org.example.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -54,5 +53,17 @@ public class TeamService {
 
     public void requestJoin(int teamId, int memberId, String intro) {
         teamRepository.requestJoin(teamId, memberId, intro);
+    }
+
+    public Article getNextMatchForTeam(int teamId) {
+        return teamRepository.getNextMatchForTeam(teamId); // SQL: playDate > NOW() ORDER BY playDate ASC LIMIT 1
+    }
+
+    public FtArticle getRecentFtArticleByTeamId(int teamId) {
+        return teamRepository.getRecentFtArticleByTeamId(teamId);
+    }
+
+    public ScArticle getRecentScArticleByTeamId(int teamId) {
+        return teamRepository.getRecentScArticleByTeamId(teamId);
     }
 }

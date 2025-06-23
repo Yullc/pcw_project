@@ -116,4 +116,47 @@
         WHERE id = #{id}
     </select>
 
+    <select id="getRecentFtArticleByTeamId" parameterType="int" resultType="FtArticle">
+        SELECT fa.*
+        FROM ftArticle fa
+                 INNER JOIN match_participant mp ON fa.id = mp.matchId
+                 INNER JOIN team t ON mp.teamId = t.id
+        WHERE t.id = #{teamId}
+        ORDER BY fa.playDate DESC
+            LIMIT 3
+    </select>
+
+    <select id="getRecentScArticleByTeamId" parameterType="int" resultType="ScArticle">
+        SELECT sa.*
+        FROM scArticle sa
+                 INNER JOIN match_participant mp ON sa.id = mp.matchId
+                 INNER JOIN team t ON mp.teamId = t.id
+        WHERE t.id = #{teamId}
+        ORDER BY sa.playDate DESC
+            LIMIT 3
+    </select>
+
+    <select id="getNextMatchForTeam" resultType="org.example.vo.Article">
+        (
+            SELECT fa.id, fa.title, fa.playDate, fs.img, fs.stadiumName AS stadium, '풋살' AS type
+            FROM ftArticle fa
+                     JOIN match_participant mp ON fa.id = mp.matchId
+                     JOIN football_stadium fs ON fa.fsId = fs.id
+            WHERE mp.teamId = #{teamId}
+              AND fa.playDate > NOW()
+        )
+        UNION
+        (
+            SELECT sa.id, sa.title, sa.playDate, ss.img, ss.stadiumName AS stadium, '축구' AS type
+            FROM scArticle sa
+                     JOIN match_participant mp ON sa.id = mp.matchId
+                     JOIN soccer_stadium ss ON sa.ssId = ss.id
+            WHERE mp.teamId = #{teamId}
+              AND sa.playDate > NOW()
+        )
+        ORDER BY playDate ASC
+            LIMIT 1
+    </select>
+
+
 </mapper>

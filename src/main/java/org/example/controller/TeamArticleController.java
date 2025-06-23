@@ -379,29 +379,38 @@ public class TeamArticleController {
         Rq rq = (Rq) req.getAttribute("rq");
         System.out.println("팀 상세 페이지 진입, teamId = " + teamId);
 
-        // 1. 해당 팀 정보 가져오기
+        // 1. 팀 정보
         Team team = teamService.getTeamById(teamId);
         if (team == null) {
             return Ut.jsHistoryBack("F-1", "해당 팀이 존재하지 않습니다.");
         }
 
-        // 2. 팀에 소속된 멤버 목록 조회 (teamNm 기준)
+        // 2. 팀 소속 멤버들
         List<Member> teamMembers = memberService.getMembersByTeamId(team.getId());
 
-        // 3. 각 멤버의 랭크명, 매너이모지 설정
         for (Member m : teamMembers) {
             m.setRankName(RankUtil.getRankName(m.getRank()));
             m.setMannerEmoji(MannerUtil.getMannerEmoji(m.getManner()));
         }
 
-        // 4. 모델에 담기
-        model.addAttribute("team", team);
-        System.out.println("team = " + team);
-        model.addAttribute("teamMembers", teamMembers);
-        System.out.println(teamMembers);
+        // ✅ 3. 최근 경기 (지난 경기 중 최신순 3개)
+        FtArticle ftRecentMatch = teamService.getRecentFtArticleByTeamId(teamId);
+        ScArticle scRecentMatch = teamService.getRecentScArticleByTeamId(teamId);
 
-        return "usr/teamArticle/teamDetail"; // 팀 명단 보여줄 JSP
+
+        // ✅ 4. 다음 경기 (가장 가까운 미래 1개)
+        Article nextGame = teamService.getNextMatchForTeam(teamId);
+
+        // 모델에 담기
+        model.addAttribute("team", team);
+        model.addAttribute("teamMembers", teamMembers);
+        model.addAttribute("ftRecentMatch", ftRecentMatch);
+        model.addAttribute("ftRecentMatch", ftRecentMatch);
+        model.addAttribute("nextGame", nextGame);
+
+        return "usr/teamArticle/teamDetail";
     }
+
 
     @PostMapping("/usr/team/joinRequest")
     @ResponseBody

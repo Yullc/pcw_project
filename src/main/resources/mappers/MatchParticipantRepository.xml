@@ -6,7 +6,7 @@
 <mapper namespace="org.example.repository.MatchParticipantRepository">
 
     <insert id="join">
-        INSERT INTO match_participant (matchId, memberId, type)
+        INSERT INTO match_participant (matchId, memberId,  type)
         VALUES (#{matchId}, #{memberId}, '풋살')
     </insert>
 
@@ -159,6 +159,9 @@
         WHERE matchId = #{matchId}
           AND teamNm = #{teamNm}
     </delete>
+
+
+
 
 
 </mapper>

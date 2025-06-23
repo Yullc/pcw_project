@@ -17,10 +17,7 @@
         <a href="/usr/home/main" class="inline-block h-full">
             <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
         </a>
-<<<<<<< HEAD
 
-=======
->>>>>>> d6057a86789ecef827e6000ae036714a789caed0
         <form action="/usr/teamArticle/teamList" method="get" class="flex justify-center w-full">
             <div class="relative w-64">
                 <input type="text" name="searchKeyword" value="${searchKeyword}" placeholder="검색..."

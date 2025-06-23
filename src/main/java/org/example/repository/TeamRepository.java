@@ -2,8 +2,7 @@ package org.example.repository;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.example.vo.Team;
-import org.example.vo.TeamArticle;
+import org.example.vo.*;
 
 import java.util.List;
 
@@ -29,4 +28,12 @@ public interface TeamRepository {
     Team getTeamById(int id);
 
     void requestJoin(int teamId, int memberId, String intro);
+
+
+
+    Article getNextMatchForTeam(int teamId);
+
+    FtArticle getRecentFtArticleByTeamId(int teamId);
+
+    ScArticle getRecentScArticleByTeamId(int teamId);
 }
