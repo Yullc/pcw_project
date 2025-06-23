@@ -14,13 +14,13 @@
 <div class="px-[150px]">
     <div class="px-[150px]">
         <!-- 메인 컨테이너 -->
-        <header class="flex items-center justify-between px-5 border-b border-gray-300 h-24 overflow-hidden">
-            <!-- 왼쪽 로고 -->
-            <a href="/usr/home/main" class="inline-block h-full">
-                <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
-            </a>
+        <header class="bg-white border-b border-gray-300 h-20">
+            <div class="max-w-6xl h-full flex items-center px-6 justify-start ml-20">
+                <a href="/usr/home/main">
+                    <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
+                </a>
+            </div>
         </header>
-
         <div class="flex flex-col lg:flex-row gap-8 ml-20">
         <!-- 좌측: 프로필 -->
         <div class="w-1/3 border rounded-xl p-6 flex flex-col items-center gap-3">

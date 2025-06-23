@@ -23,4 +23,5 @@ public class MercenaryArticle {
     private String teamName;
     private String teamRank;
     private String extra__writer;
+    private String rankName;
 }

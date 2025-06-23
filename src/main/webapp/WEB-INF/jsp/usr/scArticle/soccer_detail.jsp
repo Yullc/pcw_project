@@ -23,11 +23,23 @@
   <!-- 경기장 이미지 -->
   <img src="${scArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
+  <!-- 경기 정보 카드 -->
+  <div class="bg-gray-200 rounded-lg p-4 mb-4 font-semibold text-black-700 space-y-1 shadow">
+    <div>
+      <span class="font-semibold text-green-700">경기장: </span>${scArticle.title}
+    </div>
+    <div>
+      <span class="font-semibold text-green-700">경기 일시: </span>${scArticle.playDate}
+    </div>
+    <div>
+      <span class="font-semibold text-green-700">주소: </span>${scArticle.address}
+    </div>
+  </div>
   <!-- 날씨 정보 -->
   <!-- ❌ 날씨 정보 -->
   <c:choose>
     <c:when test="${not empty weatherList}">
-      <div class="flex gap-4 bg-green-600 justify-center text-center text-sm mt-2 rounded text-white py-2">
+      <div class="flex gap-4 bg-gray-400 justify-center text-center text-sm mt-2 rounded text-white py-2">
         <c:forEach var="weather" items="${weatherList}">
           <div class="w-16">
             <div>
@@ -52,26 +64,29 @@
     평균레벨 <span class="text-black">${scArticle.avgLevelName}</span>
   </div>
 
-  <!-- ✅ 포지션 선택 영역 -->
-  <div class="flex gap-6 justify-center mt-4 mb-6">
-    <label class="text-red-600 font-bold cursor-pointer text-center">
+  <div class="flex justify-center gap-4 mt-6 mb-6">
+    <button type="button" id="btn-FW"
+            onclick="selectPosition('FW')"
+            class="px-6 py-2 rounded-full border-2 border-red-500 text-red-500 font-semibold transition hover:bg-red-50">
       FW
-      <input type="radio" name="positionSelect" value="FW" class="hidden" onchange="updatePosition(this)">
-      <div class="w-6 h-6 rounded-full border border-black mx-auto mt-1" id="circle-FW"></div>
-    </label>
+    </button>
 
-    <label class="text-green-700 font-bold cursor-pointer text-center">
+    <button type="button" id="btn-MF"
+            onclick="selectPosition('MF')"
+            class="px-6 py-2 rounded-full border-2 border-green-600 text-green-600 font-semibold transition hover:bg-green-50">
       MF
-      <input type="radio" name="positionSelect" value="MF" class="hidden" onchange="updatePosition(this)">
-      <div class="w-6 h-6 rounded-full border border-black mx-auto mt-1" id="circle-MF"></div>
-    </label>
+    </button>
 
-    <label class="text-blue-600 font-bold cursor-pointer text-center">
+    <button type="button" id="btn-DF"
+            onclick="selectPosition('DF')"
+            class="px-6 py-2 rounded-full border-2 border-blue-500 text-blue-500 font-semibold transition hover:bg-blue-50">
       DF
-      <input type="radio" name="positionSelect" value="DF" class="hidden" onchange="updatePosition(this)">
-      <div class="w-6 h-6 rounded-full border border-black mx-auto mt-1" id="circle-DF"></div>
-    </label>
+    </button>
   </div>
+
+  <input type="hidden" id="positionSelect" name="positionSelect" />
+
+
 
   <!-- 참가자 목록 -->
   <!-- 참가자 목록 -->
@@ -188,25 +203,50 @@
 
   <!-- JS 스크립트 -->
   <script>
-    function updatePosition(input) {
-      const positions = ["FW", "MF", "DF"];
-      positions.forEach(pos => {
-        document.getElementById("circle-" + pos).style.backgroundColor = "white";
-      });
-      document.getElementById("circle-" + input.value).style.backgroundColor =
-              input.value === "FW" ? "red" : input.value === "MF" ? "green" : "blue";
-      document.getElementById("selectedPosition").value = input.value;
-    }
+    function selectPosition(pos) {
+      document.getElementById('positionSelect').value = pos;
 
-    function validatePositionSelection(form) {
-      const selected = document.getElementById("selectedPosition").value;
-      if (!selected) {
-        alert("포지션을 선택해주세요!");
-        return false;
+      const buttons = {
+        FW: document.getElementById('btn-FW'),
+        MF: document.getElementById('btn-MF'),
+        DF: document.getElementById('btn-DF')
+      };
+
+      // 모든 버튼 초기화
+      Object.entries(buttons).forEach(([key, btn]) => {
+        btn.classList.remove('bg-red-500', 'bg-green-600', 'bg-blue-500', 'text-white');
+
+        if (key === 'FW') {
+          btn.classList.remove('border-black');
+          btn.classList.add('border-red-500', 'text-red-500', 'bg-white');
+        }
+        if (key === 'MF') {
+          btn.classList.add('border-green-600', 'text-green-600', 'bg-white');
+        }
+        if (key === 'DF') {
+          btn.classList.add('border-blue-500', 'text-blue-500', 'bg-white');
+        }
+      });
+
+      // 선택된 버튼 강조
+      const selected = buttons[pos];
+
+      if (pos === 'FW') {
+        selected.classList.remove('text-red-500', 'bg-white');
+        selected.classList.add('bg-red-500', 'text-white');
       }
-      return true;
+      if (pos === 'MF') {
+        selected.classList.remove('text-green-600', 'bg-white');
+        selected.classList.add('bg-green-600', 'text-white');
+      }
+      if (pos === 'DF') {
+        selected.classList.remove('text-blue-500', 'bg-white');
+        selected.classList.add('bg-blue-500', 'text-white');
+      }
     }
   </script>
+
+
 
   <!-- 주의사항 -->
   <div class="mt-8 text-sm text-gray-700">

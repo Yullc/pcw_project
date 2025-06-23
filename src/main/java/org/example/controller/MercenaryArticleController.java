@@ -106,29 +106,40 @@ public class MercenaryArticleController {
         Rq rq = (Rq) req.getAttribute("rq");
 
         MercenaryArticle mercenaryArticle = mercenaryArticleService.getForPrintArticle(rq.getLoginedMemberId(), id);
+        Member member = memberService.getMemberById(rq.getLoginedMemberId());
 
-        // ✅ avgLevelName 설정 (teamRank → avgLevelName)
+
+        System.out.println("👉 rankName(raw): " + mercenaryArticle.getRankName());
+
         try {
-            if (mercenaryArticle.getTeamRank() != null && !mercenaryArticle.getTeamRank().isEmpty()) {
-                int level = Integer.parseInt(mercenaryArticle.getTeamRank());
-                mercenaryArticle.setAvgLevelName(RankUtil.getRankName(level));
+            if (mercenaryArticle.getRankName() != null && !mercenaryArticle.getRankName().trim().isEmpty()) {
+                int level = Integer.parseInt(mercenaryArticle.getRankName().trim());
+                String rank = RankUtil.getRankName(level);
+                System.out.println("✅ level: " + level + ", rank: " + rank);
+                mercenaryArticle.setAvgLevelName(rank);
             } else {
+                System.out.println("❌ rankName is null or empty");
                 mercenaryArticle.setAvgLevelName("미정");
             }
         } catch (NumberFormatException e) {
+            System.out.println("❌ rankName is not a number: " + mercenaryArticle.getRankName());
             mercenaryArticle.setAvgLevelName("미정");
         }
 
-        // ✅ 댓글 목록 가져오기
+
+
+        // 댓글 및 모델 설정
         List<Reply> replies = replyService.getForPrintReplies(rq.getLoginedMemberId(), "mercenaryArticle", id);
         int repliesCount = replies.size();
 
+        model.addAttribute("member", member);
         model.addAttribute("replies", replies);
         model.addAttribute("repliesCount", repliesCount);
         model.addAttribute("mercenaryArticle", mercenaryArticle);
 
         return "usr/mercenaryArticle/findMercenary_detail";
     }
+
 
 
     @RequestMapping("/usr/mercenaryArticle/findMercenary_write")

@@ -17,7 +17,10 @@
         <a href="/usr/home/main" class="inline-block h-full">
             <img src="/img/Logo_V.png" alt="로고" class="h-full object-contain" />
         </a>
+<<<<<<< HEAD
 
+=======
+>>>>>>> d6057a86789ecef827e6000ae036714a789caed0
         <form action="/usr/teamArticle/teamList" method="get" class="flex justify-center w-full">
             <div class="relative w-64">
                 <input type="text" name="searchKeyword" value="${searchKeyword}" placeholder="검색..."
@@ -103,7 +106,9 @@
 
         <!-- 팀 리스트 -->
         <section class="flex-1 p-28">
-            팀 목록 페이지
+            <div class="text-center text-2xl font-bold text-black mb-6">
+                팀 목록
+            </div>
             <c:forEach var="team" items="${teams}">
                 <div class="border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md">
                     <div class="flex items-center gap-4">

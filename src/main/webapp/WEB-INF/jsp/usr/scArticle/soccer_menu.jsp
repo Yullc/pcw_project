@@ -181,17 +181,17 @@
     <script src="/js/scCalender.js"></script>
 
     <main class="scrollWrapper flex-1 overflow-x-auto p-5">
-      <div class="px-[100px]">
-        <div class="grid grid-cols-4 grid-rows-4 gap-5 w-[1000px] min-w-max">
+      <div class="px-[250px]">
+        <div class="grid grid-cols-4 grid-rows-4 gap-8 w-[1000px] min-w-max">
           <c:forEach var="scArticle" items="${scArticles}">
           <c:choose>
           <c:when test="${scArticle.code eq '팀'}">
           <a href="/usr/scArticle/soccerTeam_detail?id=${scArticle.id}"
-             class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 min-h-[260px] hover:shadow-lg transition">
+             class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-58 min-h-[260px] hover:shadow-lg transition">
             </c:when>
             <c:otherwise>
             <a href="/usr/scArticle/soccer_detail?id=${scArticle.id}"
-               class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-48 min-h-[260px] hover:shadow-lg transition">
+               class="block border border-gray-300 rounded-lg overflow-hidden flex flex-col w-58 min-h-[260px] hover:shadow-lg transition">
               </c:otherwise>
               </c:choose>
 
