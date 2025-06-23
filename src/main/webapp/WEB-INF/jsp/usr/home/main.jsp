@@ -22,7 +22,7 @@
 			<div class="absolute inset-0 flex items-center justify-center">
 				<div class="text-center text-white px-6">
 					<h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-pulse">
-						회사에선 벤치 멤버, 경기장에선 주전입니다.
+						사람은 안 돌아와도, 공은 돌아옵니다.
 					</h1>
 					<p class="text-lg md:text-xl font-medium">
 						팀원 모집부터 경기 참가까지<br />Vamos에서 한 번에!

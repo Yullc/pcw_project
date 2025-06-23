@@ -254,7 +254,8 @@
 
           <!-- 신청 메시지일 경우만 버튼 표시 -->
           <c:if test="${fn:contains(msg.content, '에 지원 합니다!')}">
-            <form action="/usr/team/handleJoinRequest" method="post" class="flex gap-2 mt-2">
+            <form action="/usr/team/handleJoinRequest" method="post"
+                  class="flex gap-2 mt-2" onsubmit="return hideButtons(this)">
               <input type="hidden" name="teamId" value="${msg.teamId}" />
               <input type="hidden" name="memberId" value="${msg.senderId}" />
 
@@ -272,7 +273,12 @@
 
     </div>
   </div>
-
+  <script>
+    function hideButtons(form) {
+      form.style.display = 'none'; // 버튼 숨기기
+      return true; // submit 진행
+    }
+  </script>
   <!-- 보낸 쪽지함 모달 -->
   <div id="outboxModal" class="fixed inset-0 ${type == 'sent' ? '' : 'hidden'} bg-black bg-opacity-40 flex items-center justify-center z-50">
     <div class="bg-white rounded-lg w-96 max-h-[80vh] overflow-y-auto p-4">

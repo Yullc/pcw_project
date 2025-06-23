@@ -457,6 +457,4 @@ public class TeamArticleController {
             return Ut.jsReplace("S-2", "가입 요청을 거절했습니다.", "/usr/message/inbox");
         }
     }
-
-
 }

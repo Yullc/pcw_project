@@ -103,13 +103,6 @@
     </div>
 </div>
 
-<!-- ✅ 하단 버튼 -->
-<div class="mt-12 flex justify-between max-w-4xl mx-auto">
-    <button onclick="history.back()" class="bg-gray-300 hover:bg-gray-400 text-black px-4 py-2 rounded-xl">
-        ⬅ 뒤로가기
-    </button>
-
-</div>
 
 <!-- ✅ 가입 신청 팝업 -->
 <div id="joinPopup" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
