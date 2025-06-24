@@ -91,4 +91,9 @@ public class MemberService {
         param.put("profileImgUrl", imageUrl);
         memberRepository.updateProfileImgUrl(param);
     }
+
+    public void leaveTeam(int memberId) {
+        memberRepository.leaveTeam(memberId);
+    }
+
 }

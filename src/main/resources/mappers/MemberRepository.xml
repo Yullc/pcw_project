@@ -137,5 +137,10 @@
             updateDate = NOW()
         WHERE id = #{id}
     </update>
+    <update id="leaveTeam" parameterType="int">
+        UPDATE member
+        SET teamNm = NULL
+        WHERE id = #{memberId}
+    </update>
 
 </mapper>

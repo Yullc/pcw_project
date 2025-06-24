@@ -93,7 +93,16 @@
                 </c:forEach>
             </div>
         </div>
-
+            <c:if test="${team != null && team.teamName != null}">
+                <c:if test="${not empty rq.loginedMember && rq.loginedMember.teamNm eq team.teamName}">
+                    <form action="/usr/team/leave" method="post" onsubmit="return confirm('정말로 팀을 탈퇴하시겠습니까?');">
+                        <input type="hidden" name="teamId" value="${team.id}" />
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
+                            팀 탈퇴하기
+                        </button>
+                    </form>
+                </c:if>
+            </c:if>
         <!-- 팀 소개 -->
         <div class="bg-white p-6 rounded-xl shadow-md">
             <h2 class="text-lg font-bold text-green-700 mb-2">📢 팀 소개</h2>

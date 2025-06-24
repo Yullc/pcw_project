@@ -471,4 +471,24 @@ public class TeamArticleController {
             return Ut.jsReplace("S-2", "가입 요청을 거절했습니다.", "/usr/message/inbox");
         }
     }
+
+    @PostMapping("/usr/team/leave")
+    @ResponseBody
+    public String leaveTeam(@RequestParam("teamId") int teamId, HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+        int memberId = rq.getLoginedMemberId();
+        Member member = memberService.getMemberById(memberId);
+        Team team = teamService.getTeamById(teamId);
+
+        // 리더는 탈퇴 못하도록 막기 (선택사항)
+        if (team.getTeamLeader().equals(member.getNickName())) {
+            return Ut.jsHistoryBack("F-1", "팀 리더는 탈퇴할 수 없습니다.");
+        }
+
+        // 팀 정보 삭제 (teamNm, teamId 초기화)
+        memberService.leaveTeam(memberId);
+
+        return Ut.jsReplace("S-1", "팀에서 탈퇴되었습니다.", "/usr/teamArticle/teamDetail?id=" + teamId);
+    }
+
 }

@@ -42,4 +42,8 @@ public interface MemberRepository {
     void updateProfileImg(int memberId, String profileImgPath);
 
     void updateProfileImgUrl(Map<String, Object> param);
+
+
+
+    void leaveTeam(int memberId);
 }
