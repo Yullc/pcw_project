@@ -393,10 +393,10 @@ public class TeamArticleController {
             m.setMannerEmoji(MannerUtil.getMannerEmoji(m.getManner()));
         }
 
-        FtArticle ftRecentMatch = teamService.getRecentFtArticleByTeamId(teamId);
-        ScArticle scRecentMatch = teamService.getRecentScArticleByTeamId(teamId);
+        List<FtArticle> ftRecentGames = teamService.getRecentFtArticleByTeamId(teamId);
+        List<ScArticle> recentScGames = teamService.getRecentScArticleByTeamId(teamId);
 
-
+        
         Article nextGame = teamService.getNextMatchForTeam(teamId);
         // ✅ avgLevelName 설정
 
@@ -418,8 +418,8 @@ public class TeamArticleController {
         // 모델에 담기
         model.addAttribute("team", team);
         model.addAttribute("teamMembers", teamMembers);
-        model.addAttribute("ftRecentMatch", ftRecentMatch);
-        model.addAttribute("scRecentMatch", scRecentMatch);
+        model.addAttribute("ftRecentGames", ftRecentGames);
+        model.addAttribute("recentScGames", recentScGames);
         model.addAttribute("nextGame", nextGame);
 
         return "usr/teamArticle/teamDetail";

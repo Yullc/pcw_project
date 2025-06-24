@@ -59,11 +59,11 @@ public class TeamService {
         return teamRepository.getNextMatchForTeam(teamId); // SQL: playDate > NOW() ORDER BY playDate ASC LIMIT 1
     }
 
-    public FtArticle getRecentFtArticleByTeamId(int teamId) {
+    public List<FtArticle> getRecentFtArticleByTeamId(int teamId) {
         return teamRepository.getRecentFtArticleByTeamId(teamId);
     }
 
-    public ScArticle getRecentScArticleByTeamId(int teamId) {
+    public List<ScArticle> getRecentScArticleByTeamId(int teamId) {
         return teamRepository.getRecentScArticleByTeamId(teamId);
     }
 

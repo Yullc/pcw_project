@@ -31,9 +31,9 @@ public interface TeamRepository {
 
     Article getNextMatchForTeam(int teamId);
 
-    FtArticle getRecentFtArticleByTeamId(int teamId);
+    List<FtArticle> getRecentFtArticleByTeamId(int teamId);
 
-    ScArticle getRecentScArticleByTeamId(int teamId);
+    List<ScArticle> getRecentScArticleByTeamId(int teamId);
 
     int getTeamIdByName(String teamNm);
 }

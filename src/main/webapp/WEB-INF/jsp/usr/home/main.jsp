@@ -7,7 +7,7 @@
 <html lang="ko">
 <head>
 	<meta charset="UTF-8">
-	<title>횡 스크롤 페이지</title>
+	<title>VAMOS</title>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.4/tailwind.min.css">
 	<link rel="stylesheet" href="/css/style.css">
