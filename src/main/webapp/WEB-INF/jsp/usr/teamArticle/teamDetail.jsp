@@ -10,7 +10,7 @@
 
 <!-- 🔰 페이지 상단: 팀 이름 -->
 <div class="mb-10">
-    <h1 class="text-3xl font-bold text-green-700 mb-2">🏆 ${team.teamName}</h1>
+    <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
 </div>
 
 <!-- ✅ 메인 레이아웃: 좌측(1/3) + 우측(2/3) -->
@@ -26,7 +26,7 @@
 
             <div class="mt-4">
                 <div class="bg-green-600 text-white rounded-full px-4 py-1 inline-block font-semibold mb-2">
-                    팀 레벨: ${team.teamRank}
+                    팀 평균 레벨: ${team.avgLevelName}
                 </div>
             </div>
 

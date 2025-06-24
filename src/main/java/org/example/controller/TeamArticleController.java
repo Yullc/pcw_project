@@ -393,13 +393,27 @@ public class TeamArticleController {
             m.setMannerEmoji(MannerUtil.getMannerEmoji(m.getManner()));
         }
 
-        // ✅ 3. 최근 경기 (지난 경기 중 최신순 3개)
         FtArticle ftRecentMatch = teamService.getRecentFtArticleByTeamId(teamId);
         ScArticle scRecentMatch = teamService.getRecentScArticleByTeamId(teamId);
 
 
-        // ✅ 4. 다음 경기 (가장 가까운 미래 1개)
         Article nextGame = teamService.getNextMatchForTeam(teamId);
+        // ✅ avgLevelName 설정
+
+        int rankSum = 0;
+        for (Member m : teamMembers) {
+            m.setRankName(RankUtil.getRankName(m.getRank()));
+            m.setMannerEmoji(MannerUtil.getMannerEmoji(m.getManner()));
+            rankSum += m.getRank();
+        }
+
+        // ✅ 평균 랭크 → avgLevelName 설정
+        if (!teamMembers.isEmpty()) {
+            int avgRank = (int) Math.round((double) rankSum / teamMembers.size());
+            team.setAvgLevelName(RankUtil.getRankName(avgRank));
+        } else {
+            team.setAvgLevelName("미정");
+        }
 
         // 모델에 담기
         model.addAttribute("team", team);
