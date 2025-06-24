@@ -396,7 +396,7 @@ public class TeamArticleController {
         List<FtArticle> ftRecentGames = teamService.getRecentFtArticleByTeamId(teamId);
         List<ScArticle> recentScGames = teamService.getRecentScArticleByTeamId(teamId);
 
-        
+
         Article nextGame = teamService.getNextMatchForTeam(teamId);
         // ✅ avgLevelName 설정
 

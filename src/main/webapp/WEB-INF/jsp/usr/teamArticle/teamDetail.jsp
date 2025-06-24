@@ -19,7 +19,6 @@
     <!-- ✅ 좌측: 팀 정보 + 경기 정보 -->
     <div class="w-full lg:w-1/3 space-y-6">
         <!-- 팀 정보 -->
-        <!-- 팀 정보 -->
         <div class="border rounded-xl p-6 shadow flex flex-col items-center text-center">
             <div class="text-lg font-semibold mb-2">팀 리더</div>
             <div class="text-gray-800">${team.teamLeader}</div>
@@ -32,26 +31,34 @@
 
             <div class="text-sm text-gray-500">팀원 수: ${fn:length(teamMembers)}명</div>
 
+            <!-- 팀 가입/탈퇴/채팅 버튼 -->
             <!-- 팀 가입/탈퇴 버튼 영역 -->
-            <div class="mt-6">
+            <div class="mt-6 flex gap-4 w-full justify-center">
                 <c:choose>
                     <c:when test="${not empty rq.loginedMember && rq.loginedMember.teamNm eq team.teamName}">
-                        <form action="/usr/team/leave" method="post" onsubmit="return confirm('정말로 팀을 탈퇴하시겠습니까?');">
+                        <!-- 팀 탈퇴 버튼 -->
+                        <form action="/usr/team/leave" method="post" onsubmit="return confirm('정말로 팀을 탈퇴하시겠습니까?');" class="w-48">
                             <input type="hidden" name="teamId" value="${team.id}" />
-                            <button type="submit" class="w-48 bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl">
+                            <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl">
                                 ❌ 팀 탈퇴하기
                             </button>
                         </form>
+
+                        <!-- 팀 채팅 버튼 -->
+                        <button onclick="openChatPopup()" class="w-48 h-10  bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl">
+                            💬 팀 채팅
+                        </button>
                     </c:when>
                     <c:otherwise>
+                        <!-- 팀 가입 버튼 -->
                         <button onclick="openJoinPopup()" class="w-48 bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl">
                             🙋‍♂️ 팀 가입하기
                         </button>
                     </c:otherwise>
                 </c:choose>
             </div>
-        </div>
 
+        </div>
 
         <!-- 최근 경기 -->
         <div>
@@ -115,10 +122,8 @@
             <h2 class="text-lg font-bold text-green-700 mb-2">📢 팀 소개</h2>
             <p class="text-sm text-gray-700 whitespace-pre-line">${team.intro}</p>
         </div>
-
     </div>
 </div>
-
 
 <!-- ✅ 가입 신청 팝업 -->
 <div id="joinPopup" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
@@ -127,10 +132,8 @@
         <form action="/usr/team/joinRequest" method="post">
             <input type="hidden" name="teamId" value="${team.id}" />
             <input type="hidden" name="teamLeader" value="${team.teamLeader}" />
-
             <label class="block text-sm mb-2">자기소개</label>
             <textarea name="message" class="w-full border rounded p-2 mb-4" rows="4" required></textarea>
-
             <div class="flex justify-end gap-2">
                 <button type="button" onclick="closeJoinPopup()" class="px-3 py-1 bg-gray-300 rounded">취소</button>
                 <button type="submit" class="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">신청하기</button>
@@ -139,6 +142,24 @@
     </div>
 </div>
 
+<!-- ✅ 팀 채팅 팝업 -->
+<div id="chatPopup" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
+    <div class="bg-white rounded-xl w-[400px] h-[500px] shadow-lg flex flex-col">
+        <div class="bg-blue-500 text-white px-4 py-2 rounded-t-xl flex justify-between items-center">
+            <span class="font-semibold">💬 팀 채팅</span>
+            <button onclick="closeChatPopup()" class="text-white text-lg">&times;</button>
+        </div>
+
+        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
+
+        <form onsubmit="sendMessage(event)" class="flex border-t">
+            <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
+            <button type="submit" class="bg-blue-500 text-white px-4 hover:bg-blue-600">전송</button>
+        </form>
+    </div>
+</div>
+
+<!-- ✅ JavaScript -->
 <script>
     function openJoinPopup() {
         document.getElementById('joinPopup').classList.remove('hidden');
@@ -147,11 +168,60 @@
     function closeJoinPopup() {
         document.getElementById('joinPopup').classList.add('hidden');
     }
+
+    function openChatPopup() {
+        document.getElementById('chatPopup').classList.remove('hidden');
+        connectWebSocket();
+    }
+
+    function closeChatPopup() {
+        document.getElementById('chatPopup').classList.add('hidden');
+        if (stompClient) {
+            stompClient.disconnect();
+        }
+    }
 </script>
 
-<!-- <div id="joinPopup" class="hidden fixed ..."> ... </div> -->
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+<script>
+    let stompClient = null;
+    const teamId = ${team.id};
 
+    function connectWebSocket() {
+        const socket = new SockJS('/ws-stomp');
+        stompClient = Stomp.over(socket);
 
+        stompClient.connect({}, () => {
+            stompClient.subscribe(`/sub/chatroom/${teamId}`, (message) => {
+                const msg = JSON.parse(message.body);
+                showMessage(msg.sender, msg.message);
+            });
+        });
+    }
+
+    function sendMessage(event) {
+        event.preventDefault();
+        const input = document.getElementById('chatInput');
+        const message = input.value.trim();
+        if (message && stompClient) {
+            stompClient.send("/pub/chat/send", {}, JSON.stringify({
+                teamId: teamId,
+                sender: '${rq.loginedMember.nickName}',
+                message: message
+            }));
+            input.value = '';
+        }
+    }
+
+    function showMessage(sender, message) {
+        const chatBox = document.getElementById('chatMessages');
+        const div = document.createElement('div');
+        div.innerHTML = `<strong>${sender}:</strong> ${message}`;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+</script>
 
 </body>
 </html>
