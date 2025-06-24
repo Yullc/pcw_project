@@ -18,9 +18,9 @@
 
     <!-- ✅ 좌측: 팀 정보 + 경기 정보 -->
     <div class="w-full lg:w-1/3 space-y-6">
-
         <!-- 팀 정보 -->
-        <div class="border rounded-xl p-6 shadow">
+        <!-- 팀 정보 -->
+        <div class="border rounded-xl p-6 shadow flex flex-col items-center text-center">
             <div class="text-lg font-semibold mb-2">팀 리더</div>
             <div class="text-gray-800">${team.teamLeader}</div>
 
@@ -32,10 +32,26 @@
 
             <div class="text-sm text-gray-500">팀원 수: ${fn:length(teamMembers)}명</div>
 
-            <button onclick="openJoinPopup()" class="mt-6 w-full bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl">
-                🙋‍♂️ 팀 가입하기
-            </button>
+            <!-- 팀 가입/탈퇴 버튼 영역 -->
+            <div class="mt-6">
+                <c:choose>
+                    <c:when test="${not empty rq.loginedMember && rq.loginedMember.teamNm eq team.teamName}">
+                        <form action="/usr/team/leave" method="post" onsubmit="return confirm('정말로 팀을 탈퇴하시겠습니까?');">
+                            <input type="hidden" name="teamId" value="${team.id}" />
+                            <button type="submit" class="w-48 bg-red-500 hover:bg-red-600 text-white py-2 rounded-xl">
+                                ❌ 팀 탈퇴하기
+                            </button>
+                        </form>
+                    </c:when>
+                    <c:otherwise>
+                        <button onclick="openJoinPopup()" class="w-48 bg-green-500 hover:bg-green-600 text-white py-2 rounded-xl">
+                            🙋‍♂️ 팀 가입하기
+                        </button>
+                    </c:otherwise>
+                </c:choose>
+            </div>
         </div>
+
 
         <!-- 최근 경기 -->
         <div>
@@ -93,16 +109,7 @@
                 </c:forEach>
             </div>
         </div>
-            <c:if test="${team != null && team.teamName != null}">
-                <c:if test="${not empty rq.loginedMember && rq.loginedMember.teamNm eq team.teamName}">
-                    <form action="/usr/team/leave" method="post" onsubmit="return confirm('정말로 팀을 탈퇴하시겠습니까?');">
-                        <input type="hidden" name="teamId" value="${team.id}" />
-                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded">
-                            팀 탈퇴하기
-                        </button>
-                    </form>
-                </c:if>
-            </c:if>
+
         <!-- 팀 소개 -->
         <div class="bg-white p-6 rounded-xl shadow-md">
             <h2 class="text-lg font-bold text-green-700 mb-2">📢 팀 소개</h2>
