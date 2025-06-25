@@ -18,10 +18,10 @@
 <div class="px-[150px] pt-10">
 
 <!-- ✅ 메인 레이아웃: 좌측(1/3) + 우측(2/3) -->
-<div class="flex flex-col lg:flex-row gap-10">
+    <div class="flex flex-col lg:flex-row gap-10">
 
     <!-- ✅ 좌측: 팀 정보 + 경기 정보 -->
-    <div class="w-full lg:w-1/3 space-y-6">
+        <div class="w-full lg:w-1/4 space-y-6">
         <!-- 팀 정보 -->
         <div class="border rounded-xl p-6 shadow flex flex-col items-center text-center">
             <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
@@ -100,35 +100,46 @@
     </div>
 
     <!-- ✅ 우측: 팀원 명단 + 팀 소개 -->
-    <div class="w-full lg:w-2/3 space-y-6">
-
-        <!-- 팀원 명단 -->
-        <div class="bg-white p-6 rounded-xl shadow-md">
-            <h2 class="text-lg font-bold text-green-700 mb-4">👥 팀원 명단</h2>
-            <div class="max-h-[400px] overflow-y-auto space-y-3 pr-2">
-                <c:forEach var="member" items="${teamMembers}">
-                    <div class="flex items-center gap-4 p-4 rounded-xl border border-green-300 bg-white shadow hover:shadow-md transition">
-                        <img src="${member.profileImg}" alt="프로필" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
-                        <div>
-                            <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">
-                                    ${member.nickName}
-                            </a>
-                            <div class="text-sm text-gray-600 mt-1">
-                                    ${member.rankName} &nbsp;|&nbsp; 😊 매너온도: ${member.mannerEmoji}
+        <div class="w-full lg:w-1/2 space-y-6">
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-lg font-bold text-green-700 mb-4">👥 팀원 명단</h2>
+                <div class="max-h-[400px] overflow-y-auto space-y-3 pr-2">
+                    <c:forEach var="member" items="${teamMembers}">
+                        <div class="flex items-center gap-4 p-4 rounded-xl border border-green-300 bg-white shadow hover:shadow-md transition">
+                            <img src="${member.profileImg}" alt="프로필" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
+                            <div>
+                                <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">${member.nickName}</a>
+                                <div class="text-sm text-gray-600 mt-1">${member.rankName} &nbsp;|&nbsp; 😊 매너온도: ${member.mannerEmoji}</div>
                             </div>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                </div>
+            </div>
+            <!-- 팀 소개 -->
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <h2 class="text-lg font-bold text-green-700 mb-2">📢 팀 소개</h2>
+                <p class="text-sm text-gray-700 whitespace-pre-line">${team.intro}</p>
             </div>
         </div>
 
-        <!-- 팀 소개 -->
-        <div class="bg-white p-6 rounded-xl shadow-md">
-            <h2 class="text-lg font-bold text-green-700 mb-2">📢 팀 소개</h2>
-            <p class="text-sm text-gray-700 whitespace-pre-line">${team.intro}</p>
+        <div class="w-full lg:w-1/4 space-y-6">
+            <div class="bg-white rounded-xl shadow-lg flex flex-col h-[500px]">
+                <div class="bg-blue-500 text-white px-4 py-2 rounded-t-xl flex justify-between items-center">
+                    <span class="font-semibold">💬 팀 채팅</span>
+                </div>
+
+                <div id="chatMessages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
+
+                <form onsubmit="sendMessage(event)" class="flex border-t">
+                    <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
+                    <button type="submit" class="bg-blue-500 text-white px-4 hover:bg-blue-600">전송</button>
+                </form>
+            </div>
         </div>
     </div>
+    </div>
 </div>
+
 
 <!-- ✅ 가입 신청 팝업 -->
 <div id="joinPopup" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
