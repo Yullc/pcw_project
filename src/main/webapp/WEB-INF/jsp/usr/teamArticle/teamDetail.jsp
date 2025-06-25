@@ -7,11 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white min-h-screen px-[150px] py-10">
+<header class="bg-white border-b border-gray-300 h-20">
+    <div class="max-w-6xl h-full flex items-center px-6 justify-start ml-20">
+        <a href="/usr/home/main">
+            <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
+        </a>
+    </div>
+</header>
 
-<!-- 🔰 페이지 상단: 팀 이름 -->
-<div class="mb-10">
-    <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
-</div>
+<div class="px-[150px] pt-10">
 
 <!-- ✅ 메인 레이아웃: 좌측(1/3) + 우측(2/3) -->
 <div class="flex flex-col lg:flex-row gap-10">
@@ -20,8 +24,9 @@
     <div class="w-full lg:w-1/3 space-y-6">
         <!-- 팀 정보 -->
         <div class="border rounded-xl p-6 shadow flex flex-col items-center text-center">
-            <div class="text-lg font-semibold mb-2">팀 리더</div>
-            <div class="text-gray-800">${team.teamLeader}</div>
+            <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
+
+            <div class="text-lg font-semibold mb-2">팀장: ${team.teamLeader}</div>
 
             <div class="mt-4">
                 <div class="bg-green-600 text-white rounded-full px-4 py-1 inline-block font-semibold mb-2">
