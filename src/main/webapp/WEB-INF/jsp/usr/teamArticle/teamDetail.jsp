@@ -1,18 +1,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+
 <html>
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
     <title>${team.teamName} 팀 명단</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-white min-h-screen px-[150px] py-10">
+<header class="bg-white border-b border-gray-300 h-20">
+    <div class="max-w-6xl h-full flex items-center px-6 justify-start ml-20">
+        <a href="/usr/home/main">
+            <img src="/img/Logo_V.png" alt="로고" class="h-12 object-contain" />
+        </a>
+    </div>
+</header>
 
-<!-- 🔰 페이지 상단: 팀 이름 -->
-<div class="mb-10">
-    <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
-</div>
-
+<div class="px-[150px] pt-10">
 <!-- ✅ 메인 레이아웃: 좌측(1/3) + 우측(2/3) -->
 <div class="flex flex-col lg:flex-row gap-10">
 
@@ -20,11 +26,12 @@
     <div class="w-full lg:w-1/3 space-y-6">
         <!-- 팀 정보 -->
         <div class="border rounded-xl p-6 shadow flex flex-col items-center text-center">
-            <div class="text-lg font-semibold mb-2">팀 리더</div>
-            <div class="text-gray-800">${team.teamLeader}</div>
+            <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
+
+            <div class="text-lg font-semibold mb-2">팀장: ${team.teamLeader}</div>
 
             <div class="mt-4">
-                <div class="bg-green-600 text-white rounded-full px-4 py-1 inline-block font-semibold mb-2">
+                <div class="text-black rounded-full px-4 py-1 inline-block font-semibold mb-2">
                     팀 평균 레벨: ${team.avgLevelName}
                 </div>
             </div>
@@ -44,10 +51,6 @@
                             </button>
                         </form>
 
-                        <!-- 팀 채팅 버튼 -->
-                        <button onclick="openChatPopup()" class="w-48 h-10  bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl">
-                            💬 팀 채팅
-                        </button>
                     </c:when>
                     <c:otherwise>
                         <!-- 팀 가입 버튼 -->
@@ -93,36 +96,49 @@
             </c:choose>
         </div>
     </div>
-
-    <!-- ✅ 우측: 팀원 명단 + 팀 소개 -->
-    <div class="w-full lg:w-2/3 space-y-6">
-
-        <!-- 팀원 명단 -->
-        <div class="bg-white p-6 rounded-xl shadow-md">
+    <!-- ✅ 가운데: 팀원 명단 + 팀 소개 -->
+    <div class="w-full lg:w-2/4">
+        <div class="bg-white p-6 rounded-xl shadow-md h-[500px] overflow-y-auto">
             <h2 class="text-lg font-bold text-green-700 mb-4">👥 팀원 명단</h2>
-            <div class="max-h-[400px] overflow-y-auto space-y-3 pr-2">
+            <div class="space-y-3 pr-2">
                 <c:forEach var="member" items="${teamMembers}">
-                    <div class="flex items-center gap-4 p-4 rounded-xl border border-green-300 bg-white shadow hover:shadow-md transition">
-                        <img src="${member.profileImg}" alt="프로필" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
+                    <div class="flex items-center gap-4 p-3 rounded-xl border border-green-300 bg-white shadow hover:shadow-md transition">
+                        <img src="${member.profileImg}" alt="프로필" class="w-10 h-10 rounded-full object-cover border border-gray-300" />
                         <div>
                             <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">
                                     ${member.nickName}
                             </a>
-                            <div class="text-sm text-gray-600 mt-1">
-                                    ${member.rankName} &nbsp;|&nbsp; 😊 매너온도: ${member.mannerEmoji}
+                            <div class="text-xs text-gray-600 mt-1">
+                                    ${member.rankName} | 😊 매너온도: ${member.mannerEmoji}
                             </div>
                         </div>
                     </div>
                 </c:forEach>
             </div>
         </div>
-
         <!-- 팀 소개 -->
-        <div class="bg-white p-6 rounded-xl shadow-md">
+        <div class="bg-white p-6 rounded-xl shadow-md mt-6">
             <h2 class="text-lg font-bold text-green-700 mb-2">📢 팀 소개</h2>
             <p class="text-sm text-gray-700 whitespace-pre-line">${team.intro}</p>
         </div>
     </div>
+    <!-- ✅ 우측: 팀원 명단 + 팀 소개 -->
+    <!-- ✅ 우측: 팀 채팅 -->
+    <div class="w-full lg:w-1/4">
+        <div class="bg-white rounded-xl shadow-lg flex flex-col h-[500px]">
+            <div class="bg-blue-500 text-white px-4 py-2 rounded-t-xl">
+                <span class="font-semibold">💬 팀 채팅</span>
+            </div>
+
+            <div id="chat-messages" class="h-64 overflow-y-auto bg-gray-100 p-4 mb-4 rounded"></div>
+
+            <form id="chatForm" class="flex border-t">
+                <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
+                <button type="submit" class="bg-blue-500 text-white px-4 hover:bg-blue-600">전송</button>
+            </form>
+        </div>
+    </div>
+
 </div>
 
 <!-- ✅ 가입 신청 팝업 -->
@@ -142,22 +158,6 @@
     </div>
 </div>
 
-<!-- ✅ 팀 채팅 팝업 -->
-<div id="chatPopup" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white rounded-xl w-[400px] h-[500px] shadow-lg flex flex-col">
-        <div class="bg-blue-500 text-white px-4 py-2 rounded-t-xl flex justify-between items-center">
-            <span class="font-semibold">💬 팀 채팅</span>
-            <button onclick="closeChatPopup()" class="text-white text-lg">&times;</button>
-        </div>
-
-        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
-
-        <form onsubmit="sendMessage(event)" class="flex border-t">
-            <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
-            <button type="submit" class="bg-blue-500 text-white px-4 hover:bg-blue-600">전송</button>
-        </form>
-    </div>
-</div>
 
 <!-- ✅ JavaScript -->
 <script>
@@ -181,47 +181,49 @@
         }
     }
 </script>
+    <script>
+        const teamId = ${team.id};
+        const memberId = ${rq.loginedMember.id};
+        const nickName = "${rq.loginedMember.nickName}";
 
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
-<script>
-    let stompClient = null;
-    const teamId = ${team.id};
+        const socket = new SockJS("/ws-stomp");
+        const stompClient = Stomp.over(socket);
 
-    function connectWebSocket() {
-        const socket = new SockJS('/ws-stomp');
-        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            console.log("🟢 연결 성공:", frame);
 
-        stompClient.connect({}, () => {
-            stompClient.subscribe(`/sub/chatroom/${teamId}`, (message) => {
+            // 구독
+            stompClient.subscribe("/topic/chat/" + teamId, function (message) {
                 const msg = JSON.parse(message.body);
-                showMessage(msg.sender, msg.message);
+                const msgBox = document.getElementById("chat-messages");
+                const sender = msg.nickName ? msg.nickName : msg.memberId;
+
+                msgBox.innerHTML += `<div><b>${sender}</b>: ${msg.message}</div>`;
+                msgBox.scrollTop = msgBox.scrollHeight;
             });
         });
-    }
 
-    function sendMessage(event) {
-        event.preventDefault();
-        const input = document.getElementById('chatInput');
-        const message = input.value.trim();
-        if (message && stompClient) {
-            stompClient.send("/pub/chat/send", {}, JSON.stringify({
+        function sendMessage(event) {
+            event.preventDefault();
+            const input = document.getElementById("chatInput");
+            const message = input.value.trim();
+            if (!message) return;
+
+            stompClient.send("/app/chat.sendMessage", {}, JSON.stringify({
                 teamId: teamId,
-                sender: '${rq.loginedMember.nickName}',
+                memberId: memberId,
+                nickName: nickName,
                 message: message
             }));
-            input.value = '';
+
+            input.value = "";
         }
-    }
 
-    function showMessage(sender, message) {
-        const chatBox = document.getElementById('chatMessages');
-        const div = document.createElement('div');
-        div.innerHTML = `<strong>${sender}:</strong> ${message}`;
-        chatBox.appendChild(div);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-</script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("chatForm").addEventListener("submit", sendMessage);
+        });
+    </script>
 
+</div>
 </body>
 </html>
