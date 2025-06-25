@@ -24,17 +24,57 @@
   <img src="${scArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
   <!-- 경기 정보 카드 -->
-  <div class="bg-gray-200 rounded-lg p-4 mb-4 font-semibold text-black-700 space-y-1 shadow">
-    <div>
-      <span class="font-semibold text-green-700">경기장: </span>${scArticle.title}
-    </div>
-    <div>
-      <span class="font-semibold text-green-700">경기 일시: </span>${scArticle.playDate}
-    </div>
-    <div>
-      <span class="font-semibold text-green-700">주소: </span>${scArticle.address}
+  <!-- 경기 정보 카드 (지도 포함) -->
+  <div class=" rounded-lg p-4 mb-4 font-semibold text-black-700 shadow">
+    <div class="flex flex-col md:flex-row gap-4">
+
+      <!-- 🟩 왼쪽: 텍스트 정보 -->
+      <div class="flex-1 space-y-2">
+        <div>
+          <span class="font-semibold text-green-700">경기장: </span>${scArticle.title}
+        </div>
+        <div>
+          <span class="font-semibold text-green-700">경기 일시: </span>${scArticle.playDate}
+        </div>
+        <div>
+          <span class="font-semibold text-green-700">주소: </span>
+          <span id="address">${scArticle.address}</span>
+        </div>
+      </div>
+
+      <!-- 🟦 오른쪽: 지도 영역 -->
+      <div class="flex-1">
+        <div id="map" class="w-full h-40 md:h-48 rounded-lg shadow"></div>
+      </div>
     </div>
   </div>
+
+  <!-- Kakao Map Script -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=865ee63e65accb86ded5e65ec9ebfe0b&libraries=services"></script>
+  <script>
+    const address = document.getElementById("address").textContent;
+    const mapContainer = document.getElementById('map');
+    const mapOption = {
+      center: new kakao.maps.LatLng(33.450701, 126.570667),
+      level: 3
+    };
+
+    const map = new kakao.maps.Map(mapContainer, mapOption);
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    geocoder.addressSearch(address, function(result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        map.setCenter(coords);
+        new kakao.maps.Marker({
+          map: map,
+          position: coords
+        });
+      } else {
+        console.error("주소를 좌표로 변환하지 못했습니다.");
+      }
+    });
+  </script>
   <!-- 날씨 정보 -->
   <!-- ❌ 날씨 정보 -->
   <c:choose>
@@ -64,27 +104,38 @@
     평균레벨 <span class="text-black">${scArticle.avgLevelName}</span>
   </div>
 
-  <div class="flex justify-center gap-4 mt-6 mb-6">
-    <button type="button" id="btn-FW"
-            onclick="selectPosition('FW')"
-            class="px-6 py-2 rounded-full border-2 border-red-500 text-red-500 font-semibold transition hover:bg-red-50">
-      FW
-    </button>
+  <form action="/usr/scArticle/joinMatch" method="post" onsubmit="return validatePositionSelection()">
+    <input type="hidden" name="id" value="${scArticle.id}" />
+    <input type="hidden" id="positionSelect" name="position" />
 
-    <button type="button" id="btn-MF"
-            onclick="selectPosition('MF')"
-            class="px-6 py-2 rounded-full border-2 border-green-600 text-green-600 font-semibold transition hover:bg-green-50">
-      MF
-    </button>
+    <div class="flex justify-center gap-4 mt-6 mb-6">
+      <button type="button" id="btn-FW"
+              onclick="selectPosition('FW')"
+              class="px-6 py-2 rounded-full border-2 border-red-500 text-red-500 font-semibold transition hover:bg-red-50">
+        FW
+      </button>
 
-    <button type="button" id="btn-DF"
-            onclick="selectPosition('DF')"
-            class="px-6 py-2 rounded-full border-2 border-blue-500 text-blue-500 font-semibold transition hover:bg-blue-50">
-      DF
-    </button>
-  </div>
+      <button type="button" id="btn-MF"
+              onclick="selectPosition('MF')"
+              class="px-6 py-2 rounded-full border-2 border-green-600 text-green-600 font-semibold transition hover:bg-green-50">
+        MF
+      </button>
 
-  <input type="hidden" id="positionSelect" name="positionSelect" />
+      <button type="button" id="btn-DF"
+              onclick="selectPosition('DF')"
+              class="px-6 py-2 rounded-full border-2 border-blue-500 text-blue-500 font-semibold transition hover:bg-blue-50">
+        DF
+      </button>
+    </div>
+
+    <div class="text-center">
+      <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
+        ⚽ 참가하기
+      </button>
+    </div>
+  </form>
+
+
 
 
 

@@ -24,9 +24,9 @@
 					<h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-pulse">
 						사람은 안 돌아와도, 공은 돌아옵니다.
 					</h1>
-					<p class="text-lg md:text-xl font-medium">
-						팀원 모집부터 경기 참가까지<br />Vamos에서 한 번에!
-					</p>
+<%--					<p class="text-lg md:text-xl font-medium">--%>
+<%--						팀원 모집부터 경기 참가까지<br />Vamos에서 한 번에!--%>
+<%--					</p>--%>
 					<p class="text-sm md:text-base font-extrabold mt-10">
 						마우스 휠을 조작해 보세요!
 					</p>

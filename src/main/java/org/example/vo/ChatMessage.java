@@ -1,14 +1,18 @@
 package org.example.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class ChatMessage {
-    private Long teamId;
-    private String sender;
+    private int teamId;
+    private int memberId;
     private String message;
+    private String sendTime;
+
 }

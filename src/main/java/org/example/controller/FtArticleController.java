@@ -61,36 +61,6 @@ public class FtArticleController {
         this.beforeActionInterceptor = beforeActionInterceptor;
     }
 
-
-//    @RequestMapping("/usr/article/detail")
-//    public String showDetail(HttpServletRequest req, Model model, int id) {
-//        Rq rq = (Rq) req.getAttribute("rq");
-//
-//        FtArticle ftArticle = FtArticleService.getForPrintArticle(rq.getLoginedMemberId(), id);
-//
-//        ResultData usersReactionRd = reactionPointService.usersReaction(rq.getLoginedMemberId(), "article", id);
-//
-//        if (usersReactionRd.isSuccess()) {
-//            model.addAttribute("userCanMakeReaction", usersReactionRd.isSuccess());
-//        }
-//
-//        return "usr/article/detail";
-//    }
-
-//    @RequestMapping("/usr/article/doIncreaseHitCountRd")
-//    @ResponseBody
-//    public ResultData doIncreaseHitCount(int id) {
-//
-//        ResultData increaseHitCountRd = ftarticleService.increaseHitCount(id);
-//
-//        if (increaseHitCountRd.isFail()) {
-//            return increaseHitCountRd;
-//        }
-//
-//        return ResultData.from(increaseHitCountRd.getResultCode(), increaseHitCountRd.getMsg(), "hitCount",
-//                ftarticleService.getArticleHitCount(id), "articleId", id);
-//    }
-
     @RequestMapping("/usr/ftArticle/foot_menu")
     public String showList(HttpServletRequest req, Model model,
                            @RequestParam(defaultValue = "1") int page,

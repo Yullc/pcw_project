@@ -22,18 +22,57 @@
   <img src="${ftArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4" />
 
   <!-- 경기 정보 카드 -->
-  <div class="bg-gray-200 rounded-lg p-4 mb-4 font-semibold text-black-700 space-y-1 shadow">
-    <div>
-      <span class="font-semibold text-green-700">경기장: </span>${ftArticle.title}
-    </div>
-    <div>
-      <span class="font-semibold text-green-700">경기 일시: </span>${ftArticle.playDate}
-    </div>
-    <div>
-      <span class="font-semibold text-green-700">주소: </span>${ftArticle.address}
+  <!-- 경기 정보 카드 (지도 포함) -->
+  <div class=" rounded-lg p-4 mb-4 font-semibold text-black-700 shadow">
+    <div class="flex flex-col md:flex-row gap-4">
+
+      <!-- 🟩 왼쪽: 텍스트 정보 -->
+      <div class="flex-1 space-y-2">
+        <div>
+          <span class="font-semibold text-green-700">경기장: </span>${ftArticle.title}
+        </div>
+        <div>
+          <span class="font-semibold text-green-700">경기 일시: </span>${ftArticle.playDate}
+        </div>
+        <div>
+          <span class="font-semibold text-green-700">주소: </span>
+          <span id="address">${ftArticle.address}</span>
+        </div>
+      </div>
+
+      <!-- 🟦 오른쪽: 지도 영역 -->
+      <div class="flex-1">
+        <div id="map" class="w-full h-40 md:h-48 rounded-lg shadow"></div>
+      </div>
     </div>
   </div>
 
+  <!-- Kakao Map Script -->
+  <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=865ee63e65accb86ded5e65ec9ebfe0b&libraries=services"></script>
+  <script>
+    const address = document.getElementById("address").textContent;
+    const mapContainer = document.getElementById('map');
+    const mapOption = {
+      center: new kakao.maps.LatLng(33.450701, 126.570667),
+      level: 3
+    };
+
+    const map = new kakao.maps.Map(mapContainer, mapOption);
+    const geocoder = new kakao.maps.services.Geocoder();
+
+    geocoder.addressSearch(address, function(result, status) {
+      if (status === kakao.maps.services.Status.OK) {
+        const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+        map.setCenter(coords);
+        new kakao.maps.Marker({
+          map: map,
+          position: coords
+        });
+      } else {
+        console.error("주소를 좌표로 변환하지 못했습니다.");
+      }
+    });
+  </script>
 
   <!-- ❌ 날씨 정보 -->
   <c:choose>
