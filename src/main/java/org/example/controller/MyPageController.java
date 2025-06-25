@@ -3,10 +3,7 @@ package org.example.controller;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import jakarta.servlet.http.HttpServletRequest;
-import org.example.service.MatchParticipantService;
-import org.example.service.MemberService;
-import org.example.service.MessageService;
-import org.example.service.MyPageService;
+import org.example.service.*;
 import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.util.Ut;
@@ -38,6 +35,9 @@ public class MyPageController {
 
     @Autowired
     private MessageService messageService;
+    @Autowired
+    private TeamService teamService;
+
     @Autowired
     private MatchParticipantService matchParticipantService;
 
@@ -76,6 +76,14 @@ public class MyPageController {
         }
         int loginedMemberId = rq.getLoginedMemberId();
         int likeCount = myPageService.getGoodRP(loginedMemberId);
+        int teamId = myPageService.getTeamIdByMemberId(memberId); // 새 메서드 필요
+        model.addAttribute("teamId", teamId);
+
+
+
+
+
+        model.addAttribute("teamId", teamId);
         model.addAttribute("likeCount", likeCount);
         model.addAttribute("id", member.getId());
         model.addAttribute("profileImg", member.getProfileImg());

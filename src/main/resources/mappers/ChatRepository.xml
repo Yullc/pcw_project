@@ -5,9 +5,19 @@
 
 <mapper namespace="org.example.repository.ChatRepository">
 
+<<<<<<< HEAD
     <insert id="insertMessage" parameterType="org.example.vo.ChatMessage">
         INSERT INTO teamChatMessage (teamId, memberId, message,nickName,sendTime)
         VALUES ( #{teamId}, #{memberId}, #{message}, #{nickName},NOW())
     </insert>
 
 </mapper>
+=======
+    <insert id="save" parameterType="org.example.vo.ChatMessage">
+        INSERT INTO teamChatMessage (teamId, memberId, message, sendTime)
+        VALUES (#{teamId}, #{memberId}, #{message}, NOW())
+    </insert>
+
+
+</mapper>
+>>>>>>> b8940df8c34e97c7c8fc8f430e0c5804baaf738c

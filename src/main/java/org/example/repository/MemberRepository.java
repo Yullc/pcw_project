@@ -46,4 +46,8 @@ public interface MemberRepository {
 
 
     void leaveTeam(int memberId);
+
+    int getTeamIdByMemberId(int memberId);
+
+
 }

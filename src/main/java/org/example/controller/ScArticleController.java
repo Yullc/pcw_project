@@ -274,7 +274,7 @@ public class ScArticleController {
         if (!matchParticipantService.isAlreadyJoined(matchId, memberId)) {
             matchParticipantService.scJoin(matchId, memberId, position);
         }
-        System.out.println("position"+position);
+        System.out.println("position: "+position);
 
         return "redirect:/usr/scArticle/soccer_detail?id=" + id;
     }

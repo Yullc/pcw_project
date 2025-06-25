@@ -143,4 +143,8 @@
         WHERE id = #{memberId}
     </update>
 
+    <select id="getTeamIdByMemberId" parameterType="int" resultType="int">
+        SELECT teamId FROM member WHERE id = #{memberId}
+    </select>
+
 </mapper>

@@ -193,7 +193,10 @@
 
       <!-- 팀/레벨 -->
       <div class="flex gap-4">
-        <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">팀: ${teamNm}</div>
+        <a href="/usr/teamArticle/teamDetail?id=${teamId}"
+           class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold hover:bg-green-700 transition">
+          팀: ${teamNm}
+        </a>
         <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">레벨: ${rank}</div>
       </div>
 
