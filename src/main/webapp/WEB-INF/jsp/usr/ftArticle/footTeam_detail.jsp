@@ -50,17 +50,23 @@
   <!-- Kakao Map Script -->
   <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=865ee63e65accb86ded5e65ec9ebfe0b&libraries=services"></script>
   <script>
-    const address = document.getElementById("address").textContent;
+    // ✅ address에서 텍스트 가져오기
+    const address = document.getElementById("address").textContent.trim();
+
+    // ✅ 주소 + " 풋살장" 조합으로 키워드 생성
+    const keyword = `${ftArticle.address} 풋살장`;
+
+    // ✅ Kakao Map 초기 설정
     const mapContainer = document.getElementById('map');
     const mapOption = {
       center: new kakao.maps.LatLng(33.450701, 126.570667),
       level: 3
     };
-
     const map = new kakao.maps.Map(mapContainer, mapOption);
-    const geocoder = new kakao.maps.services.Geocoder();
+    const ps = new kakao.maps.services.Places();  // 장소 검색 객체 생성
 
-    geocoder.addressSearch(address, function(result, status) {
+    // ✅ 키워드로 검색
+    ps.keywordSearch(keyword, function(result, status) {
       if (status === kakao.maps.services.Status.OK) {
         const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
         map.setCenter(coords);
@@ -69,7 +75,7 @@
           position: coords
         });
       } else {
-        console.error("주소를 좌표로 변환하지 못했습니다.");
+        console.error("장소 검색 실패", status);
       }
     });
   </script>
