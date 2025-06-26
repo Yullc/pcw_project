@@ -30,7 +30,7 @@
                 <div class="text-xl font-semibold">${nickName}</div>
                 <c:if test="${rq.loginedMember.nickName ne nickName}">
                     <button id="likeButton" class="btn btn-outline btn-success" onclick="doGoodReaction(${id})">
-                        👍 좋아요 <span class="likeCount">${likeCount}</span>
+                        ❤ 좋아요 <span class="likeCount">${likeCount}</span>
                     </button>
 
                 </c:if>
