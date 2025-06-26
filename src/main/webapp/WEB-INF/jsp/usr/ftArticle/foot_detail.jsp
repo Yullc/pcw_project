@@ -169,6 +169,9 @@
                     <button type="submit" class="bg-red-500 hover:bg-red-600 text-white px-6 py-2 rounded-full">참가 취소하기</button>
                 </form>
             </c:when>
+            <c:when test="${participantCount >= 18}">
+                <div class="text-red-500 font-semibold">⚠️ 이미 18명의 선수가 참가하여 신청할 수 없습니다.</div>
+            </c:when>
             <c:otherwise>
                 <form action="/usr/ftArticle/joinMatch" method="post" onsubmit="return validatePositionSelection(this)">
                     <input type="hidden" name="id" value="${ftArticle.id}" />

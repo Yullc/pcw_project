@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class ChatMessage {
     private int teamId;
     private int memberId;
+    private String sender;
     private String message;
     private String sendTime;
 

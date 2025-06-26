@@ -5,6 +5,8 @@
 <head>
     <title>${team.teamName} 팀 명단</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 </head>
 <body class="bg-white min-h-screen px-[150px] py-10">
 <header class="bg-white border-b border-gray-300 h-20">
@@ -49,10 +51,6 @@
                             </button>
                         </form>
 
-                        <!-- 팀 채팅 버튼 -->
-                        <button onclick="openChatPopup()" class="w-48 h-10  bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-xl">
-                            💬 팀 채팅
-                        </button>
                     </c:when>
                     <c:otherwise>
                         <!-- 팀 가입 버튼 -->
@@ -128,7 +126,8 @@
                     <span class="font-semibold">💬 팀 채팅</span>
                 </div>
 
-                <div id="chatMessages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
+                <div id="chatMessages" class="flex flex-col flex-1 p-4 overflow-y-auto text-sm gap-2"></div>
+
 
                 <form onsubmit="sendMessage(event)" class="flex border-t">
                     <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
@@ -136,8 +135,9 @@
                 </form>
             </div>
         </div>
+
     </div>
-    </div>
+
 </div>
 
 
@@ -158,85 +158,80 @@
     </div>
 </div>
 
-<!-- ✅ 팀 채팅 팝업 -->
-<div id="chatPopup" class="hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center">
-    <div class="bg-white rounded-xl w-[400px] h-[500px] shadow-lg flex flex-col">
-        <div class="bg-blue-500 text-white px-4 py-2 rounded-t-xl flex justify-between items-center">
-            <span class="font-semibold">💬 팀 채팅</span>
-            <button onclick="closeChatPopup()" class="text-white text-lg">&times;</button>
-        </div>
 
-        <div id="chatMessages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
 
-        <form onsubmit="sendMessage(event)" class="flex border-t">
-            <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
-            <button type="submit" class="bg-blue-500 text-white px-4 hover:bg-blue-600">전송</button>
-        </form>
-    </div>
-</div>
-
-<!-- ✅ JavaScript -->
-<script>
-    function openJoinPopup() {
-        document.getElementById('joinPopup').classList.remove('hidden');
-    }
-
-    function closeJoinPopup() {
-        document.getElementById('joinPopup').classList.add('hidden');
-    }
-
-    function openChatPopup() {
-        document.getElementById('chatPopup').classList.remove('hidden');
-        connectWebSocket();
-    }
-
-    function closeChatPopup() {
-        document.getElementById('chatPopup').classList.add('hidden');
-        if (stompClient) {
-            stompClient.disconnect();
-        }
-    }
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 <script>
     let stompClient = null;
-    const teamId = ${team.id};
+    const teamId = <c:out value="${team.id}" default="0" />;
+    const memberId = <c:out value="${rq.loginedMember.id}" default="0" />;
+
+    // 문자열은 반드시 따옴표로 감싸야 함
+    const sender = "<c:out value='${rq.loginedMember.nickName}' default='unknown' />";
 
     function connectWebSocket() {
+        console.log("[WebSocket] 연결 시도...");
         const socket = new SockJS('/ws-stomp');
         stompClient = Stomp.over(socket);
 
-        stompClient.connect({}, () => {
+        stompClient.connect({}, (frame) => {
+            console.log("[WebSocket] 연결 성공!", frame);
+
+            // 🔹 실시간 채팅 수신 구독
             stompClient.subscribe(`/sub/chatroom/${teamId}`, (message) => {
                 const msg = JSON.parse(message.body);
+                console.log("[실시간 메시지 수신]", msg);
                 showMessage(msg.sender, msg.message);
             });
+
+            // 🔹 DB에 저장된 이전 메시지 불러오기
+            fetch(`/chat/history?teamId=${teamId}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log("[초기 메시지 불러오기]", data);
+                    data.forEach(msg => showMessage(msg.nickName, msg.message));
+                })
+                .catch(error => console.error("[초기 메시지 오류]", error));
         });
     }
 
     function sendMessage(event) {
         event.preventDefault();
+
         const input = document.getElementById('chatInput');
         const message = input.value.trim();
-        if (message && stompClient) {
-            stompClient.send("/pub/chat/send", {}, JSON.stringify({
-                teamId: teamId,
-                sender: '${rq.loginedMember.nickName}',
-                message: message
-            }));
-            input.value = '';
-        }
+        if (!message) return;
+
+        const payload = {
+            teamId: teamId,
+            sender: sender,
+            memberId: memberId,
+            message: message
+        };
+
+        console.log("[메시지 전송]", payload);
+        stompClient.send("/pub/chat/send", {}, JSON.stringify(payload));
+        input.value = '';
     }
 
     function showMessage(sender, message) {
         const chatBox = document.getElementById('chatMessages');
-        const div = document.createElement('div');
-        div.innerHTML = `<strong>${sender}:</strong> ${message}`;
-        chatBox.appendChild(div);
+        const messageDiv = document.createElement('div');
+
+        const isMine = sender === "${rq.loginedMember.nickName}";
+        messageDiv.classList.add("mb-2", "p-2", "rounded", "max-w-[80%]");
+        messageDiv.classList.add(isMine ? "bg-blue-100" : "bg-gray-100");
+        messageDiv.classList.add("self-" + (isMine ? "end" : "start"));
+
+        messageDiv.innerHTML = `
+            <div class="text-xs text-gray-500">${sender}</div>
+            <div class="text-sm">${message}</div>
+        `;
+
+        chatBox.appendChild(messageDiv);
         chatBox.scrollTop = chatBox.scrollHeight;
     }
+
+    window.addEventListener('load', connectWebSocket);
 </script>
 
 </body>

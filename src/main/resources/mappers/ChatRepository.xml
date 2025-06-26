@@ -5,10 +5,15 @@
 
 <mapper namespace="org.example.repository.ChatRepository">
 
-    <insert id="save" parameterType="org.example.vo.ChatMessage">
-        INSERT INTO teamChatMessage (teamId, memberId, message, sendTime)
-        VALUES (#{teamId}, #{memberId}, #{message}, NOW())
+    <insert id="saveMessage" parameterType="org.example.vo.ChatMessage">
+        INSERT INTO teamChatMessage (teamId, memberId, message, nickName, sendTime)
+        VALUES (#{teamId}, #{memberId}, #{message}, #{sender}, NOW())
     </insert>
 
-
+    <select id="getMessagesByTeamId" parameterType="int" resultType="org.example.vo.ChatMessage">
+        SELECT teamId, memberId, nickName AS sender, message, sendTime
+        FROM teamChatMessage
+        WHERE teamId = #{teamId}
+        ORDER BY sendTime ASC
+    </select>
 </mapper>

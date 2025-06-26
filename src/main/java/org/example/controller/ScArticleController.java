@@ -168,7 +168,7 @@ public class ScArticleController {
 
         List<Member> participants = matchParticipantService.getParticipants(id);
         int totalRank = 0;
-
+        int participantCount = participants.size();
         for (Member m : participants) {
             int rank = m.getRank();
             m.setRankName(RankUtil.getRankName(rank));
@@ -193,7 +193,7 @@ public class ScArticleController {
         String area = scArticle.getArea();
         LocalDate playDate = LocalDateTime.parse(scArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
         List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
-
+        model.addAttribute("participantCount", participantCount);
         model.addAttribute("scArticle", scArticle);
         model.addAttribute("weatherList", weatherList);
         model.addAttribute("participants", participants);

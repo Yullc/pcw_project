@@ -141,7 +141,7 @@ public class FtArticleController {
         }
 
         int totalRank = 0;
-
+        int participantCount = participants.size();
         for (Member m : participants) {
             int rank = m.getRank();
             m.setRankName(RankUtil.getRankName(rank));
@@ -167,7 +167,7 @@ public class FtArticleController {
         LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
         List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
         model.addAttribute("boardId", 1); // 1 = 풋살 게시판
-
+        model.addAttribute("participantCount",participantCount);
         model.addAttribute("ftArticle", ftArticle);
         model.addAttribute("weatherList", weatherList);
         model.addAttribute("participants", participants);

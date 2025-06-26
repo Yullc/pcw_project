@@ -5,6 +5,8 @@ import org.example.repository.ChatRepository;
 import org.example.vo.ChatMessage;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class ChatService {
@@ -13,5 +15,9 @@ public class ChatService {
 
     public void saveMessage(ChatMessage chatMessage) {
         chatRepository.saveMessage(chatMessage);
+    }
+
+    public List<ChatMessage> getMessagesByTeamId(int teamId) {
+        return chatRepository.getMessagesByTeamId(teamId);
     }
 }
