@@ -199,6 +199,65 @@ CREATE TABLE reactionPoint (
                                toMemberId INT NOT NULL,
                                UNIQUE KEY uniq_like (fromMemberId, toMemberId)
 );
+
+CREATE TABLE teamChatMessage (
+                                 id INT PRIMARY KEY AUTO_INCREMENT,
+                                 teamId INT NOT NULL,
+                                 memberId INT NOT NULL,
+                                 nickName VARCHAR(20) NOT NULL,
+                                 message TEXT NOT NULL,
+                                 sendTime DATETIME DEFAULT NOW()
+);
+
+CREATE TABLE trophy (
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        `rank` INT NOT NULL UNIQUE,   -- 1~12: 루키1~프로3
+                        svg TEXT                    -- SVG 코드 저장
+);
+
+CREATE TABLE teamAlert (
+                           id INT PRIMARY KEY AUTO_INCREMENT,
+                           teamId INT NOT NULL,
+                           memberId INT NOT NULL,
+                           content TEXT NOT NULL,
+                           regDate DATETIME DEFAULT NOW()
+);
+SELECT * FROM teamAlert;
+DROP TABLE teamAlert;
+
+INSERT INTO trophy (`rank`, svg) VALUES
+                                     (1, '<svg>루키1</svg>'),
+                                     (2, '<svg>루키2</svg>'),
+                                     (3, '<svg>루키3</svg>'),
+                                     (4, '<svg>아마추어1</svg>'),
+                                     (5, '<svg>아마추어2</svg>'),
+                                     (6, '<svg>아마추어3</svg>'),
+                                     (7, '<svg>세미프로1</svg>'),
+                                     (8, '<svg>세미프로2</svg>'),
+                                     (9, '<svg>세미프로3</svg>'),
+                                     (10, '<svg>프로1</svg>'),
+                                     (11, '<svg>프로2</svg>'),
+                                     (12, '<svg>프로3</svg>');
+INSERT INTO trophy (RANK, svg) VALUES (
+                                          12,
+                                          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#bb56c2" d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/></svg>'
+                                      );
+INSERT INTO trophy (RANK, svg) VALUES (
+                                          3,
+                                          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#814d22" d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/></svg>'
+                                      );
+INSERT INTO trophy (RANK, svg) VALUES (
+                                          6,
+                                          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#323d95" d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/></svg>'
+
+                                      );
+INSERT INTO trophy (RANK, svg) VALUES (
+                                          9,
+                                          '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--!Font Awesome Free 6.7.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2025 Fonticons, Inc.--><path fill="#c6ac4e" d="M400 0L176 0c-26.5 0-48.1 21.8-47.1 48.2c.2 5.3 .4 10.6 .7 15.8L24 64C10.7 64 0 74.7 0 88c0 92.6 33.5 157 78.5 200.7c44.3 43.1 98.3 64.8 138.1 75.8c23.4 6.5 39.4 26 39.4 45.6c0 20.9-17 37.9-37.9 37.9L192 448c-17.7 0-32 14.3-32 32s14.3 32 32 32l192 0c17.7 0 32-14.3 32-32s-14.3-32-32-32l-26.1 0C337 448 320 431 320 410.1c0-19.6 15.9-39.2 39.4-45.6c39.9-11 93.9-32.7 138.2-75.8C542.5 245 576 180.6 576 88c0-13.3-10.7-24-24-24L446.4 64c.3-5.2 .5-10.4 .7-15.8C448.1 21.8 426.5 0 400 0zM48.9 112l84.4 0c9.1 90.1 29.2 150.3 51.9 190.6c-24.9-11-50.8-26.5-73.2-48.3c-32-31.1-58-76-63-142.3zM464.1 254.3c-22.4 21.8-48.3 37.3-73.2 48.3c22.7-40.3 42.8-100.5 51.9-190.6l84.4 0c-5.1 66.3-31.1 111.2-63 142.3z"/></svg>'
+
+
+                                      );
+DROP TABLE teamChatMessage;
 ALTER TABLE reactionPoint
     ADD COLUMN memberId INT NOT NULL;
 
@@ -210,11 +269,13 @@ DROP TABLE reactionPoint;
 ALTER TABLE reactionPoint DROP COLUMN relId;
 SELECT * FROM member_like;
 SELECT * FROM scArticle;
-SELECT * FROM ftArticle;
+SELECT * FROM teamChatMessage;
 SELECT * FROM mercenaryArticle;
 SELECT * FROM teamArticle;
 SELECT * FROM `member`;
 SELECT * FROM `match_participant`;
+SELECT * FROM `teamChatMessage`;
+
 SELECT * FROM message;
 ALTER TABLE `mercenaryArticle` ADD `area` CHAR(20) AFTER `body`;
 ALTER TABLE `match_participant` ADD `regDate` DATETIME;
@@ -243,9 +304,22 @@ updateDate = NOW(),
 title = '6월 13일 서울 경기장 용병 뛰실 분~',
 `body`= "6월 13일 서울 경기장 용병 뛰실 분",
 memberId =1;
-
-INSERT INTO match_participant (matchId, memberId) VALUES (101, 2);
-INSERT INTO match_participant (matchId, memberId) VALUES (102, 2);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 2);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 3);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 4);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 5);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 6);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 7);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 8);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 9);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 10);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 14);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 12);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 13);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 15);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 16);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 17);
+INSERT INTO match_participant (matchId, memberId) VALUES (2601, 18);
 INSERT INTO `teamArticle`
 SET regDate = NOW(),
 updateDate = NOW(),
@@ -419,17 +493,29 @@ SELECT * FROM board;
 
 DROP TABLE match_participant;
 SELECT * FROM board;
-UPDATE ftArticle SET playDate = '2024-06-01 15:00:00' WHERE id = 45;
-UPDATE ftArticle SET playDate = '2024-06-01 15:00:00' WHERE id = 50;
-UPDATE ftArticle SET playDate = '2025-06-017 12:20:00' WHERE id = 51;
+
+UPDATE ftArticle SET playDate = '2025-06-23 16:00:00' WHERE id = 60;
+UPDATE ftArticle SET playDate = '2025-06-23 17:00:00' WHERE id = 130;
+UPDATE ftArticle SET playDate = '2025-06-23 18:20:00' WHERE id = 501;
 
 INSERT INTO match_participant (matchId, memberId, `position`, `type`)
 VALUES
 
-    (51, 1,'','풋살');
+    (501, 2,'','풋살');
+
+SELECT fa.*, fs.img
+FROM ftArticle fa
+         INNER JOIN match_participant mp ON fa.id = mp.matchId
+         INNER JOIN football_stadium fs ON fa.id = fs.id
+WHERE mp.memberId = 1
+  AND mp.type = '풋살'
+  AND fa.playDate < NOW()
+ORDER BY fa.playDate DESC
+    LIMIT 3;
+
 
 UPDATE ftArticle
-SET `code` = '팀'
+SET `code` = '개인'
 WHERE `code` IS NULL OR `code` = '';
 
 SELECT * FROM MEMBER;
@@ -494,6 +580,9 @@ SELECT * FROM teamArticle;
 SELECT * FROM reactionPoint;
 DELETE FROM match_participant
 WHERE matchId = 0;
+UPDATE football_stadium
+SET address = '부산 기장군 장안읍 고무로 270 풋살장'
+WHERE address = '부산 기장군 장안읍';
 
 ALTER TABLE team ADD UNIQUE (teamName);
 ALTER TABLE team ADD UNIQUE (teamLeader);
@@ -561,9 +650,8 @@ DROP TABLE match_participant;
 ALTER TABLE message
     ADD COLUMN teamId INT ;
 
-UPDATE match_participant
-SET TYPE = '축구'
-WHERE id = 16;
+
+
 UPDATE match_participant
 SET TYPE = '축구'
 WHERE id = 17;
