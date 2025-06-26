@@ -28,7 +28,13 @@
         <div class="border rounded-xl p-6 shadow flex flex-col items-center text-center">
             <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
 
-            <div class="text-lg font-semibold mb-2">팀장: ${team.teamLeader}</div>
+            <div class="text-lg font-semibold mb-2 flex items-center justify-center gap-1">
+                팀장:
+                <span class="inline-block w-5 h-5 align-middle">
+                    <c:out value="${teamLeader.trophySvg}" escapeXml="false" />
+                </span>
+                ${team.teamLeader}
+            </div>
 
             <div class="mt-4">
                 <div class="bg-green-600 text-white rounded-full px-4 py-1 inline-block font-semibold mb-2">
@@ -106,8 +112,17 @@
                         <div class="flex items-center gap-4 p-4 rounded-xl border border-green-300 bg-white shadow hover:shadow-md transition">
                             <img src="${member.profileImg}" alt="프로필" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
                             <div>
-                                <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">${member.nickName}</a>
-                                <div class="text-sm text-gray-600 mt-1">${member.rankName} &nbsp;|&nbsp; 😊 매너온도: ${member.mannerEmoji}</div>
+                                <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">
+                                        ${member.nickName}
+                                </a>
+                                <div class="text-sm text-gray-600 mt-1 flex items-center gap-1">
+                                    <div class="w-5 h-5">
+                                        <c:out value="${member.trophySvg}" escapeXml="false" />
+                                    </div>
+                                    <span>${member.rankName}</span>
+                                    <span>&nbsp;|&nbsp; 매너온도: ${member.mannerEmoji}</span>
+                                </div>
+
                             </div>
                         </div>
                     </c:forEach>

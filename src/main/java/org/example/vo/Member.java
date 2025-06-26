@@ -37,4 +37,7 @@ public class Member {
     private String mannerEmoji;
     private int goodReactionPoint;
     private String position;
+
+    private String trophySvg;
+
 }

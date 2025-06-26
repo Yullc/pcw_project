@@ -2,6 +2,7 @@ package org.example.controller;
 
 import org.example.repository.MemberRepository;
 import org.example.service.FtArticleService;
+import org.example.service.TrophyService;
 import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.vo.FtArticle;
@@ -36,6 +37,9 @@ public class MemberController {
     private FtArticleService ftarticleService;
     @Autowired
     private MemberService memberService;
+
+    @Autowired
+    private TrophyService trophyService;
 
 
     @RequestMapping("/usr/member/doLogout")

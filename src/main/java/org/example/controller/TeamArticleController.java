@@ -385,6 +385,10 @@ public class TeamArticleController {
             return Ut.jsHistoryBack("F-1", "해당 팀이 존재하지 않습니다.");
         }
 
+        Member teamLeader = memberService.getMemberByNickname(team.getTeamLeader());
+        memberService.attachTrophySvg(List.of(teamLeader)); // ✅ 트로피 붙이기
+
+        model.addAttribute("teamLeader", teamLeader);
         // 2. 팀 소속 멤버들
         List<Member> teamMembers = memberService.getMembersByTeamId(team.getId());
 

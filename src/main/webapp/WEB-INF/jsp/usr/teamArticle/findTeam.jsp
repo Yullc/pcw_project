@@ -106,26 +106,27 @@
                 팀을 구해보세요.
             </div>
             <c:forEach var="team" items="${teamArticles}">
-                <div class="border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md">
+                <div onclick="location.href='/usr/teamArticle/findTeam_detail?id=${team.id}'"
+                     class="cursor-pointer border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md hover:bg-green-50 transition">
+
                     <div class="flex items-center gap-4">
                         <div class="w-2 h-6 bg-green-500 rounded-r"></div>
                         <div>
-                            <div class="font-bold text-lg">
-                                <a href="/usr/teamArticle/findTeam_detail?id=${team.id}" class="hover:underline hover:text-green-600">
-                                        ${team.title}
-                                </a>
+                            <div class="font-bold text-lg text-black">
+                                    ${team.title}
                             </div>
                         </div>
                     </div>
+
                     <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
                         <c:choose>
                             <c:when test="${rq.loginedMember.nickName == team.extra__writer}">
-                                <a href="/usr/home/myPage" class="hover:text-green-600 hover:underline">
+                                <a href="/usr/home/myPage" class="hover:text-green-600 hover:underline" onclick="event.stopPropagation()">
                                         ${team.extra__writer}
                                 </a>
                             </c:when>
                             <c:otherwise>
-                                <a href="/usr/home/yourPage?nickName=${team.extra__writer}" class="hover:text-green-600 hover:underline">
+                                <a href="/usr/home/yourPage?nickName=${team.extra__writer}" class="hover:text-green-600 hover:underline" onclick="event.stopPropagation()">
                                         ${team.extra__writer}
                                 </a>
                             </c:otherwise>
@@ -135,6 +136,7 @@
                     </div>
                 </div>
             </c:forEach>
+
             <div class="text-right mb-4">
                 <a href="/usr/teamArticle/findTeam_write"
                    class="inline-block bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full shadow-md">
