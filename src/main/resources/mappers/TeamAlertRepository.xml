@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="org.example.repository.TeamAlertRepository">
+
+    <select id="getAlertsByTeamId" resultType="org.example.vo.TeamAlert">
+        SELECT ta.*, m.nickName
+        FROM teamAlert ta
+                 JOIN member m ON ta.memberId = m.id
+        WHERE ta.teamId = #{teamId}
+        ORDER BY ta.id DESC
+    </select>
+
+    <insert id="writeAlert" parameterType="org.example.vo.TeamAlert"
+            useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO teamAlert (teamId, memberId, content)
+        VALUES (#{teamId}, #{memberId}, #{content})
+    </insert>
+
+
+
+</mapper>

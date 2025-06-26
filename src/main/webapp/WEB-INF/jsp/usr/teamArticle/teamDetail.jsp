@@ -135,25 +135,33 @@
             </div>
         </div>
 
-        <div class="w-full lg:w-1/4 space-y-6">
-            <div class="bg-white rounded-xl shadow-lg flex flex-col h-[500px]">
-                <div class="bg-blue-500 text-white px-4 py-2 rounded-t-xl flex justify-between items-center">
-                    <span class="font-semibold">💬 팀 채팅</span>
-                </div>
+        <!-- 팀 알림 박스 -->
+        <div class="w-full max-w-md h-[600px] bg-white rounded-xl shadow border border-blue-300 flex flex-col p-4">
 
-                <div id="chatMessages" class="flex flex-col flex-1 p-4 overflow-y-auto text-sm gap-2"></div>
-
-
-                <form onsubmit="sendMessage(event)" class="flex border-t">
-                    <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
-                    <button type="submit" class="bg-blue-500 text-white px-4 hover:bg-blue-600">전송</button>
-                </form>
+            <!-- 제목 -->
+            <div class="text-blue-600 font-bold text-lg mb-2">
+                🛎️ 팀 알림
             </div>
+
+            <!-- 알림 리스트 -->
+            <div id="teamAlerts" class="flex flex-col-reverse overflow-y-auto pr-2 max-h-[600px]">
+                <c:forEach var="alert" items="${alerts}">
+                    <div class="bg-blue-50 rounded px-3 py-2 text-sm mb-2">
+                        <span class="font-semibold text-blue-700">${alert.nickName}</span> : ${alert.content}
+                    </div>
+                </c:forEach>
+            </div>
+
+            <!-- 알림 입력 폼: 박스 맨 아래에 고정 -->
+            <form action="/usr/teamAlert/write" method="post" class="flex gap-2 mt-auto pt-4">
+                <input type="hidden" name="teamId" value="${team.id}">
+                <input type="text" name="content" placeholder="알림 내용을 입력하세요..." class="flex-1 border rounded px-3 py-1 text-sm">
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded text-sm">등록</button>
+            </form>
+
         </div>
 
     </div>
-
-</div>
 
 
 <!-- ✅ 가입 신청 팝업 -->
@@ -174,80 +182,6 @@
 </div>
 
 
-
-<script>
-    let stompClient = null;
-    const teamId = <c:out value="${team.id}" default="0" />;
-    const memberId = <c:out value="${rq.loginedMember.id}" default="0" />;
-
-    // 문자열은 반드시 따옴표로 감싸야 함
-    const sender = "<c:out value='${rq.loginedMember.nickName}' default='unknown' />";
-
-    function connectWebSocket() {
-        console.log("[WebSocket] 연결 시도...");
-        const socket = new SockJS('/ws-stomp');
-        stompClient = Stomp.over(socket);
-
-        stompClient.connect({}, (frame) => {
-            console.log("[WebSocket] 연결 성공!", frame);
-
-            // 🔹 실시간 채팅 수신 구독
-            stompClient.subscribe(`/sub/chatroom/${teamId}`, (message) => {
-                const msg = JSON.parse(message.body);
-                console.log("[실시간 메시지 수신]", msg);
-                showMessage(msg.sender, msg.message);
-            });
-
-            // 🔹 DB에 저장된 이전 메시지 불러오기
-            fetch(`/chat/history?teamId=${teamId}`)
-                .then(response => response.json())
-                .then(data => {
-                    console.log("[초기 메시지 불러오기]", data);
-                    data.forEach(msg => showMessage(msg.nickName, msg.message));
-                })
-                .catch(error => console.error("[초기 메시지 오류]", error));
-        });
-    }
-
-    function sendMessage(event) {
-        event.preventDefault();
-
-        const input = document.getElementById('chatInput');
-        const message = input.value.trim();
-        if (!message) return;
-
-        const payload = {
-            teamId: teamId,
-            sender: sender,
-            memberId: memberId,
-            message: message
-        };
-
-        console.log("[메시지 전송]", payload);
-        stompClient.send("/pub/chat/send", {}, JSON.stringify(payload));
-        input.value = '';
-    }
-
-    function showMessage(sender, message) {
-        const chatBox = document.getElementById('chatMessages');
-        const messageDiv = document.createElement('div');
-
-        const isMine = sender === "${rq.loginedMember.nickName}";
-        messageDiv.classList.add("mb-2", "p-2", "rounded", "max-w-[80%]");
-        messageDiv.classList.add(isMine ? "bg-blue-100" : "bg-gray-100");
-        messageDiv.classList.add("self-" + (isMine ? "end" : "start"));
-
-        messageDiv.innerHTML = `
-            <div class="text-xs text-gray-500">${sender}</div>
-            <div class="text-sm">${message}</div>
-        `;
-
-        chatBox.appendChild(messageDiv);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    window.addEventListener('load', connectWebSocket);
-</script>
 
 </body>
 </html>
