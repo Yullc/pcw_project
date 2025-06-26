@@ -140,7 +140,7 @@
 
             <!-- 제목 -->
             <div class="text-blue-600 font-bold text-lg mb-3 border-b pb-2">
-                🛎️ 팀 알림
+                🛎️ 팀 공지사랑
             </div>
 
             <!-- 알림 리스트 -->
