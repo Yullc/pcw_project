@@ -139,27 +139,35 @@
         <div class="w-full max-w-md h-[600px] bg-white rounded-xl shadow border border-blue-300 flex flex-col p-4">
 
             <!-- 제목 -->
-            <div class="text-blue-600 font-bold text-lg mb-2">
+            <div class="text-blue-600 font-bold text-lg mb-3 border-b pb-2">
                 🛎️ 팀 알림
             </div>
 
             <!-- 알림 리스트 -->
-            <div id="teamAlerts" class="flex flex-col-reverse overflow-y-auto pr-2 max-h-[600px]">
+
+            <div id="teamAlerts" class="flex flex-col-reverse overflow-y-auto pr-1 max-h-[500px] gap-2">
                 <c:forEach var="alert" items="${alerts}">
-                    <div class="bg-blue-50 rounded px-3 py-2 text-sm mb-2">
-                        <span class="font-semibold text-blue-700">${alert.nickName}</span> : ${alert.content}
+                    <div class="bg-gray-100 border border-gray-300 rounded px-4 py-2 text-sm">
+                        <span class="font-semibold text-black">${alert.nickName}</span> :
+                        <span class="text-black">${alert.content}</span>
                     </div>
                 </c:forEach>
             </div>
 
-            <!-- 알림 입력 폼: 박스 맨 아래에 고정 -->
-            <form action="/usr/teamAlert/write" method="post" class="flex gap-2 mt-auto pt-4">
+
+            <!-- 알림 입력 폼 -->
+            <form action="/usr/teamAlert/write" method="post" class="flex gap-2 pt-4">
                 <input type="hidden" name="teamId" value="${team.id}">
-                <input type="text" name="content" placeholder="알림 내용을 입력하세요..." class="flex-1 border rounded px-3 py-1 text-sm">
-                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded text-sm">등록</button>
+                <input type="text" name="content" placeholder="알림 내용을 입력하세요..."
+                       class="flex-1 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded text-sm">
+                    등록
+                </button>
             </form>
 
         </div>
+
+
 
     </div>
 
