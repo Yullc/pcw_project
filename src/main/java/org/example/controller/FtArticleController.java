@@ -136,6 +136,7 @@ public class FtArticleController {
         }
 
         List<Member> participants = matchParticipantService.getParticipants(id);
+        memberService.attachTrophySvg(participants);
         for (Member m : participants) {
             System.out.println("참가자: " + m.getNickName() + " / id=" + m.getId());
         }
@@ -209,6 +210,7 @@ public class FtArticleController {
         boolean alreadyJoined = matchParticipantService.isTeamAlreadyJoined(id, myTeamNm);
 
         List<Map<String, Object>> joinedTeams = matchParticipantService.getJoinedTeamList(id);
+
 
 // 평균 랭크 이름 추가 변환 (예: 3.4 → 아마추어1)
         for (Map<String, Object> team : joinedTeams) {

@@ -180,17 +180,13 @@
       <h2 class="text-md font-bold text-green-600 mb-2">참가자 목록</h2>
 
       <c:forEach var="player" items="${participants}">
-
         <c:choose>
           <c:when test="${pastMatch && rq.loginedMember.nickName != player.nickName}">
             <form method="post" action="/usr/member/updatePlayerInfo"
                   class="flex flex-wrap items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-between">
-
-
               <input type="hidden" name="memberId" value="${player.id}" />
               <input type="hidden" name="id" value="${scArticle.id}" />
               <input type="hidden" name="boardId" value="${boardId}" />
-
 
               <div class="flex items-center gap-2">
                 <c:choose>
@@ -205,12 +201,20 @@
                     </a>
                   </c:otherwise>
                 </c:choose>
-                <span class="text-sm">| ${player.rankName}</span>
+
+                <!-- ✅ 트로피 + 랭크 -->
+                <span class="text-sm flex items-center gap-1 text-gray-700">
+              | <span class="w-4 h-4 inline-block align-middle">
+                <c:out value="${player.trophySvg}" escapeXml="false" />
+              </span>
+              ${player.rankName}
+            </span>
+
                 <span class="text-sm">| 매너온도: ${player.mannerEmoji}</span>
                 <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
               </div>
 
-
+              <!-- 평가 폼 -->
               <select name="rankName" class="border border-gray-300 rounded px-2 py-1 text-sm">
                 <option value="루키1">루키1</option>
                 <option value="루키2">루키2</option>
@@ -225,28 +229,31 @@
                 <option value="프로2">프로2</option>
                 <option value="프로3">프로3</option>
               </select>
-
-
               <select name="mannerEmoji" class="border border-gray-300 rounded px-2 py-1 text-sm">
                 <option value="😍">😍</option>
                 <option value="😊">😊</option>
                 <option value="😐">😐</option>
                 <option value="😡">😡</option>
               </select>
-
-
-              <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
-                평가하기
-              </button>
+              <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">평가하기</button>
             </form>
           </c:when>
 
           <c:otherwise>
+            <!-- 일반 참가자 출력 -->
             <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-start">
               <span class="font-semibold text-green-800">${player.nickName}</span>
+
+              <!-- ✅ 트로피 + 랭크 -->
+              <span class="text-sm flex items-center gap-1 text-gray-700">
+            | <span class="w-4 h-4 inline-block align-middle">
+              <c:out value="${player.trophySvg}" escapeXml="false" />
+            </span>
+            ${player.rankName}
+          </span>
+
+              <span class="text-sm text-gray-700">| 매너온도: ${player.mannerEmoji}</span>
               <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
-              <span class="text-sm text-gray-500">| 랭크: ${player.rankName}</span>
-              <span class="text-sm text-gray-500">| 매너: ${player.mannerEmoji}</span>
             </div>
           </c:otherwise>
         </c:choose>

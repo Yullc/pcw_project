@@ -167,6 +167,7 @@ public class ScArticleController {
         }
 
         List<Member> participants = matchParticipantService.getParticipants(id);
+        memberService.attachTrophySvg(participants);
         int totalRank = 0;
         int participantCount = participants.size();
         for (Member m : participants) {
