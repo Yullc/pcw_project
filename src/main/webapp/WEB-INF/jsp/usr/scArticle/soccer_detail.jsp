@@ -31,15 +31,18 @@
         <!-- 🟩 왼쪽: 텍스트 정보 -->
         <div class="flex-1 space-y-2">
           <div>
-            <span class="font-semibold text-green-700">경기장: </span>${scArticle.title}
+            <span class="font-semibold text-green-700">경기장: </span>
+            <span id="title">${scArticle.title}</span>
           </div>
           <div>
-            <span class="font-semibold text-green-700">경기 일시: </span>${scArticle.playDate}
+            <span class="font-semibold text-green-700">경기 일시: </span>
+            ${scArticle.playDate}
           </div>
           <div>
             <span class="font-semibold text-green-700">주소: </span>
             <span id="address">${scArticle.address}</span>
           </div>
+
         </div>
 
         <!-- 🟦 오른쪽: 지도 영역 -->
@@ -48,21 +51,26 @@
         </div>
       </div>
     </div>
-
     <!-- Kakao Map Script -->
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=865ee63e65accb86ded5e65ec9ebfe0b&libraries=services"></script>
     <script>
-      const address = document.getElementById("address").textContent;
+      // ✅ address에서 텍스트 가져오기
+      const address = document.getElementById("address").textContent.trim();
+
+      // ✅ 주소 + " 풋살장" 조합으로 키워드 생성
+      const keyword = `${scArticle.address} 축구장`;
+
+      // ✅ Kakao Map 초기 설정
       const mapContainer = document.getElementById('map');
       const mapOption = {
         center: new kakao.maps.LatLng(33.450701, 126.570667),
         level: 3
       };
-
       const map = new kakao.maps.Map(mapContainer, mapOption);
-      const geocoder = new kakao.maps.services.Geocoder();
+      const ps = new kakao.maps.services.Places();  // 장소 검색 객체 생성
 
-      geocoder.addressSearch(address, function(result, status) {
+      // ✅ 키워드로 검색
+      ps.keywordSearch(keyword, function(result, status) {
         if (status === kakao.maps.services.Status.OK) {
           const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
           map.setCenter(coords);
@@ -71,10 +79,12 @@
             position: coords
           });
         } else {
-          console.error("주소를 좌표로 변환하지 못했습니다.");
+          console.error("장소 검색 실패", status);
         }
       });
     </script>
+
+
     <!-- 날씨 정보 -->
     <!-- ❌ 날씨 정보 -->
     <c:choose>
@@ -150,9 +160,7 @@
               참가 취소하기
             </button>
           </c:when>
-          <c:when test="${participantCount >= 22}">
-            <div class="text-red-500 font-semibold">⚠️ 이미 22명의 선수가 참가하여 신청할 수 없습니다.</div>
-          </c:when>
+
           <c:otherwise>
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
               ⚽ 참가하기
@@ -227,20 +235,9 @@
               </select>
 
 
-              <button type="button"
-                      class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm"
-                      onclick="disableThisButton(this)">
+              <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
                 평가하기
               </button>
-
-              <script>
-                function disableThisButton(btn) {
-                  btn.disabled = true;
-                  btn.classList.remove("bg-green-500", "hover:bg-green-600", "text-white");
-                  btn.classList.add("bg-gray-400", "cursor-not-allowed", "text-white");
-                  btn.textContent = "✅ 평가 완료";
-                }
-              </script>
             </form>
           </c:when>
 
