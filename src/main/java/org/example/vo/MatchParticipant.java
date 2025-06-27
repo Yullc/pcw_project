@@ -19,4 +19,15 @@ public class MatchParticipant {
     private String position;
     private String teamId;
     private String regDate;
+
+    private boolean hasEvaluated;
+
+    // ✅ 프론트 출력을 위한 확장 필드
+    private Member member;
+
+    // ✅ 직접 만든 생성자
+    public MatchParticipant(Member member, boolean hasEvaluated) {
+        this.member = member;
+        this.hasEvaluated = hasEvaluated;
+    }
 }

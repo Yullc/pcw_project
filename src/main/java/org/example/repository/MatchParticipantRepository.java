@@ -1,6 +1,7 @@
 package org.example.repository;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.vo.Article;
 import org.example.vo.Member;
 import org.example.vo.Team;
@@ -43,4 +44,10 @@ public interface MatchParticipantRepository {
     void cancelTeamJoin(int matchId, String teamNm);
 
     void teamScJoin(int matchId, int memberId, int teamId, String teamNm);
+
+    int getParticipantsWithEvaluation(@Param("matchId") int matchId, @Param("memberId") int memberId);
+
+    boolean hasUserEvaluated(int matchId, int memberId, int evaluatorId);
+
+    void markEvaluationComplete(int matchId, int memberId, int evaluatorId);
 }

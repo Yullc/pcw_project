@@ -79,4 +79,17 @@ public class MatchParticipantService {
     public void teamScJoin(int matchId, int memberId, int teamId, String teamNm) {
         matchParticipantRepository.teamScJoin(matchId, memberId, teamId, teamNm);
     }
+
+    public int getParticipantsWithEvaluation(int matchId, int evaluatorMemberId) {
+        return matchParticipantRepository.getParticipantsWithEvaluation(matchId, evaluatorMemberId);
+    }
+
+    public boolean hasUserEvaluated(int matchId, int memberId, int evaluatorId) {
+        return matchParticipantRepository.hasUserEvaluated(matchId, memberId, evaluatorId);
+    }
+
+    public void markEvaluationComplete(int matchId, int memberId, int evaluatorId) {
+        matchParticipantRepository.markEvaluationComplete(matchId, memberId, evaluatorId);
+    }
+
 }

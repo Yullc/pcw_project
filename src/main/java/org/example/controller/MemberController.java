@@ -2,6 +2,8 @@ package org.example.controller;
 
 import org.example.repository.MemberRepository;
 import org.example.service.FtArticleService;
+import org.example.service.MatchParticipantService;
+import org.example.service.TrophyService;
 import org.example.util.MannerUtil;
 import org.example.util.RankUtil;
 import org.example.vo.FtArticle;
@@ -36,6 +38,11 @@ public class MemberController {
     private FtArticleService ftarticleService;
     @Autowired
     private MemberService memberService;
+    @Autowired
+    private MatchParticipantService matchParticipantService;
+
+    @Autowired
+    private TrophyService trophyService;
 
 
     @RequestMapping("/usr/member/doLogout")
@@ -239,31 +246,40 @@ public class MemberController {
     }
     @PostMapping("/usr/member/updatePlayerInfo")
     public String updatePlayerInfo(@RequestParam int memberId,
-                                   @RequestParam("id") int id,
+                                   @RequestParam("id") int matchId,
                                    @RequestParam int boardId,
                                    @RequestParam String rankName,
                                    @RequestParam String mannerEmoji,
+                                   HttpServletRequest req,
                                    RedirectAttributes redirectAttrs) {
+
+        Rq rq = (Rq) req.getAttribute("rq");
+        int evaluatorId = rq.getLoginedMemberId();
 
         System.out.println("✅ updatePlayerInfo 진입");
         System.out.println(" - memberId: " + memberId);
-        System.out.println(" - id (matchId): " + id);
+        System.out.println(" - id (matchId): " + matchId);
         System.out.println(" - boardId: " + boardId);
         System.out.println(" - rankName: " + rankName);
         System.out.println(" - mannerEmoji: " + mannerEmoji);
 
-        // 매너 & 랭크 변환
+        // 🛠 매너 & 랭크 변환
         int rank = RankUtil.getNameToRank(rankName);
         float manner = MannerUtil.getTemperatureFromEmoji(mannerEmoji);
 
         System.out.println("🛠 변환된 rank: " + rank);
         System.out.println("🛠 변환된 manner: " + manner);
 
+        // 📦 DB 업데이트
         int updatedRows = memberService.updateRankAndManner(memberId, rank, manner);
         System.out.println("📦 DB 업데이트 결과 (영향받은 row 수): " + updatedRows);
 
-        // 리다이렉트 파라미터 전달
-        redirectAttrs.addAttribute("id", id);
+        // 🟢 match_evaluation 테이블에 평가 완료 처리
+        matchParticipantService.markEvaluationComplete(matchId, memberId, evaluatorId);
+        System.out.printf("✅ 평가 완료 처리: matchId=%d, memberId=%d, evaluatorId=%d%n", matchId, memberId, evaluatorId);
+
+        // 🔁 리다이렉트 파라미터 전달
+        redirectAttrs.addAttribute("id", matchId);
 
         String redirectUrl;
         if (boardId == 1) {
@@ -274,7 +290,7 @@ public class MemberController {
             redirectUrl = "/usr/home/main";
         }
 
-        System.out.println("🔁 최종 리다이렉트 주소: " + redirectUrl + "?id=" + id);
+        System.out.println("🔁 최종 리다이렉트 주소: " + redirectUrl + "?id=" + matchId);
         return "redirect:" + redirectUrl;
     }
 

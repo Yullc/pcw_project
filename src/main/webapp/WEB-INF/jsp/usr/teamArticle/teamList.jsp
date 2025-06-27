@@ -107,36 +107,38 @@
                 팀 목록
             </div>
             <c:forEach var="team" items="${teams}">
-                <div class="border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md">
-                    <div class="flex items-center gap-4">
-                        <div class="w-2 h-6 bg-green-500 rounded-r"></div>
-                        <div>
-                            <div class="font-bold text-lg">
-                                <a href="/usr/teamArticle/teamDetail?id=${team.id}" class="hover:underline hover:text-green-600">
-                                        ${team.teamName}
-                                </a>
-                            </div>
+            <div onclick="location.href='/usr/teamArticle/teamDetail?id=${team.id}'"
+                 class="cursor-pointer border border-green-700 rounded-lg p-4 mb-4 flex items-center justify-between hover:shadow-md hover:bg-green-50 transition">
+
+                <div class="flex items-center gap-4">
+                    <div class="w-2 h-6 bg-green-500 rounded-r"></div>
+                    <div>
+                        <div class="font-bold text-lg text-black">
+                                ${team.teamName}
                         </div>
                     </div>
-                    <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
-                        <c:choose>
-                            <c:when test="${rq.loginedMember.nickName == team.teamLeader}">
-                                <a href="/usr/home/myPage" class="hover:text-green-600 hover:underline">
-                                        ${team.teamLeader}
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href="/usr/home/yourPage?nickName=${team.teamLeader}" class="hover:text-green-600 hover:underline">
-                                        ${team.teamLeader}
-                                </a>
-                            </c:otherwise>
-                        </c:choose>
-
-                        <div>${team.avgLevelName}</div>
-                    </div>
                 </div>
+
+                <div class="text-sm text-right text-gray-500 whitespace-nowrap flex gap-4">
+                    <c:choose>
+                        <c:when test="${rq.loginedMember.nickName == team.teamLeader}">
+                            <a href="/usr/home/myPage" class="hover:text-green-600 hover:underline" onclick="event.stopPropagation()">
+                                    ${team.teamLeader}
+                            </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a href="/usr/home/yourPage?nickName=${team.teamLeader}" class="hover:text-green-600 hover:underline" onclick="event.stopPropagation()">
+                                    ${team.teamLeader}
+                            </a>
+                        </c:otherwise>
+                    </c:choose>
+
+                    <div>${team.avgLevelName}</div>
+                </div>
+            </div>
             </c:forEach>
-            <c:if test="${pagesCount > 1}">
+
+        <c:if test="${pagesCount > 1}">
             <!-- ✅ 페이지 그룹 설정 -->
                 <c:set var="groupSize" value="5" />
                 <fmt:parseNumber value="${(page - 1) / groupSize}" integerOnly="true" var="currentGroup" />

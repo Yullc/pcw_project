@@ -10,10 +10,7 @@ import org.example.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -33,6 +30,8 @@ public class TeamArticleController {
     private TeamArticleService teamArticleService;
     @Autowired
     private TeamService teamService;
+    @Autowired
+    private TeamAlertService teamAlertService;
     @Autowired
     private MessageService messageService;
     @Autowired
@@ -385,6 +384,10 @@ public class TeamArticleController {
             return Ut.jsHistoryBack("F-1", "해당 팀이 존재하지 않습니다.");
         }
 
+        Member teamLeader = memberService.getMemberByNickname(team.getTeamLeader());
+        memberService.attachTrophySvg(List.of(teamLeader)); // ✅ 트로피 붙이기
+
+        model.addAttribute("teamLeader", teamLeader);
         // 2. 팀 소속 멤버들
         List<Member> teamMembers = memberService.getMembersByTeamId(team.getId());
 
@@ -414,7 +417,14 @@ public class TeamArticleController {
         } else {
             team.setAvgLevelName("미정");
         }
+        Team teamAlert = teamService.getTeamById(teamId);
+        model.addAttribute("teamAlert", teamAlert);
 
+        List<Member> teamMembersAlert = memberService.getMembersByTeamId(teamId);
+        model.addAttribute("teamMembersAlert", teamMembersAlert);
+
+        List<TeamAlert> alerts = teamAlertService.getAlertsByTeamId(teamId);
+        model.addAttribute("alerts", alerts);
         // 모델에 담기
         model.addAttribute("team", team);
         model.addAttribute("teamMembers", teamMembers);
@@ -490,5 +500,35 @@ public class TeamArticleController {
 
         return Ut.jsReplace("S-1", "팀에서 탈퇴되었습니다.", "/usr/teamArticle/teamDetail?id=" + teamId);
     }
+
+    @GetMapping("/usr/teamAlert/list")
+    public String showTeamAlert(@RequestParam int teamId, Model model) {
+        Team team = teamService.getTeamById(teamId);
+        model.addAttribute("team", team);
+
+
+        List<Member> teamMembers = memberService.getMembersByTeamId(teamId);
+        model.addAttribute("teamMembers", teamMembers);
+
+
+        List<TeamAlert> alerts = teamAlertService.getAlertsByTeamId(teamId);
+        model.addAttribute("alerts", alerts);
+        return "usr/teamArticle/teamDetail";
+    }
+
+    @PostMapping("/usr/teamAlert/write")
+    public String writeAlert(@RequestParam int teamId, @RequestParam String content, HttpServletRequest req) {
+        Rq rq = (Rq) req.getAttribute("rq");
+
+        TeamAlert alert = new TeamAlert();
+        alert.setTeamId(teamId);
+        alert.setMemberId(rq.getLoginedMemberId());
+        alert.setContent(content);
+
+        teamAlertService.writeAlert(alert);
+        return "redirect:/usr/teamAlert/list?teamId=" + teamId;
+
+    }
+
 
 }

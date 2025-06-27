@@ -22,6 +22,23 @@ public class MemberService {
         this.memberRepository = memberRepository;
     }
 
+    @Autowired
+    private TrophyService trophyService;
+
+    public List<Member> getMembersByTeamId(int teamId) {
+        List<Member> members = memberRepository.getMembersByTeamId(teamId);
+        attachTrophySvg(members);
+        return members;
+    }
+
+    // ✅ 공통 트로피 붙이기 메서드
+    public void attachTrophySvg(List<Member> members) {
+        for (Member m : members) {
+            String svg = trophyService.getSvgByRank(m.getRank());
+            m.setTrophySvg(svg);
+        }
+    }
+
     public ResultData<Integer> join(String loginId, String loginPw, String loginPwCheck, String email, String name, String nickName, String phoneNumber, String bornDate, String area, String gender) {
 
         Member existsMember = getMemberByLoginId(loginId);
@@ -76,9 +93,7 @@ public class MemberService {
     }
 
 
-    public List<Member> getMembersByTeamId(int teamId) {
-        return memberRepository.getMembersByTeamId(teamId);
-    }
+
 
 
     public Member getMemberByNickName(String teamLeader) {

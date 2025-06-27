@@ -8,6 +8,8 @@
     <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
     <title>${team.teamName} 팀 명단</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1.6.1/dist/sockjs.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
 </head>
 <body class="bg-white min-h-screen px-[150px] py-10">
 <header class="bg-white border-b border-gray-300 h-20">
@@ -19,10 +21,7 @@
 </header>
 
 <div class="px-[150px] pt-10">
-<<<<<<< HEAD
-=======
 
->>>>>>> b8940df8c34e97c7c8fc8f430e0c5804baaf738c
 <!-- ✅ 메인 레이아웃: 좌측(1/3) + 우측(2/3) -->
     <div class="flex flex-col lg:flex-row gap-10">
 
@@ -32,7 +31,13 @@
         <div class="border rounded-xl p-6 shadow flex flex-col items-center text-center">
             <h1 class="text-3xl font-bold text-green-700 mb-2"> ${team.teamName}</h1>
 
-            <div class="text-lg font-semibold mb-2">팀장: ${team.teamLeader}</div>
+            <div class="text-lg font-semibold mb-2 flex items-center justify-center gap-1">
+                팀장:
+                <span class="inline-block w-5 h-5 align-middle">
+                    <c:out value="${teamLeader.trophySvg}" escapeXml="false" />
+                </span>
+                ${team.teamLeader}
+            </div>
 
             <div class="mt-4">
                 <div class="text-black rounded-full px-4 py-1 inline-block font-semibold mb-2">
@@ -100,7 +105,7 @@
             </c:choose>
         </div>
     </div>
-<<<<<<< HEAD
+
     <!-- ✅ 가운데: 팀원 명단 + 팀 소개 -->
     <div class="w-full lg:w-2/4">
         <div class="bg-white p-6 rounded-xl shadow-md h-[500px] overflow-y-auto">
@@ -115,7 +120,7 @@
                             </a>
                             <div class="text-xs text-gray-600 mt-1">
                                     ${member.rankName} | 😊 매너온도: ${member.mannerEmoji}
-=======
+
 
     <!-- ✅ 우측: 팀원 명단 + 팀 소개 -->
         <div class="w-full lg:w-1/2 space-y-6">
@@ -126,9 +131,22 @@
                         <div class="flex items-center gap-4 p-4 rounded-xl border border-green-300 bg-white shadow hover:shadow-md transition">
                             <img src="${member.profileImg}" alt="프로필" class="w-12 h-12 rounded-full object-cover border border-gray-300" />
                             <div>
+
                                 <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">${member.nickName}</a>
                                 <div class="text-sm text-gray-600 mt-1">${member.rankName} &nbsp;|&nbsp; 😊 매너온도: ${member.mannerEmoji}</div>
->>>>>>> b8940df8c34e97c7c8fc8f430e0c5804baaf738c
+
+                                <a href="/usr/home/yourPage?nickName=${member.nickName}" class="hover:text-green-600 hover:underline">
+                                        ${member.nickName}
+                                </a>
+                                <div class="text-sm text-gray-600 mt-1 flex items-center gap-1">
+                                    <div class="w-5 h-5">
+                                        <c:out value="${member.trophySvg}" escapeXml="false" />
+                                    </div>
+                                    <span>${member.rankName}</span>
+                                    <span>&nbsp;|&nbsp; 매너온도: ${member.mannerEmoji}</span>
+                                </div>
+
+
                             </div>
                         </div>
                     </c:forEach>
@@ -140,7 +158,7 @@
                 <p class="text-sm text-gray-700 whitespace-pre-line">${team.intro}</p>
             </div>
         </div>
-<<<<<<< HEAD
+
         <!-- 팀 소개 -->
         <div class="bg-white p-6 rounded-xl shadow-md mt-6">
             <h2 class="text-lg font-bold text-green-700 mb-2">📢 팀 소개</h2>
@@ -164,26 +182,48 @@
         </div>
     </div>
 
-=======
 
-        <div class="w-full lg:w-1/4 space-y-6">
-            <div class="bg-white rounded-xl shadow-lg flex flex-col h-[500px]">
-                <div class="bg-blue-500 text-white px-4 py-2 rounded-t-xl flex justify-between items-center">
-                    <span class="font-semibold">💬 팀 채팅</span>
-                </div>
 
-                <div id="chatMessages" class="flex-1 p-4 overflow-y-auto text-sm"></div>
+        <!-- 팀 알림 박스 -->
+        <div class="w-full max-w-md h-[600px] bg-white rounded-xl shadow border border-blue-300 flex flex-col p-4">
 
-                <form onsubmit="sendMessage(event)" class="flex border-t">
-                    <input id="chatInput" type="text" placeholder="메시지를 입력하세요..." class="flex-1 p-2 text-sm focus:outline-none" required />
-                    <button type="submit" class="bg-blue-500 text-white px-4 hover:bg-blue-600">전송</button>
-                </form>
+            <!-- 제목 -->
+            <div class="text-blue-600 font-bold text-lg mb-3 border-b pb-2">
+                🛎️ 팀 공지사랑
             </div>
+
+            <!-- 알림 리스트 -->
+
+            <div id="teamAlerts" class="flex flex-col-reverse overflow-y-auto pr-1 max-h-[500px] gap-2">
+                <c:forEach var="alert" items="${alerts}">
+                    <div class="bg-gray-100 border border-gray-300 rounded px-4 py-2 text-sm">
+                        <span class="font-semibold text-black">${alert.nickName}</span> :
+                        <span class="text-black">${alert.content}</span>
+                    </div>
+                </c:forEach>
+            </div>
+
+
+            <!-- 알림 입력 폼 -->
+            <form action="/usr/teamAlert/write" method="post" class="flex gap-2 pt-4">
+                <input type="hidden" name="teamId" value="${team.id}">
+                <input type="text" name="content" placeholder="알림 내용을 입력하세요..."
+                       class="flex-1 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded text-sm">
+                    등록
+                </button>
+            </form>
+
         </div>
+
+
+
     </div>
+
     </div>
->>>>>>> b8940df8c34e97c7c8fc8f430e0c5804baaf738c
+
 </div>
+
 
 
 <!-- ✅ 가입 신청 팝업 -->
@@ -202,6 +242,7 @@
         </form>
     </div>
 </div>
+
 
 
 <!-- ✅ JavaScript -->
