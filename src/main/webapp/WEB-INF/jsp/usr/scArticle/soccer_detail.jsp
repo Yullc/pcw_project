@@ -178,7 +178,7 @@
     <!-- 참가자 목록 -->
     <div class="mt-6">
       <h2 class="text-md font-bold text-green-600 mb-2">참가자 목록</h2>
-
+      <div class="h-72 overflow-y-auto pr-2 space-y-2">
       <c:forEach var="player" items="${participants}">
         <c:choose>
           <c:when test="${pastMatch && rq.loginedMember.nickName != player.nickName}">
@@ -258,6 +258,7 @@
           </c:otherwise>
         </c:choose>
       </c:forEach>
+      </div>
     </div>
 
 
