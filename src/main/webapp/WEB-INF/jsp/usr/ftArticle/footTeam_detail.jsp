@@ -111,7 +111,10 @@
     <h2 class="text-md font-bold text-green-600 mb-2">참가한 팀 목록</h2>
     <c:forEach var="team" items="${joinedTeams}">
       <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-start">
-        <span class="font-semibold text-green-800">${team.teamNm}</span>
+
+        <a href="/usr/teamArticle/teamDetail?id=${team.id}" class="font-semibold text-green-800 hover:underline">
+            ${team.teamNm}
+        </a>
         <span class="text-sm text-gray-500">| 평균 랭크: ${team.avgRankName}</span>
         <span class="text-sm text-gray-500">| 대표자: ${team.teamLeader}</span>
       </div>

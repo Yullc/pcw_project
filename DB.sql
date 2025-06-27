@@ -222,6 +222,16 @@ CREATE TABLE teamAlert (
                            content TEXT NOT NULL,
                            regDate DATETIME DEFAULT NOW()
 );
+
+CREATE TABLE match_evaluation (
+                                  id INT AUTO_INCREMENT PRIMARY KEY,
+                                  matchId INT NOT NULL,
+                                  memberId INT NOT NULL,       -- 평가받는 사람
+                                  evaluatorId INT NOT NULL,    -- 평가하는 사람
+                                  hasEvaluated BOOLEAN DEFAULT FALSE,
+                                  UNIQUE (matchId, memberId, evaluatorId)
+);
+
 SELECT * FROM teamAlert;
 DROP TABLE teamAlert;
 
@@ -267,7 +277,10 @@ ALTER TABLE `member`
 ALTER TABLE reactionPoint ADD toMemberId INT ;
 DROP TABLE reactionPoint;
 ALTER TABLE reactionPoint DROP COLUMN relId;
-SELECT * FROM member_like;
+###################################################################################
+
+
+SELECT * FROM ftArticle;
 SELECT * FROM scArticle;
 SELECT * FROM teamChatMessage;
 SELECT * FROM mercenaryArticle;
@@ -275,6 +288,19 @@ SELECT * FROM teamArticle;
 SELECT * FROM `member`;
 SELECT * FROM `match_participant`;
 SELECT * FROM `teamChatMessage`;
+SELECT * FROM `team`
+SELECT * FROM `teamAlert`;
+SELECT * FROM `reply`;
+SELECT * FROM `board`;
+SELECT * FROM `mercenaryArticle`;
+SELECT * FROM `message`
+SELECT * FROM `trophy`;
+SELECT * FROM match_evaluation;
+
+
+###################################################################################
+ALTER TABLE match_participant
+    ADD COLUMN evaluatorId  INT;
 
 SELECT * FROM message;
 ALTER TABLE `mercenaryArticle` ADD `area` CHAR(20) AFTER `body`;
@@ -304,22 +330,23 @@ updateDate = NOW(),
 title = '6월 13일 서울 경기장 용병 뛰실 분~',
 `body`= "6월 13일 서울 경기장 용병 뛰실 분",
 memberId =1;
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 2);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 3);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 4);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 5);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 6);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 7);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 8);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 9);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 10);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 14);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 12);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 13);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 15);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 16);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 17);
-INSERT INTO match_participant (matchId, memberId) VALUES (2601, 18);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 2);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 3);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 4);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 5);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 6);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 7);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 8);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 9);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 10);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 14);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 12);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 13);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 15);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 16);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 17);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 18);
+INSERT INTO match_participant (matchId, memberId) VALUES (3060, 19);
 INSERT INTO `teamArticle`
 SET regDate = NOW(),
 updateDate = NOW(),
