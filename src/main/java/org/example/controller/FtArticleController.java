@@ -130,33 +130,22 @@ public class FtArticleController {
     public String showFootDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");
         FtArticle ftArticle = ftarticleService.getFtArticleById(id);
-        System.out.println("detail 들어옴");
+
         if (ftArticle == null) {
             return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
         }
 
         List<Member> participants = matchParticipantService.getParticipants(id);
         memberService.attachTrophySvg(participants);
-        for (Member m : participants) {
-            System.out.println("참가자: " + m.getNickName() + " / id=" + m.getId());
-        }
 
         int totalRank = 0;
-        int participantCount = participants.size();
         for (Member m : participants) {
-            int rank = m.getRank();
-            m.setRankName(RankUtil.getRankName(rank));
-            totalRank += rank;
-
-            // 매너온도 이모지 설정
-            String emoji = MannerUtil.getMannerEmoji(m.getManner());
-            m.setMannerEmoji(emoji);
+            m.setRankName(RankUtil.getRankName(m.getRank()));
+            m.setMannerEmoji(MannerUtil.getMannerEmoji(m.getManner()));
+            totalRank += m.getRank();
         }
 
-        boolean pastMatch = LocalDateTime.now().isAfter(
-                LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
-        );
-
+        // 평균 랭크 설정
         if (!participants.isEmpty()) {
             double avg = totalRank / (double) participants.size();
             ftArticle.setAvgLevelName(RankUtil.getRankName((int) Math.round(avg)));
@@ -164,20 +153,39 @@ public class FtArticleController {
             ftArticle.setAvgLevelName("미정");
         }
 
+        // 과거 경기 여부 판단
+        boolean pastMatch = LocalDateTime.now().isAfter(
+                LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
+        );
+
+        // 날씨 정보 불러오기
         String area = ftArticle.getArea();
         LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
         List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
-        model.addAttribute("boardId", 1); // 1 = 풋살 게시판
-        model.addAttribute("participantCount",participantCount);
+
+        // 각 참가자에 대한 평가 여부 포함한 리스트 구성
+        int matchId = id;
+        int evaluatorId = rq.getLoginedMember().getId();
+
+        List<MatchParticipant> participantInfos = new ArrayList<>();
+        for (Member m : participants) {
+            boolean hasEvaluated = matchParticipantService.hasUserEvaluated(matchId, m.getId(), evaluatorId);
+            System.out.println("[평가 체크] evaluatorId=" + evaluatorId + ", targetMemberId=" + m.getId() + ", hasEvaluated=" + hasEvaluated);
+            participantInfos.add(new MatchParticipant(m, hasEvaluated));
+        }
+
+        // 모델에 필요한 값만 전달
+        model.addAttribute("participantInfos", participantInfos);
+        model.addAttribute("participantCount", participants.size());
         model.addAttribute("ftArticle", ftArticle);
         model.addAttribute("weatherList", weatherList);
-        model.addAttribute("participants", participants);
         model.addAttribute("pastMatch", pastMatch);
+        model.addAttribute("boardId", 1); // 풋살 게시판
         model.addAttribute("isAlreadyJoined", matchParticipantService.isAlreadyJoined(id, rq.getLoginedMemberId()));
-
 
         return "usr/ftArticle/foot_detail";
     }
+
     @RequestMapping("/usr/ftArticle/footTeam_detail")
     public String showFootTeamDetail(@RequestParam("id") int id, HttpServletRequest req, Model model) {
         Rq rq = (Rq) req.getAttribute("rq");

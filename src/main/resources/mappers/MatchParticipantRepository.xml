@@ -168,7 +168,27 @@
     </delete>
 
 
+    <update id="getParticipantsWithEvaluation">
+        UPDATE match_participant
+        SET hasEvaluated = TRUE
+        WHERE matchId = #{matchId} AND memberId = #{memberId}
+    </update>
 
+    <select id="hasUserEvaluated" resultType="boolean">
+        SELECT EXISTS (
+            SELECT 1 FROM match_evaluation
+            WHERE matchId = #{matchId}
+              AND memberId = #{memberId}
+              AND evaluatorId = #{evaluatorId}
+              AND hasEvaluated = TRUE
+        )
+    </select>
+
+    <insert id="markEvaluationComplete">
+        INSERT INTO match_evaluation (matchId, memberId, evaluatorId, hasEvaluated)
+        VALUES (#{matchId}, #{memberId}, #{evaluatorId}, TRUE)
+            ON DUPLICATE KEY UPDATE hasEvaluated = TRUE
+    </insert>
 
 
 </mapper>

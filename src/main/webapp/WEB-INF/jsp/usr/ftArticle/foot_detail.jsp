@@ -108,87 +108,93 @@
     <div class="text-lg font-semibold text-green-600 mt-4">
         평균레벨 <span class="text-black">${ftArticle.avgLevelName}</span>
     </div>
-
     <!-- 참가자 목록 -->
     <div class="mt-6">
         <h2 class="text-md font-bold text-green-600 mb-2">참가자 목록</h2>
-        <!-- ✅ 고정 높이 + overflow-y 적용 -->
+
         <div class="h-72 overflow-y-auto pr-2 space-y-2">
 
-        <c:forEach var="player" items="${participants}">
-            <c:choose>
+            <c:forEach var="player" items="${participantInfos}">
+                <c:choose>
+                    <c:when test="${pastMatch && rq.loginedMember.nickName != player.member.nickName}">
+                        <form method="post" action="/usr/member/updatePlayerInfo"
+                              class="flex flex-wrap items-center gap-3 bg-green-100 rounded-xl px-4 py-2 mb-2 justify-between w-full">
+                            <input type="hidden" name="memberId" value="${player.member.id}" />
+                            <input type="hidden" name="id" value="${ftArticle.id}" />
+                            <input type="hidden" name="boardId" value="${boardId}" />
 
-                <c:when test="${pastMatch && rq.loginedMember.nickName != player.nickName}">
-                    <form method="post" action="/usr/member/updatePlayerInfo"
-                          class="flex flex-wrap items-center gap-3 bg-green-100 rounded-xl px-4 py-2 mb-2 justify-between w-full">
-                        <input type="hidden" name="memberId" value="${player.id}" />
-                        <input type="hidden" name="id" value="${ftArticle.id}" />
-                        <input type="hidden" name="boardId" value="${boardId}" />
+                            <!-- 유저 기본 정보 -->
+                            <div class="flex items-center gap-2 flex-wrap">
+                                <a href="/usr/home/yourPage?nickName=${player.member.nickName}"
+                                   class="font-semibold text-green-800 hover:underline">${player.member.nickName}</a>
 
+                                <span class="text-sm flex items-center gap-1 text-gray-700">
+                                | <span class="w-4 h-4 inline-block align-middle">
+                                    <c:out value="${player.member.trophySvg}" escapeXml="false" />
+                                </span> ${player.member.rankName}
+                            </span>
 
-                        <div class="flex items-center gap-2 flex-wrap">
-                            <a href="/usr/home/yourPage?nickName=${player.nickName}"
-                               class="font-semibold text-green-800 hover:underline">${player.nickName}</a>
+                                <span class="text-sm text-gray-700">| 메너온도: ${player.member.mannerEmoji}</span>
+                            </div>
+
+                            <!-- 평가 폼 -->
+                            <div class="flex gap-2 flex-wrap">
+                                <select name="rankName" class="border border-gray-300 rounded px-2 py-1 text-sm">
+                                    <option value="루키1">루키1</option>
+                                    <option value="루키2">루키2</option>
+                                    <option value="루키3">루키3</option>
+                                    <option value="아마추어1">아마추어1</option>
+                                    <option value="아마추어2">아마추어2</option>
+                                    <option value="아마추어3">아마추어3</option>
+                                    <option value="세미프로1">세미프로1</option>
+                                    <option value="세미프로2">세미프로2</option>
+                                    <option value="세미프로3">세미프로3</option>
+                                    <option value="프로1">프로1</option>
+                                    <option value="프로2">프로2</option>
+                                    <option value="프로3">프로3</option>
+                                </select>
+
+                                <select name="mannerEmoji" class="border border-gray-300 rounded px-2 py-1 text-sm">
+                                    <option value="😍">😍</option>
+                                    <option value="😊">😊</option>
+                                    <option value="😐">😐</option>
+                                    <option value="😡">😡</option>
+                                </select>
+
+                                <c:choose>
+                                    <c:when test="${player.hasEvaluated}">
+                                        <button disabled class="bg-gray-400 text-white px-3 py-1 rounded text-sm cursor-not-allowed">
+                                            평가 완료
+                                        </button>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
+                                            평가하기
+                                        </button>
+                                    </c:otherwise>
+                                </c:choose>
+                            </div>
+                        </form>
+                    </c:when>
+
+                    <c:otherwise>
+                        <div class="flex flex-wrap items-center gap-2 bg-green-100 rounded-xl px-4 py-2 mb-2 justify-start">
+                            <a href="/usr/home/yourPage?nickName=${player.member.nickName}"
+                               class="font-semibold text-green-800 hover:underline">${player.member.nickName}</a>
 
                             <span class="text-sm flex items-center gap-1 text-gray-700">
                             | <span class="w-4 h-4 inline-block align-middle">
-                                <c:out value="${player.trophySvg}" escapeXml="false" />
-                              </span> ${player.rankName}
+                                <c:out value="${player.member.trophySvg}" escapeXml="false" />
+                              </span> ${player.member.rankName}
                         </span>
 
-                            <span class="text-sm text-gray-700">| 메너온도: ${player.mannerEmoji}</span>
+                            <span class="text-sm text-gray-700">| 메너온도: ${player.member.mannerEmoji}</span>
                         </div>
-
-
-                        <div class="flex gap-2 flex-wrap">
-                            <select name="rankName" class="border border-gray-300 rounded px-2 py-1 text-sm">
-                                <option value="루키1">루키1</option>
-                                <option value="루키2">루키2</option>
-                                <option value="루키3">루키3</option>
-                                <option value="아마추어1">아마추어1</option>
-                                <option value="아마추어2">아마추어2</option>
-                                <option value="아마추어3">아마추어3</option>
-                                <option value="세미프로1">세미프로1</option>
-                                <option value="세미프로2">세미프로2</option>
-                                <option value="세미프로3">세미프로3</option>
-                                <option value="프로1">프로1</option>
-                                <option value="프로2">프로2</option>
-                                <option value="프로3">프로3</option>
-                            </select>
-                            <select name="mannerEmoji" class="border border-gray-300 rounded px-2 py-1 text-sm">
-                                <option value="😍">😍</option>
-                                <option value="😊">😊</option>
-                                <option value="😐">😐</option>
-                                <option value="😡">😡</option>
-                            </select>
-                            <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">
-                                평가하기
-                            </button>
-                        </div>
-                    </form>
-                </c:when>
-
-
-                <c:otherwise>
-                    <div class="flex flex-wrap items-center gap-2 bg-green-100 rounded-xl px-4 py-2 mb-2 justify-start">
-                        <a href="/usr/home/yourPage?nickName=${player.nickName}"
-                           class="font-semibold text-green-800 hover:underline">${player.nickName}</a>
-
-                        <span class="text-sm flex items-center gap-1 text-gray-700">
-                        | <span class="w-4 h-4 inline-block align-middle">
-                            <c:out value="${player.trophySvg}" escapeXml="false" />
-                          </span> ${player.rankName}
-                    </span>
-
-                        <span class="text-sm text-gray-700">| 메너온도: ${player.mannerEmoji}</span>
-                    </div>
-                </c:otherwise>
-
-            </c:choose>
-        </c:forEach>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
         </div>
     </div>
-
 
     <!-- 참가하기 버튼 -->
     <div class="mt-4 text-center">
