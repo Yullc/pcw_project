@@ -7,9 +7,9 @@
     <title>회원가입</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-700 min-h-screen flex items-center justify-center px-4">
+<body class="bg-green-900 min-h-screen flex items-center justify-center px-4">
 <form id="joinForm" action="../home/doJoin" method="POST"
-      onsubmit="return updateBornDate()"
+
       class="bg-white w-full max-w-5xl rounded-xl shadow-2xl p-10 flex space-x-8 text-black">
 
     <!-- 왼쪽 영역 -->
@@ -24,15 +24,18 @@
 
         <div>
             <label class="block mb-1 font-semibold">비밀번호</label>
-            <input type="password" name="loginPw" required
+            <input type="password" name="loginPw" id="loginPw" required
                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" />
+            <p id="pwError" class="text-sm text-red-500 mt-1 hidden">비밀번호는 8~20자이며 특수문자를 포함해야 합니다.</p>
         </div>
 
         <div>
             <label class="block mb-1 font-semibold">비밀번호 확인</label>
-            <input type="password" name="loginPwCheck" required
+            <input type="password" name="loginPwCheck" id="loginPwCheck" required
                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-green-500" />
+            <p id="pwCheckError" class="text-sm text-red-500 mt-1 hidden">비밀번호가 일치하지 않습니다.</p>
         </div>
+
 
         <div>
             <label class="block mb-1 font-semibold">이름</label>
@@ -77,7 +80,10 @@
             <div>
                 <label class="block mb-1 font-semibold">지역</label>
                 <select name="area" class="border border-gray-300 rounded px-4 py-1">
-                    <option>서울</option><option>경기</option><option>부산</option> <!-- 생략 가능 -->
+                    <option>서울</option><option>경기</option><option>강원</option><option>인천</option><option>대전</option>
+                    <option>세종</option><option>충북</option><option>충남</option><option>대구</option><option>경북</option>
+                    <option>경남</option><option>부산</option><option>울산</option><option>광주</option><option>전북</option>
+                    <option>전남</option><option>제주</option>
                 </select>
             </div>
             <div>
@@ -99,7 +105,6 @@
 
 
 <script>
-    console.log("아이디:", document.getElementsByClassName('id'));
     const yearSelect = document.getElementById('year');
     const monthSelect = document.getElementById('month');
     const daySelect = document.getElementById('day');
@@ -142,13 +147,50 @@
     }
 
 
-    document.getElementById("joinForm").addEventListener("submit", function () {
-        updateBornDate();
+    // 비밀번호 유효성 검사 + 일치 확인
+    function validateJoinForm() {
+        const pw = document.getElementById("loginPw").value;
+        const pwCheck = document.getElementById("loginPwCheck").value;
+        const pwError = document.getElementById("pwError");
+        const pwCheckError = document.getElementById("pwCheckError");
+
+        let valid = true;
+
+        // 비밀번호 유효성 검사 (8~20자 + 특수문자)
+        const pwRegex = /^(?=.*[!@#$%^&*(),.?":{}|<>])[^\s]{8,20}$/;
+        if (!pwRegex.test(pw)) {
+            pwError.classList.remove("hidden");
+            valid = false;
+        } else {
+            pwError.classList.add("hidden");
+        }
+
+        // 비밀번호 일치 확인
+        if (pw !== pwCheck) {
+            pwCheckError.classList.remove("hidden");
+            valid = false;
+        } else {
+            pwCheckError.classList.add("hidden");
+        }
+
+        return valid;
+    }
+
+    // 최종 제출 처리
+    document.getElementById("joinForm").addEventListener("submit", function (e) {
+        const isBirthValid = updateBornDate();
+        const isPwValid = validateJoinForm();
+
+        if (!isBirthValid || !isPwValid) {
+            e.preventDefault(); // 폼 제출 막기
+        }
     });
 
+    // 선택 변경 시 즉시 반영
     yearSelect.addEventListener('change', updateBornDate);
     monthSelect.addEventListener('change', updateBornDate);
     daySelect.addEventListener('change', updateBornDate);
 </script>
+
 </body>
 </html>
