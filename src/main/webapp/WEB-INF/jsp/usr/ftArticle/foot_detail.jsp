@@ -66,11 +66,7 @@
         const ps = new kakao.maps.services.Places();  // 장소 검색 객체 생성
 
         // ✅ 키워드로 검색
-<<<<<<< HEAD
-        ps.keywordSearch(keyword, function(result, status) {
-=======
         ps.keywordSearch(keyword, function (result, status) {
->>>>>>> abcd2e53fc78cedeef6b6cc7a7bd8ce96159238d
             if (status === kakao.maps.services.Status.OK) {
                 const coords = new kakao.maps.LatLng(result[0].y, result[0].x);
                 map.setCenter(coords);
@@ -85,10 +81,6 @@
     </script>
 
 
-<<<<<<< HEAD
-
-=======
->>>>>>> abcd2e53fc78cedeef6b6cc7a7bd8ce96159238d
     <!-- ❌ 날씨 정보 -->
     <c:choose>
         <c:when test="${not empty weatherList}">

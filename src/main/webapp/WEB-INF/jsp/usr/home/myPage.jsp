@@ -193,10 +193,18 @@
 
       <!-- 팀/레벨 -->
       <div class="flex gap-4">
-        <a href="/usr/teamArticle/teamDetail?id=${teamId}"
-           class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold hover:bg-green-700 transition">
-          팀: ${teamNm}
-        </a>
+        <c:choose>
+          <c:when test="${not empty teamId}">
+            <a href="/usr/teamArticle/teamDetail?id=${teamId}"
+               class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold hover:bg-green-700 transition">
+              팀: ${teamNm}
+            </a>
+          </c:when>
+          <c:otherwise>
+            <div class="bg-gray-400 text-white rounded-full px-4 py-1 font-semibold">팀: 없음</div>
+          </c:otherwise>
+        </c:choose>
+
         <div class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold">레벨: ${rank}</div>
       </div>
 

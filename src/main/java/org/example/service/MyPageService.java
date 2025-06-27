@@ -59,7 +59,7 @@ public class MyPageService {
     }
 
 
-    public int getTeamIdByMemberId(int memberId) {
+    public Integer getTeamIdByMemberId(int memberId) {
         return memberRepository.getTeamIdByMemberId(memberId);
     }
 
