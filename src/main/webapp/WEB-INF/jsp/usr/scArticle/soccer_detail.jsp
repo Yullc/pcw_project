@@ -160,7 +160,9 @@
               참가 취소하기
             </button>
           </c:when>
-
+          <c:when test="${participantCount >= 22}">
+            <div class="text-red-500 font-semibold">⚠️ 이미 22명의 선수가 참가하여 신청할 수 없습니다.</div>
+          </c:when>
           <c:otherwise>
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">
               ⚽ 참가하기
