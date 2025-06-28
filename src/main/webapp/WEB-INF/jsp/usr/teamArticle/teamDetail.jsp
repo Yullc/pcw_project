@@ -73,15 +73,14 @@
             <div>
                 <h2 class="text-md font-bold text-green-700 mb-2">📅 최근 경기</h2>
                 <div class="flex overflow-x-auto gap-4 pb-2">
-                    <c:forEach var="game" items="${recentTeamGames}">
-                        <div class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition">
-                            <img src="${game.img}" class="w-full h-28 object-cover rounded-t-lg" />
+                    <c:forEach var="game" items="${ftRecentGames}">
+                        <a href="/usr/ftArticle/footTeam_detail?id=${game.id}" class="flex-shrink-0 w-48 bg-white rounded-lg shadow-md hover:shadow-lg transition block">
                             <div class="p-2 text-sm">
                                 <div class="font-semibold">${game.stadium}</div>
                                 <div class="text-gray-500">${game.playDate}</div>
                                 <div class="text-gray-700">${game.title}</div>
                             </div>
-                        </div>
+                        </a>
                     </c:forEach>
                 </div>
             </div>
@@ -135,37 +134,38 @@
             </div>
         </div>
 
-        <!-- 팀 알림 박스 -->
-        <div class="w-full max-w-md h-[600px] bg-white rounded-xl shadow border border-blue-300 flex flex-col p-4">
+        <c:if test="${not empty rq.loginedMember && rq.loginedMember.teamNm eq team.teamName}">
+            <!-- 팀 알림 박스 시작 -->
+            <div class="w-full max-w-md h-[600px] bg-white rounded-xl shadow border border-blue-300 flex flex-col p-4">
 
-            <!-- 제목 -->
-            <div class="text-blue-600 font-bold text-lg mb-3 border-b pb-2">
-                🛎️ 팀 공지사랑
+                <!-- 제목 -->
+                <div class="text-blue-600 font-bold text-lg mb-3 border-b pb-2">
+                    🛎️ 팀 공지사랑
+                </div>
+
+                <!-- 알림 리스트 -->
+                <div id="teamAlerts" class="flex flex-col-reverse overflow-y-auto pr-1 max-h-[500px] gap-2">
+                    <c:forEach var="alert" items="${alerts}">
+                        <div class="bg-gray-100 border border-gray-300 rounded px-4 py-2 text-sm">
+                            <span class="font-semibold text-black">${alert.nickName}</span> :
+                            <span class="text-black">${alert.content}</span>
+                        </div>
+                    </c:forEach>
+                </div>
+
+                <!-- 알림 입력 폼 -->
+                <form action="/usr/teamAlert/write" method="post" class="flex gap-2 pt-4">
+                    <input type="hidden" name="teamId" value="${team.id}">
+                    <input type="text" name="content" placeholder="알림 내용을 입력하세요..."
+                           class="flex-1 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded text-sm">
+                        등록
+                    </button>
+                </form>
+
             </div>
+        </c:if>
 
-            <!-- 알림 리스트 -->
-
-            <div id="teamAlerts" class="flex flex-col-reverse overflow-y-auto pr-1 max-h-[500px] gap-2">
-                <c:forEach var="alert" items="${alerts}">
-                    <div class="bg-gray-100 border border-gray-300 rounded px-4 py-2 text-sm">
-                        <span class="font-semibold text-black">${alert.nickName}</span> :
-                        <span class="text-black">${alert.content}</span>
-                    </div>
-                </c:forEach>
-            </div>
-
-
-            <!-- 알림 입력 폼 -->
-            <form action="/usr/teamAlert/write" method="post" class="flex gap-2 pt-4">
-                <input type="hidden" name="teamId" value="${team.id}">
-                <input type="text" name="content" placeholder="알림 내용을 입력하세요..."
-                       class="flex-1 border border-gray-300 rounded px-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-blue-300" />
-                <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white px-4 rounded text-sm">
-                    등록
-                </button>
-            </form>
-
-        </div>
 
 
 

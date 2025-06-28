@@ -108,7 +108,7 @@
 
 
       <!-- ✅ 쪽지 버튼 영역 -->
-      <!-- ✅ 쪽지 버튼 영역 (가로 정렬) -->
+
       <div class="border rounded-xl p-4 shadow">
         <div class="flex justify-between gap-2">
           <button onclick="toggleModal('writeModal')" class="flex-1 bg-white border px-3 py-2 rounded hover:bg-gray-100">
@@ -195,7 +195,7 @@
       <div class="flex gap-4">
         <c:choose>
           <c:when test="${not empty teamId}">
-            <a href="/usr/teamArticle/teamDetail?id=${teamId}"
+            <a href="/usr/teamArticle/teamDetail?id=4"
                class="bg-green-600 text-white rounded-full px-4 py-1 font-semibold hover:bg-green-700 transition">
               팀: ${teamNm}
             </a>

@@ -397,6 +397,7 @@ public class TeamArticleController {
         }
 
         List<FtArticle> ftRecentGames = teamService.getRecentFtArticleByTeamId(teamId);
+        System.out.println("팀 페이지 최근 경기 풋살"+ ftRecentGames.size());
         List<ScArticle> recentScGames = teamService.getRecentScArticleByTeamId(teamId);
 
 
@@ -526,7 +527,7 @@ public class TeamArticleController {
         alert.setContent(content);
 
         teamAlertService.writeAlert(alert);
-        return "redirect:/usr/teamAlert/list?teamId=" + teamId;
+        return "redirect:/usr/teamArticle/teamDetail?id=" + teamId;
 
     }
 
