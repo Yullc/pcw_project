@@ -76,12 +76,9 @@ public class MyPageController {
         }
         int loginedMemberId = rq.getLoginedMemberId();
         int likeCount = myPageService.getGoodRP(loginedMemberId);
-        int teamId = myPageService.getTeamIdByMemberId(memberId); // 새 메서드 필요
-        model.addAttribute("teamId", teamId);
 
-
-
-
+        Integer teamId = myPageService.getTeamIdByMemberId(memberId);
+        model.addAttribute("teamId", teamId != null ? teamId : 0);
 
         model.addAttribute("teamId", teamId);
         model.addAttribute("likeCount", likeCount);

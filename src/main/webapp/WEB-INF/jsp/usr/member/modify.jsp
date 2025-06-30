@@ -35,16 +35,7 @@
 
         <!-- id hidden -->
         <input type="hidden" name="id" value="${rq.loginedMember.id}" />
-
-
-
-        <div>
-            <label class="block mb-1 font-semibold">이름</label>
-            <input type="text" name="name" value="${rq.loginedMember.name}" class="w-full border border-green-500 rounded px-4 py-2" />
-        </div>
-
-
-
+        
         <div>
             <label class="block mb-1 font-semibold">닉네임</label>
             <input type="text" name="nickName" value="${rq.loginedMember.nickName}" class="w-full border border-green-500 rounded px-4 py-2" />

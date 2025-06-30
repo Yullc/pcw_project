@@ -116,7 +116,7 @@
             ${team.teamNm}
         </a>
         <span class="text-sm text-gray-500">| 평균 랭크: ${team.avgRankName}</span>
-        <span class="text-sm text-gray-500">| 대표자: ${team.teamLeader}</span>
+        <span class="text-sm text-gray-500">| 팀 리더: ${team.teamLeader}</span>
       </div>
     </c:forEach>
   </div>

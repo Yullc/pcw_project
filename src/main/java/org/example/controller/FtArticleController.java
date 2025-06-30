@@ -196,20 +196,15 @@ public class FtArticleController {
             return Ut.jsHistoryBack("F-1", Ut.f("%d번 게시글은 존재하지 않습니다.", id));
         }
 
-
-
         boolean pastMatch = LocalDateTime.now().isAfter(
                 LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"))
         );
-
-
 
         String area = ftArticle.getArea();
         LocalDate playDate = LocalDateTime.parse(ftArticle.getPlayDate(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")).toLocalDate();
         List<WeatherDto> weatherList = weatherService.getWeatherByAreaAndDate(area, playDate);
 
         int teamCount = matchParticipantService.getJoinedTeamCount(id);
-
 
         String myTeamNm = rq.getLoginedMember().getTeamNm();
 
@@ -218,6 +213,7 @@ public class FtArticleController {
         boolean alreadyJoined = matchParticipantService.isTeamAlreadyJoined(id, myTeamNm);
 
         List<Map<String, Object>> joinedTeams = matchParticipantService.getJoinedTeamList(id);
+
 
 
 // 평균 랭크 이름 추가 변환 (예: 3.4 → 아마추어1)
