@@ -18,7 +18,7 @@
 
 	<!-- Page 1 -->
 	<section class="page page1">
-		<div class="relative min-h-screen bg-green-900">
+		<div class="relative min-h-screen ">
 			<div class="absolute inset-0 flex items-center justify-center">
 				<div class="text-center text-white px-6">
 					<h1 class="text-4xl md:text-6xl font-extrabold mb-6 animate-pulse">
@@ -38,7 +38,7 @@
 
 
 	<!-- Page 2: 로그인 -->
-	<section class="page page2 flex flex-col items-center justify-center min-h-screen bg-green-900 px-4 text-white">
+	<section class="page page2 flex flex-col items-center justify-center min-h-screen text-white">
 		<c:if test="${!rq.logined}">
 			<h2 class="text-3xl font-bold mb-10 tracking-wide">로그인</h2>
 			<form action="../home/doLogin" method="POST"
@@ -90,7 +90,7 @@
 
 
 	<!-- Page 3: 경기 종류 선택 또는 로그인 유도 -->
-	<section class="page page3 relative flex items-center justify-center min-h-screen bg-green-900 px-4 text-white">
+	<section class="page page3 relative flex items-center justify-center min-h-screen  text-white">
 		<c:choose>
 			<c:when test="${rq.logined}">
 				<div class="flex flex-col items-center justify-center w-full">

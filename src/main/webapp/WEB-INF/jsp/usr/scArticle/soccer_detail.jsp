@@ -55,7 +55,7 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=865ee63e65accb86ded5e65ec9ebfe0b&libraries=services"></script>
     <script>
       // ✅ address에서 텍스트 가져오기
-      const address = document.getElementById("address_detail").textContent.trim();
+      const address = document.getElementById("address").textContent.trim();
 
       // ✅ 주소 + " 풋살장" 조합으로 키워드 생성
       const keyword = `${scArticle.address} 축구장`;
@@ -160,7 +160,7 @@
               참가 취소하기
             </button>
           </c:when>
-          <c:when test="${participantCount >= 22}">
+          <c:when test="${participantCount >= 30}">
             <div class="text-red-500 font-semibold">⚠️ 이미 30명의 선수가 참가하여 신청할 수 없습니다.</div>
           </c:when>
           <c:otherwise>
@@ -172,94 +172,89 @@
       </div>
     </form>
 
-
-
-
-
-    <!-- 참가자 목록 -->
     <!-- 참가자 목록 -->
     <div class="mt-6">
       <h2 class="text-md font-bold text-green-600 mb-2">참가자 목록</h2>
       <div class="h-72 overflow-y-auto pr-2 space-y-2">
-      <c:forEach var="player" items="${participants}">
-        <c:choose>
-          <c:when test="${pastMatch && rq.loginedMember.nickName != player.nickName}">
-            <form method="post" action="/usr/member/updatePlayerInfo"
-                  class="flex flex-wrap items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-between">
-              <input type="hidden" name="memberId" value="${player.id}" />
-              <input type="hidden" name="id" value="${scArticle.id}" />
-              <input type="hidden" name="boardId" value="${boardId}" />
+        <c:forEach var="player" items="${participants}">
+          <c:choose>
+            <c:when test="${pastMatch && rq.loginedMember.nickName != player.nickName}">
+              <form method="post" action="/usr/member/updatePlayerInfo"
+                    class="flex flex-wrap items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-between">
+                <input type="hidden" name="memberId" value="${player.id}" />
+                <input type="hidden" name="id" value="${scArticle.id}" />
+                <input type="hidden" name="boardId" value="${boardId}" />
 
-              <div class="flex items-center gap-2">
-                <c:choose>
-                  <c:when test="${rq.loginedMember.nickName == player.nickName}">
-                    <a href="/usr/home/myPage" class="font-semibold text-green-800 hover:underline">
-                        ${player.nickName}
-                    </a>
-                  </c:when>
-                  <c:otherwise>
-                    <a href="/usr/home/yourPage?nickName=${player.nickName}" class="font-semibold text-green-800 hover:underline">
-                        ${player.nickName}
-                    </a>
-                  </c:otherwise>
-                </c:choose>
+                <div class="flex items-center gap-2">
+                  <c:choose>
+                    <c:when test="${rq.loginedMember.nickName == player.nickName}">
+                      <a href="/usr/home/myPage" class="font-semibold text-green-800 hover:underline">
+                          ${player.nickName}
+                      </a>
+                    </c:when>
+                    <c:otherwise>
+                      <a href="/usr/home/yourPage?nickName=${player.nickName}" class="font-semibold text-green-800 hover:underline">
+                          ${player.nickName}
+                      </a>
+                    </c:otherwise>
+                  </c:choose>
 
-                <!-- ✅ 트로피 + 랭크 -->
-                <span class="text-sm flex items-center gap-1 text-gray-700">
+                  <!-- ✅ 트로피 + 랭크 -->
+                  <span class="text-sm flex items-center gap-1 text-gray-700">
               | <span class="w-4 h-4 inline-block align-middle">
                 <c:out value="${player.trophySvg}" escapeXml="false" />
               </span>
               ${player.rankName}
             </span>
 
-                <span class="text-sm">| 매너온도: ${player.mannerEmoji}</span>
-                <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
-              </div>
+                  <span class="text-sm">| 매너온도: ${player.mannerEmoji}</span>
+                  <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
+                </div>
 
-              <!-- 평가 폼 -->
-              <select name="rankName" class="border border-gray-300 rounded px-2 py-1 text-sm">
-                <option value="루키1">루키1</option>
-                <option value="루키2">루키2</option>
-                <option value="루키3">루키3</option>
-                <option value="아마추어1">아마추어1</option>
-                <option value="아마추어2">아마추어2</option>
-                <option value="아마추어3">아마추어3</option>
-                <option value="세미프로1">세미프로1</option>
-                <option value="세미프로2">세미프로2</option>
-                <option value="세미프로3">세미프로3</option>
-                <option value="프로1">프로1</option>
-                <option value="프로2">프로2</option>
-                <option value="프로3">프로3</option>
-              </select>
-              <select name="mannerEmoji" class="border border-gray-300 rounded px-2 py-1 text-sm">
-                <option value="😍">😍</option>
-                <option value="😊">😊</option>
-                <option value="😐">😐</option>
-                <option value="😡">😡</option>
-              </select>
-              <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">평가하기</button>
-            </form>
-          </c:when>
+                <!-- 평가 폼 -->
+                <select name="rankName" class="border border-gray-300 rounded px-2 py-1 text-sm">
+                  <option value="루키1">루키1</option>
+                  <option value="루키2">루키2</option>
+                  <option value="루키3">루키3</option>
+                  <option value="아마추어1">아마추어1</option>
+                  <option value="아마추어2">아마추어2</option>
+                  <option value="아마추어3">아마추어3</option>
+                  <option value="세미프로1">세미프로1</option>
+                  <option value="세미프로2">세미프로2</option>
+                  <option value="세미프로3">세미프로3</option>
+                  <option value="프로1">프로1</option>
+                  <option value="프로2">프로2</option>
+                  <option value="프로3">프로3</option>
+                </select>
+                <select name="mannerEmoji" class="border border-gray-300 rounded px-2 py-1 text-sm">
+                  <option value="😍">😍</option>
+                  <option value="😊">😊</option>
+                  <option value="😐">😐</option>
+                  <option value="😡">😡</option>
+                </select>
+                <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-3 py-1 rounded text-sm">평가하기</button>
+              </form>
+            </c:when>
 
-          <c:otherwise>
-            <!-- 일반 참가자 출력 -->
-            <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-start">
-              <span class="font-semibold text-green-800">${player.nickName}</span>
+            <c:otherwise>
+              <!-- 일반 참가자 출력 -->
+              <div class="flex items-center gap-2 bg-green-100 rounded-full px-3 py-1 mb-2 justify-start">
+                <span class="font-semibold text-green-800">${player.nickName}</span>
 
-              <!-- ✅ 트로피 + 랭크 -->
-              <span class="text-sm flex items-center gap-1 text-gray-700">
+                <!-- ✅ 트로피 + 랭크 -->
+                <span class="text-sm flex items-center gap-1 text-gray-700">
             | <span class="w-4 h-4 inline-block align-middle">
               <c:out value="${player.trophySvg}" escapeXml="false" />
             </span>
             ${player.rankName}
           </span>
 
-              <span class="text-sm text-gray-700">| 매너온도: ${player.mannerEmoji}</span>
-              <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
-            </div>
-          </c:otherwise>
-        </c:choose>
-      </c:forEach>
+                <span class="text-sm text-gray-700">| 매너온도: ${player.mannerEmoji}</span>
+                <span class="text-sm text-gray-500">| 포지션: ${player.position}</span>
+              </div>
+            </c:otherwise>
+          </c:choose>
+        </c:forEach>
       </div>
     </div>
 

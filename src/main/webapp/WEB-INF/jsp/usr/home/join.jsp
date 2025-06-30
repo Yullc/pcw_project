@@ -7,7 +7,8 @@
     <title>회원가입</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-green-900 min-h-screen flex items-center justify-center px-4">
+<link rel="stylesheet" href="/css/style.css">
+<body class="page page1 min-h-screen flex items-center justify-center px-4">
 <form id="joinForm" action="../home/doJoin" method="POST" class="overflow-hidden w-full max-w-5xl bg-white rounded-xl shadow-2xl text-black relative">
 
     <!-- 슬라이더 컨테이너 -->
