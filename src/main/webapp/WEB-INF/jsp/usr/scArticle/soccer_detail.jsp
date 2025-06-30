@@ -55,7 +55,7 @@
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=865ee63e65accb86ded5e65ec9ebfe0b&libraries=services"></script>
     <script>
       // ✅ address에서 텍스트 가져오기
-      const address = document.getElementById("address").textContent.trim();
+      const address = document.getElementById("address_detail").textContent.trim();
 
       // ✅ 주소 + " 풋살장" 조합으로 키워드 생성
       const keyword = `${scArticle.address} 축구장`;
@@ -161,7 +161,7 @@
             </button>
           </c:when>
           <c:when test="${participantCount >= 22}">
-            <div class="text-red-500 font-semibold">⚠️ 이미 22명의 선수가 참가하여 신청할 수 없습니다.</div>
+            <div class="text-red-500 font-semibold">⚠️ 이미 30명의 선수가 참가하여 신청할 수 없습니다.</div>
           </c:when>
           <c:otherwise>
             <button type="submit" class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-full">

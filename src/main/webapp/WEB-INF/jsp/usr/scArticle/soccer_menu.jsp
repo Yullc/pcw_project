@@ -176,6 +176,12 @@
         </div>
       </div>
 
+      <div class="pt-6 border-t border-gray-300">
+        <a href="/usr/teamArticle/teamList"
+           class="block text-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-full transition">
+          📃 팀 목록
+        </a>
+      </div>
 
     </aside>
     <script src="/js/scCalender.js"></script>
