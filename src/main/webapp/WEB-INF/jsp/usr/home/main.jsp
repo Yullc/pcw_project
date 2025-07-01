@@ -42,28 +42,24 @@
 		<c:if test="${!rq.logined}">
 			<h2 class="text-3xl font-bold mb-10 tracking-wide">로그인</h2>
 			<form action="../home/doLogin" method="POST"
-				  class="w-full max-w-md bg-white border border-gray-300 p-10 rounded-2xl shadow-2xl text-black">
-				<div class="mb-6">
+				  class="w-full max-w-md p-10 rounded-2xl shadow-2xl text-black" style="background-color: rgba(180, 180, 180, 0.5);">
+				<div class="my-4">
 					<input type="text" name="loginId" placeholder="아이디"
 						   class="w-full px-4 py-3 border border-gray-400 text-black placeholder-gray-500 rounded-lg focus:outline-none focus:border-green-600 transition" />
 				</div>
-				<div class="mb-8">
+				<div class="mb-6">
 					<input type="password" name="loginPw" placeholder="비밀번호"
 						   class="w-full px-4 py-3 border border-gray-400 text-black placeholder-gray-500 rounded-lg focus:outline-none focus:border-green-600 transition" />
 				</div>
-				<div class="flex justify-between mb-6">
-					<button type="button"
-							class="px-6 py-3 border border-gray-500 text-green-900 rounded-lg hover:bg-green-50 transition">
-						취소
-					</button>
+				<div class="my-2">
 					<button type="submit"
-							class="px-6 py-3 bg-green-900 text-white rounded-lg hover:bg-green-800 transition font-semibold">
+							class="w-full bg-white text-black hover:bg-gray-300 py-3 rounded-full transition font-semibold">
 						로그인
 					</button>
 				</div>
-				<div class="flex justify-center">
+				<div class="flex justify-center my-2">
 					<button onclick="location.href='join'" type="button"
-							class="w-full bg-green-900 text-white hover:bg-green-800 py-3 rounded-full transition font-semibold">
+							class="w-full bg-black text-white hover:bg-gray-800 py-3 rounded-full transition font-semibold">
 						회원가입
 					</button>
 				</div>
@@ -72,7 +68,7 @@
 
 		<c:if test="${rq.logined}">
 			<div class="text-center">
-				<h2 class="text-2xl mb-6 font-bold">${rq.loginedMember.nickName}님 환영합니다!</h2>
+				<h2 class="text-2xl mb-6 font-bold">[${rq.loginedMember.nickName}] 님 환영합니다!</h2>
 				<div class="flex gap-4 justify-center">
 					<a href="/usr/home/myPage"
 					   class="px-6 py-3 border-2 border-white text-white rounded-full hover:bg-white hover:text-green-900 transition font-semibold">

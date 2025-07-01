@@ -15,7 +15,7 @@
         </a>
     </div>
 </header>
-<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 mt-8">
+<div class="max-w-3xl mx-auto bg-white shadow-lg rounded-lg p-6 my-8">
 
     <!-- 경기장 이미지 -->
     <img src="${ftArticle.img}" alt="경기장" class="w-full h-64 object-cover rounded mb-4"/>
@@ -84,16 +84,22 @@
     <!-- ❌ 날씨 정보 -->
     <c:choose>
         <c:when test="${not empty weatherList}">
-            <div class="flex gap-4 bg-gray-400 justify-center text-center text-sm mt-2 rounded text-white py-2">
+            <div class="flex gap-4  justify-center text-center text-sm mt-2 rounded text-black py-2">
                 <c:forEach var="weather" items="${weatherList}">
                     <div class="w-16">
                         <div>
                             <fmt:parseDate var="weatherTime" value="${weather.time}" pattern="yyyy-MM-dd HH:mm:ss"/>
                             <fmt:formatDate value="${weatherTime}" pattern="HH시"/>
                         </div>
-                        <div><img src="${weather.iconUrl}" style="width: 40px;"/></div>
+
+                        <!-- 👇 여기 div에 하늘색 배경 추가 -->
+                        <div class="bg-blue-300 rounded-full flex justify-center items-center">
+                            <img src="${weather.iconUrl}" style="width: 40px;" />
+                        </div>
+
                         <div>${weather.temp}°C</div>
                     </div>
+
                 </c:forEach>
             </div>
         </c:when>

@@ -59,7 +59,7 @@
 
             <!-- 오른쪽: 이미지 -->
             <div class="w-1/2 flex justify-center items-center">
-                <img src="/img/joinImg2.jpg" alt="가입 이미지"
+                <img src="/img/left.jpg" alt="가입 이미지"
                      class="w-full h-[600px] object-cover rounded-lg shadow" />
             </div>
         </div>
@@ -96,41 +96,41 @@
 
 
 
-                <div>
-                    <label class="block mb-1 font-semibold">생년월일</label>
-                    <div class="flex space-x-2">
-                        <select id="year" class="border border-gray-300 rounded px-2 py-1"><option>년도</option></select>
-                        <select id="month" class="border border-gray-300 rounded px-2 py-1"><option>월</option></select>
-                        <select id="day" class="border border-gray-300 rounded px-2 py-1"><option>일</option></select>
+                    <div>
+                        <label class="block mb-1 font-semibold">생년월일</label>
+                        <div class="flex space-x-2">
+                            <select id="year" class="border border-gray-300 rounded px-2 py-1"><option>년도</option></select>
+                            <select id="month" class="border border-gray-300 rounded px-2 py-1"><option>월</option></select>
+                            <select id="day" class="border border-gray-300 rounded px-2 py-1"><option>일</option></select>
+                        </div>
+                        <input type="hidden" name="bornDate" id="bornDate" />
                     </div>
-                    <input type="hidden" name="bornDate" id="bornDate" />
+
+                    <div class="flex space-x-4">
+                        <div>
+                            <label class="block mb-1 font-semibold">지역</label>
+                            <select name="area" class="border border-gray-300 rounded px-4 py-1">
+                                <option>서울</option><option>경기</option><option>강원</option><option>인천</option><option>대전</option>
+                                <option>세종</option><option>충북</option><option>충남</option><option>대구</option><option>경북</option>
+                                <option>경남</option><option>부산</option><option>울산</option><option>광주</option><option>전북</option>
+                                <option>전남</option><option>제주</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block mb-1 font-semibold">성별</label>
+                            <select name="gender" class="border border-gray-300 rounded px-4 py-1">
+                                <option>남자</option><option>여자</option>
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="flex space-x-4">
-                    <div>
-                        <label class="block mb-1 font-semibold">지역</label>
-                        <select name="area" class="border border-gray-300 rounded px-4 py-1">
-                            <option>서울</option><option>경기</option><option>강원</option><option>인천</option><option>대전</option>
-                            <option>세종</option><option>충북</option><option>충남</option><option>대구</option><option>경북</option>
-                            <option>경남</option><option>부산</option><option>울산</option><option>광주</option><option>전북</option>
-                            <option>전남</option><option>제주</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block mb-1 font-semibold">성별</label>
-                        <select name="gender" class="border border-gray-300 rounded px-4 py-1">
-                            <option>남자</option><option>여자</option>
-                        </select>
-                    </div>
+                <div class="flex justify-end">
+                    <button type="submit"
+                            class="bg-green-600 text-white px-10 py-2 rounded-full hover:bg-green-700">
+                        완료
+                    </button>
                 </div>
-                </div>
-
-            <div class="flex justify-end">
-                <button type="submit"
-                        class="bg-green-600 text-white px-10 py-2 rounded-full hover:bg-green-700">
-                    완료
-                </button>
-            </div>
             </div>
         </div>
     </div>

@@ -64,6 +64,9 @@ html, body {
 .page3 {
     background-image: url("/img/main.jpg");
 }
+.page4{
+    background-image: url("/img/joinForm.jpg");
+}
 @keyframes fade-in-down {
     from {
         opacity: 0;
